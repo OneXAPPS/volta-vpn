@@ -32,7 +32,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 
 VPNGATE_API = "http://www.vpngate.net/api/iphone/"
 PER_COUNTRY = 6
-MAX_VERIFY = 60
+MAX_VERIFY = 40
 
 BLOCKED = {
     "script-security", "up", "down", "route-up", "route-pre-down", "ipchange",
