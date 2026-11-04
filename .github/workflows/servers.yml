@@ -1,4 +1,5 @@
-# Rebuilds and publishes the signed server list every 4 hours (GitHub Pages).
+# Rebuilds the signed server list every 4 hours and publishes it to the "data"
+# branch, served to the app by raw.githubusercontent.com and the jsDelivr CDN.
 name: server-list
 
 on:
@@ -7,9 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
   build:
@@ -32,14 +31,17 @@ jobs:
           # Root is needed for the tunnels; keep the setup-python interpreter (it has cryptography).
           sudo -E "$(which python)" build_list.py --key /tmp/key.pem --out ../public/servers.json --verify
           rm /tmp/key.pem
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-    steps:
-      - uses: actions/deploy-pages@v4
+      - name: Publish to data branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd public
+          git init -q -b data
+          git config user.name "volta-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add servers.json
+          git commit -qm "server list $(date -u +%Y-%m-%dT%H:%MZ)"
+          # Single-commit orphan branch: history never grows.
+          git push -qf "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" data
+      - name: Refresh jsDelivr cache
+        run: curl -fsS "https://purge.jsdelivr.net/gh/${GITHUB_REPOSITORY}@data/servers.json" || true

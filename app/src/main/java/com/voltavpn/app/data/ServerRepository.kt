@@ -35,15 +35,16 @@ class ServerRepository(private val context: Context) {
     }
 
     private fun fetch(): List<Server> {
-        if (BuildConfig.SERVER_LIST_URL.isNotEmpty()) {
-            runCatching { fetchSigned() }.getOrNull()?.takeIf { it.isNotEmpty() }?.let { return it }
+        // Mirrors of the same signed file; if one host is blocked in a country, try the next.
+        for (url in BuildConfig.SERVER_LIST_URLS.split(',').filter { it.isNotBlank() }) {
+            runCatching { fetchSigned(url) }.getOrNull()?.takeIf { it.isNotEmpty() }?.let { return it }
         }
         // Blocked in some countries (e.g. answered by an ISP filter page): yields no servers.
         return fetchVpnGate()
     }
 
-    private fun fetchSigned(): List<Server> {
-        val body = JSONObject(httpGet(BuildConfig.SERVER_LIST_URL))
+    private fun fetchSigned(url: String): List<Server> {
+        val body = JSONObject(httpGet(url))
         val payload = Base64.decode(body.getString("payload"), Base64.DEFAULT)
         val sig = Base64.decode(body.getString("sig"), Base64.DEFAULT)
         val key = KeyFactory.getInstance("EC").generatePublic(
