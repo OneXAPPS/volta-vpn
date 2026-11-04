@@ -35,6 +35,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # The builder ran as root; take the output back before using git on it.
+          sudo chown -R "$(id -u):$(id -g)" public
           cd public
           git init -q -b data
           git config user.name "volta-bot"
