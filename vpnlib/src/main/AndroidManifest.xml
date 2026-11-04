@@ -2,7 +2,7 @@
 <!--
   Trimmed copy of ics-openvpn's manifest: only the VPN engine.
   Removed on purpose: the exported remote-control API (other apps could
-  start/stop our VPN), boot receiver, QUERY_ALL_PACKAGES and storage access.
+  start/stop our VPN), the boot auto-connect receiver, QUERY_ALL_PACKAGES and storage access.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- keepVPNAlive schedules a persisted job, which the system only allows with this. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application>
         <service
