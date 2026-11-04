@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Volta VPN</string>
+    <string name="connect">Connect</string>
+    <string name="settings">Settings</string>
+    <string name="back">Back</string>
+    <string name="refresh">Refresh</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="state_tap">Tap to connect</string>
+    <string name="state_connecting">Connecting…</string>
+    <string name="state_connected">Connected</string>
+    <string name="state_failed">Connection failed</string>
+    <string name="all_failed">Could not reach a server. Try another location.</string>
+
+    <string name="fastest_server">Fastest server</string>
+    <string name="auto_pick">Picked automatically</string>
+    <string name="choose_location">Choose location</string>
+    <string name="badge_verified">VERIFIED</string>
+    <string name="badge_community">COMMUNITY</string>
+    <string name="no_servers">No servers available. Check your internet and refresh.</string>
+
+    <string name="pass_active">Free pass active · resets in %1$s</string>
+    <string name="pass_needed">Watch 1 short ad to unlock Volta until midnight</string>
+    <string name="ad_prompt_title">Unlock today for free</string>
+    <string name="ad_prompt_body">Watch one short ad and connect as much as you like until midnight. That\'s the only ad you\'ll see today.</string>
+    <string name="ad_prompt_watch">Watch ad</string>
+    <string name="ad_not_finished">Watch the whole ad to unlock today.</string>
+
+    <string name="channel_pass">Daily pass</string>
+    <string name="pass_expired_title">Your free day has ended</string>
+    <string name="pass_expired_body">You stay connected. Next time you connect, one short ad unlocks a new day.</string>
+
+    <string name="about_title">About Volta</string>
+    <string name="about_body">Fast, free VPN. One short ad a day, no ads during use, no account.</string>
+    <string name="privacy_title">Privacy</string>
+    <string name="privacy_body">We do not log, collect or sell your browsing activity. All traffic, including DNS and IPv6, goes through the encrypted tunnel. Ads are shown by Google AdMob, which may use an advertising ID if you consent.</string>
+    <string name="community_title">Community servers</string>
+    <string name="community_body">Locations marked COMMUNITY are run by volunteers of the VPN Gate academic project (University of Tsukuba). They are encrypted, but their operators may keep connection logs. Avoid sensitive logins on them; use VERIFIED locations when available.</string>
+    <string name="opensource_title">Open source</string>
+    <string name="opensource_body">Volta uses the OpenVPN for Android engine by Arne Schwabe (GPLv2). Volta\'s source code is published under the same license.</string>
+</resources>

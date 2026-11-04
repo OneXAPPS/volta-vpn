@@ -1,0 +1,22 @@
+<!-- Volta logo: shield + bolt, with a small green "FREE" pill (adaptive icon, 108dp grid). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Shield -->
+    <path android:fillColor="@color/volta_shield"
+        android:strokeColor="@color/volta_bolt" android:strokeWidth="1.6"
+        android:pathData="M54,22 L73,28.5 V46 C73,57 65,64.5 54,68.5 C43,64.5 35,57 35,46 V28.5 Z" />
+    <!-- Bolt -->
+    <path android:fillColor="@color/volta_bolt"
+        android:pathData="M57,29 L45,48 H53 L50.5,61 L63,42 H55.5 Z" />
+    <!-- FREE pill -->
+    <path android:fillColor="@color/volta_green"
+        android:pathData="M42,72 H66 A6.5,6.5 0 0 1 66,85 H42 A6.5,6.5 0 0 1 42,72 Z" />
+    <!-- F R E E, drawn as strokes so no font is needed -->
+    <path android:strokeColor="@color/volta_bg" android:strokeWidth="1.5"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M42,75.5 V81.5 M42,75.5 H46 M42,78.3 H45.2
+            M48.5,81.5 V75.5 H51.2 A1.45,1.45 0 0 1 51.2,78.4 H48.5 M50.6,78.4 L52.6,81.5
+            M59,75.5 H55 V81.5 H59 M55,78.5 H58.2
+            M65.5,75.5 H61.5 V81.5 H65.5 M61.5,78.5 H64.7" />
+</vector>

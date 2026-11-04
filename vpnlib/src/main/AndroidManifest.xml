@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Trimmed copy of ics-openvpn's manifest: only the VPN engine.
+  Removed on purpose: the exported remote-control API (other apps could
+  start/stop our VPN), boot receiver, QUERY_ALL_PACKAGES and storage access.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application>
+        <service
+            android:name=".core.OpenVPNService"
+            android:exported="true"
+            android:foregroundServiceType="specialUse"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:process=":openvpn">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="vpn" />
+        </service>
+
+        <service
+            android:name=".core.OpenVPNStatusService"
+            android:exported="false"
+            android:process=":openvpn" />
+
+        <service
+            android:name=".core.keepVPNAlive"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":openvpn" />
+
+        <activity
+            android:name=".activities.DisconnectVPN"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:taskAffinity=".DisconnectVPN"
+            android:theme="@style/blinkt.dialog" />
+
+        <activity
+            android:name=".LaunchVPN"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:taskAffinity=".LaunchVPN"
+            android:theme="@style/blinkt.dialog" />
+
+        <activity
+            android:name=".activities.NotImplemented"
+            android:exported="false"
+            tools:ignore="MissingClass" />
+
+        <activity-alias
+            android:name=".activities.LogWindow"
+            android:exported="false"
+            android:targetActivity=".activities.NotImplemented" />
+    </application>
+</manifest>

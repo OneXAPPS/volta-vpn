@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Volta VPN</string>
+    <string name="connect">اتصال</string>
+    <string name="settings">الإعدادات</string>
+    <string name="back">رجوع</string>
+    <string name="refresh">تحديث</string>
+    <string name="cancel">إلغاء</string>
+
+    <string name="state_tap">اضغط للاتصال</string>
+    <string name="state_connecting">جارٍ الاتصال…</string>
+    <string name="state_connected">متصل</string>
+    <string name="state_failed">فشل الاتصال</string>
+    <string name="all_failed">تعذّر الوصول إلى سيرفر. جرّب دولة أخرى.</string>
+
+    <string name="fastest_server">أسرع سيرفر</string>
+    <string name="auto_pick">يُختار تلقائيًا</string>
+    <string name="choose_location">اختر الدولة</string>
+    <string name="badge_verified">موثّق</string>
+    <string name="badge_community">مجتمعي</string>
+    <string name="no_servers">لا توجد سيرفرات حاليًا. تحقّق من الإنترنت ثم حدّث القائمة.</string>
+
+    <string name="pass_active">اليوم مفتوح مجانًا · يتجدد بعد %1$s</string>
+    <string name="pass_needed">شاهد إعلانًا قصيرًا واحدًا لتفتح Volta حتى منتصف الليل</string>
+    <string name="ad_prompt_title">افتح اليوم مجانًا</string>
+    <string name="ad_prompt_body">شاهد إعلانًا قصيرًا واحدًا واتصل كما تشاء حتى منتصف الليل. هذا هو الإعلان الوحيد اليوم.</string>
+    <string name="ad_prompt_watch">شاهد الإعلان</string>
+    <string name="ad_not_finished">أكمل مشاهدة الإعلان لفتح اليوم.</string>
+
+    <string name="channel_pass">التصريح اليومي</string>
+    <string name="pass_expired_title">انتهى يومك المجاني</string>
+    <string name="pass_expired_body">ستبقى متصلًا. في الاتصال القادم، إعلان قصير واحد يفتح يومًا جديدًا.</string>
+
+    <string name="about_title">عن Volta</string>
+    <string name="about_body">VPN سريع ومجاني. إعلان قصير واحد يوميًا، بلا إعلانات أثناء الاستخدام، وبلا حساب.</string>
+    <string name="privacy_title">الخصوصية</string>
+    <string name="privacy_body">لا نسجّل نشاط تصفحك ولا نجمعه ولا نبيعه. كل حركة الإنترنت، بما فيها DNS وIPv6، تمر عبر النفق المشفّر. الإعلانات تعرضها Google AdMob، وقد تستخدم معرّف الإعلانات إذا وافقت.</string>
+    <string name="community_title">السيرفرات المجتمعية</string>
+    <string name="community_body">الدول الموسومة «مجتمعي» يشغّلها متطوعون في مشروع VPN Gate الأكاديمي (جامعة تسوكوبا). الاتصال مشفّر، لكن مشغّليها قد يحتفظون بسجلات الاتصال. تجنّب تسجيل الدخول الحساس عليها، واستخدم الدول «الموثّقة» عند توفرها.</string>
+    <string name="opensource_title">مفتوح المصدر</string>
+    <string name="opensource_body">يستخدم Volta محرك OpenVPN for Android من Arne Schwabe (ترخيص GPLv2)، وكود Volta منشور بنفس الترخيص.</string>
+</resources>
