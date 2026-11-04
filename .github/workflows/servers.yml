@@ -28,8 +28,7 @@ jobs:
         run: |
           if [ -z "$SERVER_LIST_KEY" ]; then echo "::error::Secret SERVER_LIST_KEY is missing (Settings > Secrets and variables > Actions)"; exit 1; fi
           cd backend
-          printf '%s
-' "$SERVER_LIST_KEY" > /tmp/key.pem
+          printf '%s\n' "$SERVER_LIST_KEY" > /tmp/key.pem
           # Root is needed for the tunnels; keep the setup-python interpreter (it has cryptography).
           sudo -E "$(which python)" build_list.py --key /tmp/key.pem --out ../public/servers.json --verify
           rm /tmp/key.pem
