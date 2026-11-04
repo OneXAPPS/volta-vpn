@@ -17,7 +17,7 @@ android {
         versionName = "1.0.0"
 
         // Signed server list produced by backend/ (empty = fetch VPN Gate directly).
-        buildConfigField("String", "SERVER_LIST_URL", "\"https://omar3332013.github.io/volta-vpn/servers.json\"")
+        buildConfigField("String", "SERVER_LIST_URL", "\"https://onexapps.github.io/volta-vpn/servers.json\"")
         // Base64 X.509 (SPKI) P-256 public key matching backend/keys/private.pem.
         buildConfigField("String", "SERVER_LIST_PUBKEY", "\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEP2zrDaZHc9ushraLm4Z9G+2yVCOirF7Iw32fTaLXxCxkl3VlPnh8nVeABycmMUGIVfJ44eVfu5nLQvT6fzHfig==\"")
 
