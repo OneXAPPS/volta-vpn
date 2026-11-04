@@ -63,6 +63,14 @@ def sanitize(config: str) -> str:
     return "\n".join(out) + "\n"
 
 
+def num(v: str, default: int) -> int:
+    """VPN Gate uses '-' or empty for unknown values."""
+    try:
+        return int(v)
+    except ValueError:
+        return default
+
+
 def fetch_vpngate() -> list[dict]:
     req = urllib.request.Request(VPNGATE_API, headers={"User-Agent": "VoltaVPN-builder"})
     text = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
@@ -78,8 +86,8 @@ def fetch_vpngate() -> list[dict]:
         if "remote " not in config:
             continue
         servers.append({
-            "id": f[0], "ip": f[1], "score": int(f[2] or 0), "ping": int(f[3] or 999),
-            "mbps": round(int(f[4] or 0) / 1e6, 1), "country": f[5], "cc": f[6],
+            "id": f[0], "ip": f[1], "score": num(f[2], 0), "ping": num(f[3], 999),
+            "mbps": round(num(f[4], 0) / 1e6, 1), "country": f[5], "cc": f[6],
             "verified": False, "config": sanitize(config),
         })
     return servers
