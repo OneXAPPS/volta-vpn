@@ -132,9 +132,10 @@ def best_per_country(servers: list[dict]) -> list[dict]:
 
 # ---------- live verification (Linux, root) ----------
 
-def run_in_tunnel(server: dict, real_ip: str) -> dict | None:
+def run_in_tunnel(server: dict, real_ip: str) -> tuple[dict | None, str]:
     """Brings up a tunnel that only carries traffic sourced from its own address
-    (policy routing), so the CI runner's own connection is never disturbed."""
+    (policy routing), so the CI runner's own connection is never disturbed.
+    Returns (verified server or None, reason)."""
     with tempfile.TemporaryDirectory() as d:
         cfg = os.path.join(d, "c.ovpn")
         up = os.path.join(d, "up.sh")
@@ -157,29 +158,48 @@ def run_in_tunnel(server: dict, real_ip: str) -> dict | None:
                     break
                 time.sleep(1)
             else:
-                return None
+                return None, "tunnel did not come up"
             src = open(ip_file).read().strip()
 
             def curl(*args: str) -> str:
                 return subprocess.run(["curl", "-s", "--max-time", "15", "--interface", src, *args],
                                       capture_output=True, text=True).stdout
 
-            geo = json.loads(curl("https://ipinfo.io/json") or "{}")
-            headers = curl("https://httpbin.org/headers")
+            country = exit_country(curl)
+            if country != server["cc"].upper():
+                return None, f"geo mismatch (exit country {country or '?'})"
             # Any header carrying our real IP (X-Forwarded-For, Via, Forwarded...) is a leak.
-            leak = real_ip in headers
+            if real_ip in curl("https://httpbin.org/headers"):
+                return None, "real IP leaked in forwarded headers"
+            if not verify_tls_via(src):
+                return None, "TLS interception or no HTTPS"
             t0 = time.time()
             size = len(curl("https://speed.cloudflare.com/__down?bytes=5000000"))
+            if size < 1_000_000:
+                return None, "too slow"
             mbps = round(size * 8 / 1e6 / max(time.time() - t0, 0.1), 1)
-            ok_geo = geo.get("country", "").upper() == server["cc"].upper()
-            ok_tls = verify_tls_via(src)
-            if ok_geo and not leak and ok_tls and size > 1_000_000:
-                return {**server, "verified": True, "mbps": mbps}
-            return None
+            return {**server, "verified": True, "mbps": mbps}, f"{mbps} Mbps"
+        except Exception as e:  # one bad server must never stop the whole run
+            return None, f"error: {type(e).__name__}"
         finally:
             proc.terminate()
-            proc.wait(timeout=10)
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                proc.kill()
             subprocess.run(["ip", "rule", "del", "table", "123"], stderr=subprocess.DEVNULL)
+            subprocess.run(["ip", "route", "flush", "table", "123"], stderr=subprocess.DEVNULL)
+
+
+def exit_country(curl) -> str:
+    """Two independent geo-IP services; the first valid answer wins."""
+    code = curl("https://ipinfo.io/country").strip().upper()
+    if len(code) == 2 and code.isalpha():
+        return code
+    try:
+        return json.loads(curl("https://api.country.is/")).get("country", "").upper()
+    except ValueError:
+        return ""
 
 
 def verify_tls_via(src_ip: str) -> bool:
@@ -199,8 +219,8 @@ def verify_all(servers: list[dict]) -> list[dict]:
     real_ip = urllib.request.urlopen("https://api.ipify.org", timeout=15).read().decode()
     verified = []
     for s in servers[:MAX_VERIFY]:
-        r = run_in_tunnel(s, real_ip)
-        print(("PASS " if r else "FAIL ") + f"{s['cc']} {s['ip']}", flush=True)
+        r, why = run_in_tunnel(s, real_ip)
+        print(("PASS " if r else "FAIL ") + f"{s['cc']} {s['ip']}: {why}", flush=True)
         if r:
             verified.append(r)
     return verified
