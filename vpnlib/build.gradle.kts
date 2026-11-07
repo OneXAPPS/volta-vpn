@@ -39,7 +39,14 @@ android {
         externalNativeBuild {
             cmake {
                 // CMake 4 rejects the upstream cmake_minimum_required(3.4.1) without this.
-                arguments += listOf("-DOVPN_SKELETON=ON", "-DCMAKE_POLICY_VERSION_MINIMUM=3.5")
+                arguments += listOf(
+                    "-DOVPN_SKELETON=ON", "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+                    // Size: drop unreferenced functions/data and fold identical code at link time.
+                    "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,--gc-sections -Wl,--icf=safe",
+                    "-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -Wl,--icf=safe",
+                )
+                cFlags += listOf("-ffunction-sections", "-fdata-sections")
+                cppFlags += listOf("-ffunction-sections", "-fdata-sections")
             }
         }
         consumerProguardFiles("consumer-rules.pro")

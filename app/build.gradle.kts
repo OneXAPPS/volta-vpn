@@ -27,7 +27,8 @@ android {
         buildConfigField("String", "SERVER_LIST_PUBKEY", "\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEP2zrDaZHc9ushraLm4Z9G+2yVCOirF7Iw32fTaLXxCxkl3VlPnh8nVeABycmMUGIVfJ44eVfu5nLQvT6fzHfig==\"")
 
         ndk {
-            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
+            // Real phones only; x86_64 (emulators) is added for debug builds below.
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
         }
     }
 
@@ -43,6 +44,7 @@ android {
 
     buildTypes {
         debug {
+            ndk { abiFilters += "x86_64" }
             // Google's official test IDs. Never click real ads while developing.
             manifestPlaceholders["admobAppId"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "REWARDED_AD_UNIT", "\"ca-app-pub-3940256099942544/5224354917\"")
