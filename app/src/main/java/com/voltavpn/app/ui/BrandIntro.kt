@@ -6,7 +6,6 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,11 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voltavpn.app.R
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -42,8 +39,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
- * Animated logo shown once per launch (~1.3 s): the emblem springs in, an electric orbit
- * sweeps around it like the one in the artwork, then the wordmark and Free tag appear.
+ * Animated logo shown once per launch (~1.3 s): the V springs in and lights up, its bolt
+ * draws itself while an electric orbit sweeps around it, then the wordmark and Free tag appear.
  */
 @Composable
 fun BrandIntro(onFinished: () -> Unit) {
@@ -72,9 +69,11 @@ fun BrandIntro(onFinished: () -> Unit) {
                 Canvas(Modifier.size(260.dp).alpha(emblem.value.coerceIn(0f, 1f))) {
                     drawCircle(Brush.radialGradient(listOf(VoltaColors.Bolt.copy(alpha = 0.45f), Color.Transparent)))
                 }
-                Image(
-                    painterResource(R.drawable.logo_emblem), contentDescription = null,
-                    modifier = Modifier.size(190.dp).scale(0.6f + 0.4f * emblem.value).alpha(emblem.value.coerceIn(0f, 1f)),
+                // The V lights up, then its bolt draws itself across.
+                VMark(
+                    Modifier.size(150.dp).scale(0.7f + 0.3f * emblem.value).alpha(emblem.value.coerceIn(0f, 1f)),
+                    energy = emblem.value.coerceIn(0f, 1f),
+                    bolt = orbit.value,
                 )
                 // One orbit of an electric arc, fading as it completes.
                 Canvas(Modifier.size(230.dp).graphicsLayer { rotationX = 62f }) {

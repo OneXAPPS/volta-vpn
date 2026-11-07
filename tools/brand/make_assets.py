@@ -2,7 +2,6 @@
 """Builds the app's logo assets from the master artwork (tools/brand/volta_logo_master.png).
 
   * launcher foreground (emblem + Free ribbon, no text; feathered edges) per density
-  * in-app emblem (globe + V + orbit, no ribbon/frame) as WebP
   * Google Play store icon (512x512, full artwork)
 """
 import os
@@ -53,7 +52,8 @@ def ribbon():
     return img.crop(mask.getbbox())
 
 
-# In-app emblem: globe + V + orbit only.
+# Emblem (globe + V + orbit), used for the launcher icon. Inside the app the V is drawn
+# as vector (ui/VMark.kt) instead of reusing the artwork.
 emblem = feathered((215, 175, 1045, 900), feather_frac=0.08)
 
 # Launcher: emblem in the visible area of adaptive icons, Free ribbon crisp at its top-right
@@ -66,8 +66,6 @@ for dens, px in {"mdpi": 108, "hdpi": 162, "xhdpi": 216, "xxhdpi": 324, "xxxhdpi
     out = os.path.join(RES, f"mipmap-{dens}")
     os.makedirs(out, exist_ok=True)
     canvas.save(os.path.join(out, "ic_launcher_foreground.webp"), "WEBP", quality=92, method=6)
-os.makedirs(os.path.join(RES, "drawable-nodpi"), exist_ok=True)
-place(emblem, 384, 1.0).save(os.path.join(RES, "drawable-nodpi", "logo_emblem.webp"), "WEBP", quality=90, method=6)
 
 # Play Store icon: the full artwork.
 store = os.path.join(HERE, "..", "..", "store")

@@ -1,6 +1,5 @@
 package com.voltavpn.app.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -24,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voltavpn.app.R
 
 /**
  * Brand palette, taken from the Volta logo: night-blue field, electric-blue glow,
@@ -83,11 +80,11 @@ fun Wordmark(size: Int = 22, modifier: Modifier = Modifier) {
     )
 }
 
-/** Header logo: emblem + wordmark + the lime Free tag from the logo's ribbon. */
+/** Header logo: the V mark + wordmark + the lime Free tag from the logo's ribbon. */
 @Composable
 fun VoltaLogo(modifier: Modifier = Modifier) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
-        Image(painterResource(R.drawable.logo_emblem), contentDescription = null, modifier = Modifier.size(34.dp))
+        VMark(Modifier.size(30.dp), glow = false)
         Spacer(Modifier.width(6.dp))
         Wordmark()
         Spacer(Modifier.width(8.dp))

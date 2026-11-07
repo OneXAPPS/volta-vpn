@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.ui.geometry.Size
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -180,55 +182,79 @@ private fun ProtectionLine(exit: ExitInfo?, place: Server?) {
     }
 }
 
+/**
+ * The power button: a deep disc with the Volta "V". Off: quiet ring, dim V.
+ * Connecting: an electric arc orbits while the V's bolt keeps drawing itself.
+ * Connected: a gradient ring in the country's accent, soft halo, V fully lit.
+ */
 @Composable
 private fun ConnectButton(state: VpnState, accent: Color?, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val ring by animateColorAsState(
-        when (state) {
-            VpnState.CONNECTED -> accent ?: VoltaColors.Connected
-            VpnState.CONNECTING -> VoltaColors.Bolt
-            else -> VoltaColors.SurfaceHigh
-        },
-        label = "ring",
-    )
-    val pulse = rememberInfiniteTransition(label = "pulse")
-    val scale by pulse.animateFloat(
-        initialValue = 1f, targetValue = if (state == VpnState.CONNECTING) 1.06f else 1f,
-        animationSpec = infiniteRepeatable(tween(700), RepeatMode.Reverse), label = "scale",
-    )
-    Box(
-        modifier.size(210.dp).scale(scale)
-            .border(BorderStroke(6.dp, ring), CircleShape)
-            .padding(14.dp)
-            // Clip first so the touch ripple is a soft circle, not a square.
-            .clip(CircleShape)
-            .background(VoltaColors.Surface)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = ripple(color = ring),
-                onClick = onClick,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        // The logo itself is the button: dim and colourless when off, full colour when on.
-        val on = state == VpnState.CONNECTED || state == VpnState.CONNECTING
-        val saturation by animateFloatAsState(if (on) 1f else 0f, tween(600), label = "sat")
-        val emblemAlpha by animateFloatAsState(if (on) 1f else 0.55f, tween(600), label = "alpha")
-        Image(
-            painterResource(R.drawable.logo_emblem),
-            contentDescription = stringResource(R.string.connect),
-            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(saturation) }),
-            modifier = Modifier.size(150.dp).alpha(emblemAlpha),
-        )
-        // While connecting: an electric arc orbits the logo, like the orbit in the artwork.
-        if (state == VpnState.CONNECTING) {
-            val spin by pulse.animateFloat(0f, 360f, infiniteRepeatable(tween(1100, easing = LinearEasing)), label = "spin")
-            Canvas(Modifier.fillMaxSize().padding(6.dp)) {
-                drawArc(
-                    brush = Brush.sweepGradient(listOf(Color.Transparent, VoltaColors.Bolt, Color.White)),
-                    startAngle = spin, sweepAngle = 110f, useCenter = false,
-                    style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round),
+    val on = state == VpnState.CONNECTED
+    val connecting = state == VpnState.CONNECTING
+    val tint = accent ?: VoltaColors.Connected
+    val energy by animateFloatAsState(if (on || connecting) 1f else 0.22f, tween(700), label = "energy")
+    val halo by animateFloatAsState(if (on) 1f else 0f, tween(800), label = "halo")
+    val ringColor by animateColorAsState(if (on) tint else VoltaColors.SurfaceHigh, tween(600), label = "ring")
+    val loop = rememberInfiniteTransition(label = "loop")
+    val spin by loop.animateFloat(0f, 360f, infiniteRepeatable(tween(1200, easing = LinearEasing)), label = "spin")
+    val draw by loop.animateFloat(0f, 1f, infiniteRepeatable(tween(900, easing = FastOutSlowInEasing)), label = "draw")
+    val breathe by loop.animateFloat(0.96f, 1f, infiniteRepeatable(tween(1600), RepeatMode.Reverse), label = "breathe")
+
+    Box(modifier.size(250.dp), contentAlignment = Alignment.Center) {
+        // Soft halo in the accent colour once connected.
+        Canvas(Modifier.fillMaxSize()) {
+            if (halo > 0f) drawCircle(
+                Brush.radialGradient(listOf(tint.copy(alpha = 0.35f * halo), Color.Transparent)),
+                radius = size.minDimension / 2 * (if (on) breathe else 1f),
+            )
+        }
+        Box(
+            Modifier.size(196.dp)
+                .clip(CircleShape)
+                .background(
+                    Brush.radialGradient(
+                        listOf(Color(0xFF1C2A78), VoltaColors.Surface, Color(0xFF070E33)),
+                        center = Offset.Unspecified,
+                    )
+                )
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = ripple(color = VoltaColors.VioletLight),
+                    onClick = onClick,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Canvas(Modifier.fillMaxSize()) {
+                val stroke = 5.dp.toPx()
+                val inset = stroke / 2 + 3.dp.toPx()
+                val arcSize = Size(size.width - inset * 2, size.height - inset * 2)
+                val topLeft = Offset(inset, inset)
+                // Glassy highlight on the upper half of the disc.
+                drawCircle(
+                    Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.10f), Color.Transparent), endY = size.height * 0.55f),
+                    radius = size.minDimension / 2 - stroke,
+                )
+                // Base ring.
+                drawCircle(
+                    if (on) Brush.sweepGradient(listOf(tint, VoltaColors.Violet, tint)) else Brush.linearGradient(listOf(ringColor, ringColor)),
+                    radius = size.minDimension / 2 - inset, style = Stroke(stroke),
+                )
+                // Orbiting electric arc while connecting.
+                if (connecting) drawArc(
+                    Brush.sweepGradient(listOf(Color.Transparent, VoltaColors.Bolt, Color.White, Color.Transparent)),
+                    startAngle = spin, sweepAngle = 120f, useCenter = false,
+                    topLeft = topLeft, size = arcSize, style = Stroke(stroke, cap = StrokeCap.Round),
                 )
             }
+            VMark(
+                Modifier.size(104.dp),
+                energy = energy,
+                bolt = when {
+                    connecting -> draw
+                    on -> 1f
+                    else -> 0f
+                },
+            )
         }
     }
 }
