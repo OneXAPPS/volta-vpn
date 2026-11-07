@@ -18,7 +18,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -30,6 +30,7 @@ jobs:
         env:
           SERVER_LIST_KEY: ${{ secrets.SERVER_LIST_KEY }}
           OWN_SERVERS: ${{ secrets.OWN_SERVERS }}
+          PUBLICVPNLIST_KEY: ${{ secrets.PUBLICVPNLIST_KEY }}
         run: |
           if [ -z "$SERVER_LIST_KEY" ]; then echo "::error::Secret SERVER_LIST_KEY is missing (Settings > Secrets and variables > Actions)"; exit 1; fi
           cd backend
