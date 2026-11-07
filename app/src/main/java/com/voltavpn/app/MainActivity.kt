@@ -32,13 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.voltavpn.app.ads.AdsManager
 import com.voltavpn.app.ads.MidnightReceiver
 import com.voltavpn.app.pass.DailyPass
-import com.voltavpn.app.ui.BrandIntro
 import com.voltavpn.app.ui.HomeScreen
-import com.voltavpn.app.ui.KitButton
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.core.tween
 import com.voltavpn.app.ui.ServersScreen
 import com.voltavpn.app.ui.SettingsScreen
 import com.voltavpn.app.ui.VoltaColors
@@ -117,24 +111,17 @@ class MainActivity : ComponentActivity() {
                 }
                 }
 
-                // Animated logo once per launch, fading into the app.
-                var intro by rememberSaveable { mutableStateOf(true) }
-                AnimatedVisibility(visible = intro, enter = EnterTransition.None, exit = fadeOut(tween(350))) {
-                    BrandIntro(onFinished = { intro = false })
-                }
-
                 if (showAdPrompt) AlertDialog(
                     onDismissRequest = { showAdPrompt = false },
                     title = { Text(stringResource(R.string.ad_prompt_title)) },
                     text = { Text(stringResource(R.string.ad_prompt_body)) },
-                    containerColor = VoltaColors.Surface,
                     confirmButton = {
-                        KitButton(stringResource(R.string.ad_prompt_watch)) { showAdPrompt = false; watchAdThenConnect() }
+                        TextButton(onClick = { showAdPrompt = false; watchAdThenConnect() }) {
+                            Text(stringResource(R.string.ad_prompt_watch))
+                        }
                     },
                     dismissButton = {
-                        TextButton(onClick = { showAdPrompt = false }) {
-                            Text(stringResource(R.string.cancel), color = VoltaColors.Muted)
-                        }
+                        TextButton(onClick = { showAdPrompt = false }) { Text(stringResource(R.string.cancel)) }
                     },
                 )
             }

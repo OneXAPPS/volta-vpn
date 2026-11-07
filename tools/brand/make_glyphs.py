@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""Writes the monochrome 'V' glyph drawables (status bar / themed icon) and the animated
-'connecting' status icon: a dot orbiting the V, echoing the logo's lightning orbit."""
-import math
+"""Writes the monochrome 'V' glyph used as the launcher icon's themed (monochrome) layer."""
 import os
 
 RES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "app", "src", "main", "res", "drawable")
@@ -27,23 +25,4 @@ outline = (f'    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="1.6"
            f'        android:fillColor="#00000000" android:pathData="{V}" />\n')
 
 write("ic_glyph_v.xml", vector(filled))                 # themed (monochrome) launcher icon
-write("ic_stat_vpn.xml", vector(filled))                # connected
-write("ic_stat_vpn_offline.xml", vector(outline))       # disconnected
-write("ic_stat_volta_notice.xml", vector(filled))       # app notices (daily pass)
-
-# Connecting: 8 frames of a dot orbiting the V on a tilted ellipse.
-frames = []
-for i in range(8):
-    a = 2 * math.pi * i / 8
-    x = 12 + 10.2 * math.cos(a)
-    y = 13 + 3.6 * math.sin(a) - 1.2 * math.cos(a)
-    dot = (f'    <path android:fillColor="#FFFFFFFF"\n'
-           f'        android:pathData="M{x:.2f},{y:.2f} m-1.6,0 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0" />\n')
-    write(f"ic_stat_orbit_{i}.xml", vector(outline + dot))
-    frames.append(f'    <item android:drawable="@drawable/ic_stat_orbit_{i}" android:duration="110" />\n')
-
-anim = ('<animation-list xmlns:android="http://schemas.android.com/apk/res/android"\n'
-        '    android:oneshot="false">\n' + "".join(frames) + "</animation-list>\n")
-write("ic_stat_vpn_outline.xml", anim)      # connecting, no reply yet
-write("ic_stat_vpn_empty_halo.xml", anim)   # connecting, server replied
 print("glyphs written")

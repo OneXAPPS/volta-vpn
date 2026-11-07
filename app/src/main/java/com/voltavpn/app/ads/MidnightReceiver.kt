@@ -30,7 +30,7 @@ class MidnightReceiver : BroadcastReceiver() {
             context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE
         )
         val n = Notification.Builder(context, CHANNEL)
-            .setSmallIcon(R.drawable.ic_stat_volta_notice)
+            .setSmallIcon(R.drawable.ic_bolt)
             .setContentTitle(context.getString(R.string.pass_expired_title))
             .setContentText(context.getString(R.string.pass_expired_body))
             .setContentIntent(open)

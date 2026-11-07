@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="volta_bg">#040A26</color>
-    <color name="volta_violet">#A35BFF</color>
+    <color name="volta_bg">#0B1020</color>
+    <color name="volta_bolt">#FFC83D</color>
+    <color name="volta_green">#00E5A8</color>
+    <color name="volta_shield">#1E2A4A</color>
 
     <style name="Theme.Volta" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">@color/volta_bg</item>
-        <item name="android:colorAccent">@color/volta_violet</item>
-        <!-- Android 12+ system splash: logo on the brand's night blue. -->
-        <item name="android:windowSplashScreenBackground">@color/volta_bg</item>
+        <item name="android:colorAccent">@color/volta_bolt</item>
     </style>
 </resources>
