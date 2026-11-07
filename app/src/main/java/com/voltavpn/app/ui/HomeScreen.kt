@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
@@ -83,7 +84,9 @@ fun HomeScreen(
     val place = (if (state != VpnState.DISCONNECTED) current else null) ?: selected
 
     Box(Modifier.fillMaxSize()) {
+        val theme = remember(place?.countryCode) { themeFor(place?.countryCode) }
         CountryBackdrop(place?.countryCode, connected && place != null, buttonCenter)
+        MotifLayer(theme, connected && place != null, key = place?.countryCode)
 
         Column(
             Modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 12.dp),
@@ -98,7 +101,7 @@ fun HomeScreen(
 
             Spacer(Modifier.weight(1f))
             Box(contentAlignment = Alignment.Center) {
-                ConnectButton(state, onToggle, Modifier.onGloballyPositioned {
+                ConnectButton(state, theme.accent.takeIf { place != null }, onToggle, Modifier.onGloballyPositioned {
                     val b = it.boundsInRoot()
                     buttonCenter = Offset((b.left + b.right) / 2, (b.top + b.bottom) / 2)
                 })
@@ -121,7 +124,8 @@ fun HomeScreen(
             ) {
                 Text(
                     stringResource(R.string.now_in, place?.displayName() ?: "", place?.flag ?: ""),
-                    color = VoltaColors.Text, fontSize = 15.sp, modifier = Modifier.padding(top = 2.dp),
+                    color = theme.accent, fontSize = 15.sp, fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(top = 2.dp),
                 )
             }
             if (connected && connectedSince > 0) {
@@ -143,10 +147,10 @@ fun HomeScreen(
 }
 
 @Composable
-private fun ConnectButton(state: VpnState, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun ConnectButton(state: VpnState, accent: Color?, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val ring by animateColorAsState(
         when (state) {
-            VpnState.CONNECTED -> VoltaColors.Connected
+            VpnState.CONNECTED -> accent ?: VoltaColors.Connected
             VpnState.CONNECTING -> VoltaColors.Bolt
             else -> VoltaColors.SurfaceHigh
         },

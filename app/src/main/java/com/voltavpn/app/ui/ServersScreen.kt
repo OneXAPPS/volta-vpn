@@ -76,7 +76,8 @@ fun ServersScreen(
                 ServerRow(
                     flag = s.flag, title = s.displayName(),
                     subtitle = when (s.pingMs) {
-                        null -> stringResource(R.string.measuring)
+                        // Pings are only measured while the VPN is down (else they'd go through the tunnel).
+                        null -> if (loading) stringResource(R.string.measuring) else "—"
                         -1 -> stringResource(R.string.offline)
                         else -> "${s.pingMs} ms"
                     },
