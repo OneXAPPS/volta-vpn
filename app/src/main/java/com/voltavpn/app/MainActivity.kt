@@ -34,6 +34,7 @@ import com.voltavpn.app.ads.MidnightReceiver
 import com.voltavpn.app.pass.DailyPass
 import com.voltavpn.app.ui.BrandIntro
 import com.voltavpn.app.ui.HomeScreen
+import com.voltavpn.app.ui.KitButton
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.fadeOut
@@ -126,13 +127,14 @@ class MainActivity : ComponentActivity() {
                     onDismissRequest = { showAdPrompt = false },
                     title = { Text(stringResource(R.string.ad_prompt_title)) },
                     text = { Text(stringResource(R.string.ad_prompt_body)) },
+                    containerColor = VoltaColors.Surface,
                     confirmButton = {
-                        TextButton(onClick = { showAdPrompt = false; watchAdThenConnect() }) {
-                            Text(stringResource(R.string.ad_prompt_watch))
-                        }
+                        KitButton(stringResource(R.string.ad_prompt_watch)) { showAdPrompt = false; watchAdThenConnect() }
                     },
                     dismissButton = {
-                        TextButton(onClick = { showAdPrompt = false }) { Text(stringResource(R.string.cancel)) }
+                        TextButton(onClick = { showAdPrompt = false }) {
+                            Text(stringResource(R.string.cancel), color = VoltaColors.Muted)
+                        }
                     },
                 )
             }

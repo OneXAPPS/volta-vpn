@@ -2,12 +2,8 @@ package com.voltavpn.app.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
@@ -80,20 +76,14 @@ fun Wordmark(size: Int = 22, modifier: Modifier = Modifier) {
     )
 }
 
-/** Header logo: the V mark + wordmark + the lime Free tag from the logo's ribbon. */
+/** Header logo from the kit: V app tile + "Volta VPN" wordmark + the lime Free leaf. */
 @Composable
 fun VoltaLogo(modifier: Modifier = Modifier) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
-        VMark(Modifier.size(30.dp), glow = false)
-        Spacer(Modifier.width(6.dp))
+        AppTile(34.dp)
+        Spacer(Modifier.width(10.dp))
         Wordmark()
         Spacer(Modifier.width(8.dp))
-        Surface(color = VoltaColors.Connected, shape = RoundedCornerShape(50)) {
-            Text(
-                "Free", fontSize = 11.sp, fontWeight = FontWeight.Black,
-                color = VoltaColors.Background,
-                modifier = Modifier.padding(horizontal = 7.dp, vertical = 1.dp),
-            )
-        }
+        FreeLeaf(height = 22.dp)
     }
 }

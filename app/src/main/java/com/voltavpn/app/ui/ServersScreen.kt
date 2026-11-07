@@ -118,10 +118,12 @@ private fun ServerRow(
     isSelected: Boolean, onClick: () -> Unit,
     badgeColor: Color = VoltaColors.Muted, dimmed: Boolean = false,
 ) {
-    Surface(
-        color = if (isSelected) VoltaColors.SurfaceHigh else VoltaColors.Surface,
-        shape = RoundedCornerShape(14.dp),
-        modifier = Modifier.fillMaxWidth().alpha(if (dimmed) 0.5f else 1f).clickable(onClick = onClick),
+    // Kit pill: glowing cyan rim for the selected country, a quiet rim for the rest.
+    GlowPill(
+        Modifier.fillMaxWidth().alpha(if (dimmed) 0.5f else 1f),
+        border = if (isSelected) KitBorders.Blue else listOf(Color(0xFF2A3A8C), Color(0xFF1C2766)),
+        radius = 18.dp,
+        onClick = onClick,
     ) {
         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(flag, fontSize = 26.sp)
@@ -133,7 +135,7 @@ private fun ServerRow(
             if (badge != null) Text(badge, color = badgeColor, fontSize = 11.sp, fontWeight = FontWeight.Bold)
             if (isSelected) {
                 Spacer(Modifier.width(8.dp))
-                Text("✓", color = VoltaColors.Bolt, fontWeight = FontWeight.Bold)
+                Text("✓", color = Color(0xFF5BDCFF), fontWeight = FontWeight.Bold)
             }
         }
     }

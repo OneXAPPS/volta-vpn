@@ -37,12 +37,22 @@ data class Server(
         Locale("", countryCode).getDisplayCountry(locale).takeIf { it.isNotBlank() && it != countryCode }
             ?: countryName.substringBefore(" (")
 
-    /** TCP port to probe for reachability: the OpenVPN TCP port, else SoftEther's 443. */
+    /**
+     * TCP port to probe for reachability: a TCP "remote" (its proto given on the remote line,
+     * as Riseup does, or by a global "proto tcp"), else SoftEther's 443 (VPN Gate).
+     */
     val probePort: Int
         get() {
-            val remote = config.lineSequence().firstOrNull { it.startsWith("remote ") }?.split(' ')
-            val tcp = config.lineSequence().any { it.trim().startsWith("proto tcp") }
-            return if (tcp) remote?.getOrNull(2)?.toIntOrNull() ?: 443 else 443
+            val globalTcp = config.lineSequence().any { it.trim().startsWith("proto tcp") }
+            for (line in config.lineSequence()) {
+                val f = line.trim().split(Regex("\\s+"))
+                if (f.firstOrNull() != "remote" || f.size < 3) continue
+                val proto = f.getOrNull(3)
+                if (proto?.startsWith("tcp") == true || (proto == null && globalTcp)) {
+                    f[2].toIntOrNull()?.let { return it }
+                }
+            }
+            return 443
         }
 
     fun toJson(): JSONObject = JSONObject()

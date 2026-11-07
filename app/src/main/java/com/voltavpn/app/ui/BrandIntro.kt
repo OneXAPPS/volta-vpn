@@ -71,9 +71,10 @@ fun BrandIntro(onFinished: () -> Unit) {
                 }
                 // The V lights up, then its bolt draws itself across.
                 VMark(
-                    Modifier.size(150.dp).scale(0.7f + 0.3f * emblem.value).alpha(emblem.value.coerceIn(0f, 1f)),
-                    energy = emblem.value.coerceIn(0f, 1f),
-                    bolt = orbit.value,
+                    Modifier.size(width = 230.dp, height = 160.dp)
+                        .scale(0.7f + 0.3f * emblem.value).alpha(emblem.value.coerceIn(0f, 1f)),
+                    style = VStyle.BRAND,
+                    orbit = orbit.value.coerceAtLeast(0.001f),
                 )
                 // One orbit of an electric arc, fading as it completes.
                 Canvas(Modifier.size(230.dp).graphicsLayer { rotationX = 62f }) {
@@ -92,15 +93,10 @@ fun BrandIntro(onFinished: () -> Unit) {
                 modifier = Modifier.alpha(words.value).graphicsLayer { translationY = (1f - words.value) * 40f },
             )
             Spacer(Modifier.height(10.dp))
-            Surface(
-                color = VoltaColors.Connected, shape = RoundedCornerShape(50),
-                modifier = Modifier.scale(free.value).alpha(free.value.coerceIn(0f, 1f)),
-            ) {
-                Text(
-                    "Free", fontSize = 15.sp, fontWeight = FontWeight.Black, color = VoltaColors.Background,
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 3.dp),
-                )
-            }
+            FreeLeaf(
+                Modifier.scale(free.value).alpha(free.value.coerceIn(0f, 1f)),
+                height = 34.dp,
+            )
         }
     }
 }

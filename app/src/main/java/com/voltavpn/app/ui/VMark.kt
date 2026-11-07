@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -13,91 +14,113 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.drawscope.translate
+
+/** Colourways of the V from the Volta UI kit. */
+enum class VStyle {
+    /** Silver left stroke, violet blade: the brand mark itself. */
+    BRAND,
+    /** Cyan-to-violet: ready / connecting. */
+    READY,
+    /** Lime: connected. */
+    CONNECTED,
+    /** Grey: unavailable. */
+    OFF,
+}
 
 /**
- * The Volta "V", redrawn as vector from the logo's spirit: a broad white-lavender left
- * stroke, a slanted violet right stroke, and an electric bolt crossing the bottom.
+ * The Volta V, traced from the brand artwork: a broad left stroke with a rounded foot and a
+ * sharp blade rising to the right. Optionally wrapped in the electric orbit with its bolt.
  *
- * @param energy 0 = dormant (greyed, no bolt), 1 = fully lit.
- * @param bolt   how much of the bolt is drawn (0..1), for draw-on animations.
+ * @param orbit how much of the orbit + bolt is drawn (0..1); 0 hides it.
  */
 @Composable
-fun VMark(modifier: Modifier = Modifier, energy: Float = 1f, bolt: Float = 1f, glow: Boolean = true) {
+fun VMark(modifier: Modifier = Modifier, style: VStyle = VStyle.BRAND, orbit: Float = 0f) {
     val shapes = remember { VShapes() }
     Canvas(modifier) {
-        val s = minOf(size.width, size.height) / 100f
-        val dx = (size.width - 100f * s) / 2
-        val dy = (size.height - 100f * s) / 2
-        translateScaled(dx, dy, s) { drawV(shapes, energy, bolt, glow) }
+        // Artwork grid: V spans x 0..100, y 0..70; the orbit reaches a bit beyond.
+        val boxW = if (orbit > 0f) 112f else 100f
+        val boxH = if (orbit > 0f) 76f else 70f
+        val s = minOf(size.width / boxW, size.height / boxH)
+        val ox = (size.width - 100f * s) / 2
+        val oy = (size.height - 70f * s) / 2
+        translate(ox, oy) {
+            scale(s, pivot = Offset.Zero) { drawV(shapes, style, orbit) }
+        }
     }
 }
 
-private inline fun DrawScope.translateScaled(dx: Float, dy: Float, s: Float, block: DrawScope.() -> Unit) {
-    drawContext.transform.translate(dx, dy)
-    scale(s, pivot = Offset.Zero) { block() }
-    drawContext.transform.translate(-dx, -dy)
-}
-
-/** Shapes on a 100 x 100 grid. */
 private class VShapes {
     val left = Path().apply {
-        moveTo(10f, 16f)
-        lineTo(34f, 16f)
-        lineTo(58f, 74f)
-        lineTo(50f, 90f)
-        quadraticTo(47f, 95f, 43f, 89f)
+        moveTo(0f, 9f)
+        lineTo(21f, 9f)
+        quadraticTo(24f, 9f, 25.6f, 11.2f)
+        lineTo(51.5f, 43.5f)
+        lineTo(47.8f, 62f)
+        quadraticTo(45f, 69.5f, 38.5f, 64.5f)
         close()
     }
     val right = Path().apply {
-        moveTo(52f, 90f)
-        lineTo(80f, 14f)
-        quadraticTo(82f, 9f, 87f, 9f)
-        lineTo(96f, 9f)
-        lineTo(64f, 90f)
-        quadraticTo(61f, 96f, 56f, 95f)
+        moveTo(47.5f, 39f)
+        lineTo(64f, 13.5f)
+        quadraticTo(70f, 4f, 80f, 2.5f)
+        lineTo(100f, 0f)
+        lineTo(76.5f, 35f)
+        lineTo(56f, 66f)
+        quadraticTo(51f, 72f, 45f, 66f)
         close()
     }
+    // The orbit is an ellipse tilted like the artwork's; its front half crosses the V.
+    val orbitRect = Rect(Offset(-3f, 26f), Offset(103f, 56f))
     val bolt = Path().apply {
-        moveTo(4f, 74f)
-        lineTo(40f, 63f)
-        lineTo(36f, 70f)
-        lineTo(70f, 59f)
-        lineTo(66f, 66f)
-        lineTo(97f, 56f)
+        moveTo(8f, 58f)
+        lineTo(42f, 50f)
+        lineTo(38f, 56f)
+        lineTo(76f, 42f)
+        lineTo(71f, 49f)
+        lineTo(97f, 36f)
     }
-    val measure = PathMeasure().apply { setPath(bolt, false) }
+    val boltMeasure = PathMeasure().apply { setPath(bolt, false) }
 }
 
-private val Dormant = Color(0xFF5B6694)
+private val Outline = Color(0xFF14164A)
 
-private fun DrawScope.drawV(p: VShapes, energy: Float, bolt: Float, glow: Boolean) {
-    val e = energy.coerceIn(0f, 1f)
-    val leftBrush = Brush.linearGradient(
-        listOf(lerp(Dormant, Color.White, e), lerp(Dormant, VoltaColors.VioletLight, e)),
-        start = Offset(10f, 16f), end = Offset(55f, 90f),
-    )
-    val rightBrush = Brush.linearGradient(
-        listOf(lerp(Dormant, VoltaColors.Violet, e), lerp(Dormant, Color(0xFF6A3BFF), e)),
-        start = Offset(90f, 9f), end = Offset(58f, 95f),
-    )
-    drawPath(p.left, leftBrush)
-    drawPath(p.right, rightBrush)
+private fun DrawScope.drawV(p: VShapes, style: VStyle, orbit: Float) {
+    val (l1, l2, r1, r2) = when (style) {
+        VStyle.BRAND -> listOf(Color(0xFFF2F4F8), Color(0xFF9AA8D2), Color(0xFFD27BFF), Color(0xFF5530F8))
+        VStyle.READY -> listOf(Color(0xFF7FE6FF), Color(0xFF2F7BFF), Color(0xFF5A8CFF), Color(0xFF9B4DFF))
+        VStyle.CONNECTED -> listOf(Color(0xFFD4FF7A), Color(0xFF4FD62A), Color(0xFFA6F45C), Color(0xFF2DB52A))
+        VStyle.OFF -> listOf(Color(0xFFD7DAE3), Color(0xFF9096A8), Color(0xFFBFC3CF), Color(0xFF7E8496))
+    }
+    val rot = -9f
+    if (orbit > 0f) rotate(rot, pivot = p.orbitRect.center) { drawOrbitBack(p, orbit) }
+    drawPath(p.right, Brush.linearGradient(listOf(r1, r2), start = Offset(95f, 0f), end = Offset(52f, 68f)))
+    drawPath(p.right, Outline, style = Stroke(0.7f, join = StrokeJoin.Round))
+    drawPath(p.left, Brush.linearGradient(listOf(l1, l2), start = Offset(2f, 9f), end = Offset(46f, 66f)))
+    drawPath(p.left, Outline, style = Stroke(0.7f, join = StrokeJoin.Round))
+    // Gloss on the left stroke, like the artwork's highlight.
+    drawLine(Color.White.copy(alpha = 0.55f), Offset(3f, 10.5f), Offset(37f, 58f), strokeWidth = 0.8f)
+    if (orbit > 0f) rotate(rot, pivot = p.orbitRect.center) { drawOrbitFront(p, orbit) }
+}
 
-    if (bolt <= 0f || e <= 0f) return
-    val segment = Path()
-    p.measure.getSegment(0f, p.measure.length * bolt.coerceIn(0f, 1f), segment, true)
-    if (glow) drawPath(
-        segment, VoltaColors.Bolt.copy(alpha = 0.35f * e),
-        style = Stroke(width = 9f, cap = StrokeCap.Round, join = StrokeJoin.Round),
-    )
-    drawPath(
-        segment, VoltaColors.Bolt.copy(alpha = e),
-        style = Stroke(width = 4.2f, cap = StrokeCap.Round, join = StrokeJoin.Round),
-    )
-    drawPath(
-        segment, Color.White.copy(alpha = e),
-        style = Stroke(width = 1.6f, cap = StrokeCap.Round, join = StrokeJoin.Round),
-    )
+private val Electric = Color(0xFF3DB8FF)
+
+private fun DrawScope.drawOrbitBack(p: VShapes, orbit: Float) {
+    drawArc(Electric.copy(alpha = 0.35f), 180f, 180f * orbit, false, p.orbitRect.topLeft, p.orbitRect.size,
+        style = Stroke(5f, cap = StrokeCap.Round))
+    drawArc(Color(0xFF9FE6FF), 180f, 180f * orbit, false, p.orbitRect.topLeft, p.orbitRect.size,
+        style = Stroke(1.6f, cap = StrokeCap.Round))
+}
+
+private fun DrawScope.drawOrbitFront(p: VShapes, orbit: Float) {
+    drawArc(Electric.copy(alpha = 0.35f), 0f, 180f * orbit, false, p.orbitRect.topLeft, p.orbitRect.size,
+        style = Stroke(6f, cap = StrokeCap.Round))
+    drawArc(Color(0xFFBFF0FF), 0f, 180f * orbit, false, p.orbitRect.topLeft, p.orbitRect.size,
+        style = Stroke(2f, cap = StrokeCap.Round))
+    val seg = Path()
+    p.boltMeasure.getSegment(0f, p.boltMeasure.length * orbit.coerceIn(0f, 1f), seg, true)
+    drawPath(seg, Electric.copy(alpha = 0.45f), style = Stroke(6f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+    drawPath(seg, Color.White, style = Stroke(1.8f, cap = StrokeCap.Round, join = StrokeJoin.Round))
 }

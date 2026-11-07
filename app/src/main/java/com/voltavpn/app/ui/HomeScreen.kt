@@ -58,6 +58,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
@@ -118,7 +119,7 @@ fun HomeScreen(
 
             Spacer(Modifier.weight(1f))
             Box(contentAlignment = Alignment.Center) {
-                ConnectButton(state, theme.accent.takeIf { place != null }, onToggle, Modifier.onGloballyPositioned {
+                ConnectButton(state, onToggle, Modifier.onGloballyPositioned {
                     val b = it.boundsInRoot()
                     buttonCenter = Offset((b.left + b.right) / 2, (b.top + b.bottom) / 2)
                 })
@@ -141,7 +142,7 @@ fun HomeScreen(
             ) {
                 Text(
                     stringResource(R.string.now_in, place?.displayName() ?: "", place?.flag ?: ""),
-                    color = theme.accent, fontSize = 15.sp, fontWeight = FontWeight.Medium,
+                    color = readable(theme.accent), fontSize = 15.sp, fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 2.dp),
                 )
             }
@@ -173,7 +174,14 @@ private fun ProtectionLine(exit: ExitInfo?, place: Server?) {
             stringResource(R.string.exit_ok, place?.displayName() ?: exit.country) to VoltaColors.Connected
         else -> stringResource(R.string.exit_mismatch, exit.country) to VoltaColors.Danger
     }
-    Text(text, color = color, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 4.dp))
+    GlowDivider(Modifier.width(220.dp).height(10.dp).padding(top = 4.dp))
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)) {
+        if (exit != null) {
+            KitLock(Modifier.size(14.dp))
+            Spacer(Modifier.width(6.dp))
+        }
+        Text(text.removePrefix("🛡").trim(), color = color, fontSize = 13.sp, textAlign = TextAlign.Center)
+    }
     if (place != null && place.unlocks.isNotEmpty()) {
         Text(
             stringResource(R.string.unlocks_line, place.unlocks.joinToString(", ")),
@@ -183,76 +191,84 @@ private fun ProtectionLine(exit: ExitInfo?, place: Server?) {
 }
 
 /**
- * The power button: a deep disc with the Volta "V". Off: quiet ring, dim V.
- * Connecting: an electric arc orbits while the V's bolt keeps drawing itself.
- * Connected: a gradient ring in the country's accent, soft halo, V fully lit.
+ * The power button, built on the kit's state orbs:
+ * ready = cyan ring + cyan V; connecting = same with an orbiting electric arc;
+ * connected = lime ring + lime V with signal waves pulsing out; failed = grey.
  */
 @Composable
-private fun ConnectButton(state: VpnState, accent: Color?, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun ConnectButton(state: VpnState, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val on = state == VpnState.CONNECTED
     val connecting = state == VpnState.CONNECTING
-    val tint = accent ?: VoltaColors.Connected
-    val energy by animateFloatAsState(if (on || connecting) 1f else 0.22f, tween(700), label = "energy")
-    val halo by animateFloatAsState(if (on) 1f else 0f, tween(800), label = "halo")
-    val ringColor by animateColorAsState(if (on) tint else VoltaColors.SurfaceHigh, tween(600), label = "ring")
+    val failed = state == VpnState.FAILED
+    val ringTop by animateColorAsState(
+        when { on -> Color(0xFFB8FF4A); failed -> Color(0xFFB9BECB); else -> Color(0xFF5BDCFF) }, tween(600), label = "rt",
+    )
+    val ringBottom by animateColorAsState(
+        when { on -> Color(0xFF39C92A); failed -> Color(0xFF7D8396); else -> Color(0xFF2E6BFF) }, tween(600), label = "rb",
+    )
+    val disc by animateColorAsState(if (failed) Color(0xFF2A3150) else Color(0xFF0E1A5C), tween(600), label = "disc")
     val loop = rememberInfiniteTransition(label = "loop")
     val spin by loop.animateFloat(0f, 360f, infiniteRepeatable(tween(1200, easing = LinearEasing)), label = "spin")
-    val draw by loop.animateFloat(0f, 1f, infiniteRepeatable(tween(900, easing = FastOutSlowInEasing)), label = "draw")
-    val breathe by loop.animateFloat(0.96f, 1f, infiniteRepeatable(tween(1600), RepeatMode.Reverse), label = "breathe")
+    val wave by loop.animateFloat(0f, 1f, infiniteRepeatable(tween(1800, easing = LinearEasing)), label = "wave")
+    val breathe by loop.animateFloat(0.97f, 1.03f, infiniteRepeatable(tween(900), RepeatMode.Reverse), label = "br")
 
-    Box(modifier.size(250.dp), contentAlignment = Alignment.Center) {
-        // Soft halo in the accent colour once connected.
+    Box(modifier.size(270.dp), contentAlignment = Alignment.Center) {
+        // Glow + (connected) signal waves on both sides, like the kit's "((V))".
         Canvas(Modifier.fillMaxSize()) {
-            if (halo > 0f) drawCircle(
-                Brush.radialGradient(listOf(tint.copy(alpha = 0.35f * halo), Color.Transparent)),
-                radius = size.minDimension / 2 * (if (on) breathe else 1f),
+            val c = center
+            val r = 98.dp.toPx()
+            drawCircle(
+                Brush.radialGradient(listOf(ringTop.copy(alpha = 0.40f), Color.Transparent), center = c, radius = r * 1.35f),
+                radius = r * 1.35f,
             )
+            if (on) for (k in 0..1) {
+                val t = (wave + k * 0.5f) % 1f
+                val rr = r + 14.dp.toPx() + t * 26.dp.toPx()
+                val a = (1f - t) * 0.9f
+                for (start in listOf(140f, -40f)) drawArc(
+                    ringTop.copy(alpha = a), start, 80f, false,
+                    Offset(c.x - rr, c.y - rr), Size(rr * 2, rr * 2),
+                    style = Stroke(4.dp.toPx(), cap = StrokeCap.Round),
+                )
+            }
         }
         Box(
             Modifier.size(196.dp)
+                .scale(if (connecting) breathe else 1f)
                 .clip(CircleShape)
-                .background(
-                    Brush.radialGradient(
-                        listOf(Color(0xFF1C2A78), VoltaColors.Surface, Color(0xFF070E33)),
-                        center = Offset.Unspecified,
-                    )
-                )
+                .background(Brush.radialGradient(listOf(if (failed) Color(0xFF3A4160) else Color(0xFF1B2C8A), disc)))
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
-                    indication = ripple(color = VoltaColors.VioletLight),
+                    indication = ripple(color = ringTop),
                     onClick = onClick,
                 ),
             contentAlignment = Alignment.Center,
         ) {
             Canvas(Modifier.fillMaxSize()) {
-                val stroke = 5.dp.toPx()
-                val inset = stroke / 2 + 3.dp.toPx()
-                val arcSize = Size(size.width - inset * 2, size.height - inset * 2)
-                val topLeft = Offset(inset, inset)
-                // Glassy highlight on the upper half of the disc.
+                val stroke = 6.dp.toPx()
+                val inset = stroke / 2 + 2.dp.toPx()
+                // Glossy top highlight.
                 drawCircle(
-                    Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.10f), Color.Transparent), endY = size.height * 0.55f),
+                    Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.12f), Color.Transparent), endY = size.height * 0.5f),
                     radius = size.minDimension / 2 - stroke,
                 )
-                // Base ring.
                 drawCircle(
-                    if (on) Brush.sweepGradient(listOf(tint, VoltaColors.Violet, tint)) else Brush.linearGradient(listOf(ringColor, ringColor)),
+                    Brush.verticalGradient(listOf(ringTop, ringBottom)),
                     radius = size.minDimension / 2 - inset, style = Stroke(stroke),
                 )
-                // Orbiting electric arc while connecting.
                 if (connecting) drawArc(
-                    Brush.sweepGradient(listOf(Color.Transparent, VoltaColors.Bolt, Color.White, Color.Transparent)),
-                    startAngle = spin, sweepAngle = 120f, useCenter = false,
-                    topLeft = topLeft, size = arcSize, style = Stroke(stroke, cap = StrokeCap.Round),
+                    Brush.sweepGradient(listOf(Color.Transparent, Color.White, Color.Transparent)),
+                    startAngle = spin, sweepAngle = 100f, useCenter = false,
+                    topLeft = Offset(inset, inset), size = Size(size.width - 2 * inset, size.height - 2 * inset),
+                    style = Stroke(stroke * 0.7f, cap = StrokeCap.Round),
                 )
             }
             VMark(
-                Modifier.size(104.dp),
-                energy = energy,
-                bolt = when {
-                    connecting -> draw
-                    on -> 1f
-                    else -> 0f
+                Modifier.size(112.dp),
+                style = when {
+                    on -> VStyle.CONNECTED
+                    failed -> VStyle.OFF
+                    else -> VStyle.READY
                 },
             )
         }
@@ -263,13 +279,17 @@ private fun ConnectButton(state: VpnState, accent: Color?, onClick: () -> Unit, 
 @Composable
 private fun ServerCard(selected: Server?, live: Server?, onClick: () -> Unit) {
     val shown = selected ?: live
-    Surface(
-        color = VoltaColors.Surface, shape = RoundedCornerShape(18.dp),
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
-    ) {
-        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(shown?.flag ?: "⚡", fontSize = 28.sp)
-            Spacer(Modifier.width(12.dp))
+    GlowPill(Modifier.fillMaxWidth(), onClick = onClick) {
+        Row(Modifier.padding(6.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                Modifier.size(54.dp).clip(CircleShape)
+                    .background(Brush.radialGradient(listOf(Color(0xFF1E3399), Color(0xFF0A1242))))
+                    .border(2.dp, Brush.linearGradient(KitBorders.Blue), CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (shown != null) Text(shown.flag, fontSize = 26.sp) else KitBolt(Modifier.size(22.dp))
+            }
+            Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(
                     selected?.displayName() ?: stringResource(R.string.fastest_server),
@@ -284,17 +304,28 @@ private fun ServerCard(selected: Server?, live: Server?, onClick: () -> Unit) {
                     color = VoltaColors.Muted, fontSize = 13.sp,
                 )
             }
-            Text("›", fontSize = 26.sp, color = VoltaColors.Muted)
+            Text("›", fontSize = 30.sp, color = VoltaColors.Violet, modifier = Modifier.padding(end = 16.dp))
         }
+    }
+}
+
+/** The kit's small cyan lightning bolt. */
+@Composable
+private fun KitBolt(modifier: Modifier = Modifier) {
+    Canvas(modifier) {
+        val w = size.width
+        val h = size.height
+        val path = androidx.compose.ui.graphics.Path().apply {
+            moveTo(w * 0.62f, 0f); lineTo(w * 0.18f, h * 0.58f); lineTo(w * 0.48f, h * 0.58f)
+            lineTo(w * 0.36f, h); lineTo(w * 0.84f, h * 0.38f); lineTo(w * 0.54f, h * 0.38f); close()
+        }
+        drawPath(path, Brush.verticalGradient(listOf(Color(0xFF8FF0FF), Color(0xFF2F9BFF))))
     }
 }
 
 @Composable
 private fun NoServersCard(onRetry: () -> Unit) {
-    Surface(
-        color = VoltaColors.Surface, shape = RoundedCornerShape(18.dp),
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onRetry),
-    ) {
+    GlowPill(Modifier.fillMaxWidth(), border = KitBorders.Violet, radius = 24.dp, onClick = onRetry) {
         Column(Modifier.padding(16.dp)) {
             Text(stringResource(R.string.no_servers_title), fontWeight = FontWeight.SemiBold)
             Text(stringResource(R.string.no_servers), color = VoltaColors.Muted, fontSize = 13.sp)
@@ -333,3 +364,7 @@ fun formatBytes(b: Long): String = when {
     b >= 1L shl 20 -> "%.1f MB".format(b / (1L shl 20).toDouble())
     else -> "%d KB".format(b / 1024)
 }
+
+/** Flag colours like France's navy are too dark on our night-blue: lift them toward white. */
+private fun readable(c: Color): Color =
+    if (c.luminance() < 0.35f) androidx.compose.ui.graphics.lerp(c, Color.White, 0.55f) else c
