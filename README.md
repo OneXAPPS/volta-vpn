@@ -30,3 +30,15 @@ Without a URL the app reads VPN Gate's public API directly (unverified, and bloc
 - Turn on mediation so the highest-paying network fills each request.
 - Play Console: fill in the VpnService declaration and Data safety, and publish a privacy policy.
 - GPLv2: ics-openvpn is GPL, so this app's source must be published.
+
+## Server tiers
+| Tier | Source | Trust |
+|---|---|---|
+| SECURE | Your own no-log servers (`server/install.sh`), listed via the `OWN_SERVERS` secret | High: you run them |
+| TESTED | VPN Gate servers that passed the hourly leak / geo / TLS checks | Hides you from websites; operators may log |
+| PUBLIC | VPN Gate servers not tested this hour | Same as above, untested |
+
+### Add a free private server (Oracle Cloud Always Free)
+1. Create an Always Free Ubuntu VM, open UDP 1194 in its VCN Security List.
+2. On the VM: `curl -fsSL https://raw.githubusercontent.com/OneXAPPS/volta-vpn/main/server/install.sh | sudo bash`
+3. Put the printed JSON entry inside a list in the GitHub secret `OWN_SERVERS`, e.g. `[{"cc":"DE",...}]`.

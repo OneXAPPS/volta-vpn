@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.voltavpn.app.R
 import com.voltavpn.app.data.Server
+import com.voltavpn.app.data.Tier
 import com.voltavpn.app.data.serverRanking
 
 @Composable
@@ -40,10 +42,10 @@ fun ServersScreen(
     onRefresh: () -> Unit,
     onBack: () -> Unit,
 ) {
-    // One row per country (its best server) keeps the list short and simple.
+    // One row per country (its best server); unreachable countries sink to the bottom.
     val perCountry = servers.groupBy { it.countryCode }
         .map { (_, list) -> list.sortedWith(serverRanking).first() }
-        .sortedBy { it.countryName }
+        .sortedWith(compareBy<Server> { it.pingMs == -1 }.thenBy { it.tier.ordinal }.thenBy { it.displayName() })
 
     Column(Modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -64,37 +66,59 @@ fun ServersScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item {
-                Row2(
+                ServerRow(
                     flag = "⚡", title = stringResource(R.string.fastest_server),
                     subtitle = stringResource(R.string.auto_pick), badge = null,
                     isSelected = selected == null, onClick = { onSelect(null) },
                 )
             }
             items(perCountry, key = { it.countryCode }) { s ->
-                Row2(
-                    flag = s.flag, title = s.countryName,
-                    subtitle = "${s.pingMs} ms · ${"%.1f".format(s.speedMbps)} Mbps",
-                    badge = if (s.verified) stringResource(R.string.badge_verified) else stringResource(R.string.badge_community),
-                    badgeColor = if (s.verified) VoltaColors.Connected else VoltaColors.Muted,
-                    isSelected = selected?.countryCode == s.countryCode, onClick = { onSelect(s) },
+                ServerRow(
+                    flag = s.flag, title = s.displayName(),
+                    subtitle = when (s.pingMs) {
+                        null -> stringResource(R.string.measuring)
+                        -1 -> stringResource(R.string.offline)
+                        else -> "${s.pingMs} ms"
+                    },
+                    badge = tierLabel(s), badgeColor = tierColor(s.tier),
+                    isSelected = selected?.countryCode == s.countryCode,
+                    dimmed = s.pingMs == -1,
+                    onClick = { onSelect(s) },
                 )
             }
             if (!loading && perCountry.isEmpty()) item {
                 Text(stringResource(R.string.no_servers), color = VoltaColors.Muted, modifier = Modifier.padding(16.dp))
             }
+            item { Text(stringResource(R.string.tier_legend), color = VoltaColors.Muted, fontSize = 12.sp, modifier = Modifier.padding(8.dp)) }
         }
     }
 }
 
 @Composable
-private fun Row2(
+fun tierLabel(s: Server): String = stringResource(
+    when (s.tier) {
+        Tier.PRIVATE -> R.string.badge_private
+        Tier.VERIFIED -> R.string.badge_verified
+        Tier.COMMUNITY -> R.string.badge_community
+    }
+)
+
+fun tierColor(t: Tier): Color = when (t) {
+    Tier.PRIVATE -> VoltaColors.Bolt
+    Tier.VERIFIED -> VoltaColors.Connected
+    Tier.COMMUNITY -> VoltaColors.Muted
+}
+
+@Composable
+private fun ServerRow(
     flag: String, title: String, subtitle: String, badge: String?,
-    isSelected: Boolean, onClick: () -> Unit, badgeColor: Color = VoltaColors.Muted,
+    isSelected: Boolean, onClick: () -> Unit,
+    badgeColor: Color = VoltaColors.Muted, dimmed: Boolean = false,
 ) {
     Surface(
         color = if (isSelected) VoltaColors.SurfaceHigh else VoltaColors.Surface,
         shape = RoundedCornerShape(14.dp),
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        modifier = Modifier.fillMaxWidth().alpha(if (dimmed) 0.5f else 1f).clickable(onClick = onClick),
     ) {
         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(flag, fontSize = 26.sp)

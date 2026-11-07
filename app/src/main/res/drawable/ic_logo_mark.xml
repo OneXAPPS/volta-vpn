@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- In-app logo mark: the launcher icon's globe + bolt, without the FREE pill. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="56" android:viewportHeight="56">
+    <path android:strokeWidth="2.6" android:fillColor="#00000000"
+        android:pathData="M28,28 m-21,0 a21,21 0 1,0 42,0 a21,21 0 1,0 -42,0">
+        <aapt:attr name="android:strokeColor">
+            <gradient android:type="linear" android:startX="7" android:startY="7"
+                android:endX="49" android:endY="49"
+                android:startColor="#5BF0C9" android:endColor="#2E8BFF" />
+        </aapt:attr>
+    </path>
+    <path android:strokeColor="#5BF0C9" android:strokeWidth="1.5" android:strokeAlpha="0.55"
+        android:fillColor="#00000000"
+        android:pathData="M7.5,28 H48.5 M28,28 m-9,0 a9,21 0 1,0 18,0 a9,21 0 1,0 -18,0" />
+    <path android:strokeColor="#0B1020" android:strokeWidth="3.4" android:strokeLineJoin="round"
+        android:pathData="M32.5,2.5 L15.5,31 H26.5 L22.5,54 L41.5,23.5 H30.5 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="linear" android:startX="24" android:startY="3"
+                android:endX="32" android:endY="54"
+                android:startColor="#FFE27A" android:endColor="#FF9F1C" />
+        </aapt:attr>
+    </path>
+</vector>

@@ -57,7 +57,7 @@ class ServerRepository(private val context: Context) {
         val list = JSONObject(payload.decodeToString())
         DailyPass.observeTrustedTime(context, list.getLong("generated") * 1000)
         val arr = list.getJSONArray("servers")
-        return List(arr.length()) { Server.fromJson(arr.getJSONObject(it), verifiedDefault = true) }
+        return List(arr.length()) { Server.fromJson(arr.getJSONObject(it)) }
     }
 
     private fun fetchVpnGate(): List<Server> {
@@ -76,10 +76,10 @@ class ServerRepository(private val context: Context) {
                 countryCode = f[6],
                 countryName = f[5],
                 ip = f[1],
-                pingMs = f[3].toIntOrNull() ?: 999,
+                pingMs = null,
                 speedMbps = (f[4].toDoubleOrNull() ?: 0.0) / 1_000_000,
                 score = f[2].toLongOrNull() ?: 0,
-                verified = false,
+                tier = Tier.COMMUNITY,
                 config = ConfigSanitizer.sanitize(config),
             )
         }
@@ -107,7 +107,7 @@ class ServerRepository(private val context: Context) {
     private fun readCache(maxAgeMs: Long): List<Server>? = runCatching {
         if (!cache.exists() || System.currentTimeMillis() - cache.lastModified() > maxAgeMs) return null
         val arr = JSONArray(cache.readText())
-        List(arr.length()) { Server.fromJson(arr.getJSONObject(it), verifiedDefault = false) }
+        List(arr.length()) { Server.fromJson(arr.getJSONObject(it)) }
     }.getOrNull()
 
     private fun writeCache(servers: List<Server>) {
@@ -118,7 +118,8 @@ class ServerRepository(private val context: Context) {
 
     companion object {
         private const val VPNGATE_API = "http://www.vpngate.net/api/iphone/"
-        private const val CACHE_MAX_AGE_MS = 3 * 60 * 60 * 1000L
+        // Backend refreshes hourly; public servers come and go, so don't keep a list longer.
+        private const val CACHE_MAX_AGE_MS = 60 * 60 * 1000L
         private const val PER_COUNTRY = 6
     }
 }

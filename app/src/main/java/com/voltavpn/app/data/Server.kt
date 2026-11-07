@@ -1,17 +1,25 @@
 package com.voltavpn.app.data
 
 import org.json.JSONObject
+import java.util.Locale
+
+/**
+ * How much the user can trust whoever runs the server.
+ * PRIVATE: our own no-log servers. VERIFIED: public VPN Gate server that passed our
+ * leak / geo / TLS checks (operator may still keep logs). COMMUNITY: public, untested.
+ */
+enum class Tier { PRIVATE, VERIFIED, COMMUNITY }
 
 data class Server(
     val id: String,
     val countryCode: String,
     val countryName: String,
     val ip: String,
-    val pingMs: Int,
+    /** Round-trip time measured from this phone; null = not measured yet, -1 = unreachable. */
+    val pingMs: Int?,
     val speedMbps: Double,
     val score: Long,
-    /** true = passed the backend's leak / geo / MITM checks (signed list). */
-    val verified: Boolean,
+    val tier: Tier,
     val config: String,
 ) {
     val flag: String
@@ -19,26 +27,45 @@ data class Server(
             .map { Character.toChars(0x1F1E6 + (it - 'A')).concatToString() }
             .joinToString("")
 
+    /** Country name in the phone's language ("اليابان"), not VPN Gate's English label. */
+    fun displayName(locale: Locale = Locale.getDefault()): String =
+        Locale("", countryCode).getDisplayCountry(locale).takeIf { it.isNotBlank() && it != countryCode }
+            ?: countryName.substringBefore(" (")
+
+    /** TCP port to probe for reachability: the OpenVPN TCP port, else SoftEther's 443. */
+    val probePort: Int
+        get() {
+            val remote = config.lineSequence().firstOrNull { it.startsWith("remote ") }?.split(' ')
+            val tcp = config.lineSequence().any { it.trim().startsWith("proto tcp") }
+            return if (tcp) remote?.getOrNull(2)?.toIntOrNull() ?: 443 else 443
+        }
+
     fun toJson(): JSONObject = JSONObject()
         .put("id", id).put("cc", countryCode).put("country", countryName).put("ip", ip)
-        .put("ping", pingMs).put("mbps", speedMbps).put("score", score)
-        .put("verified", verified).put("config", config)
+        .put("mbps", speedMbps).put("score", score).put("tier", tier.name).put("config", config)
 
     companion object {
-        fun fromJson(o: JSONObject, verifiedDefault: Boolean) = Server(
+        fun fromJson(o: JSONObject) = Server(
             id = o.getString("id"),
             countryCode = o.getString("cc"),
             countryName = o.getString("country"),
             ip = o.getString("ip"),
-            pingMs = o.optInt("ping", 999),
+            pingMs = null,
             speedMbps = o.optDouble("mbps", 0.0),
             score = o.optLong("score", 0),
-            verified = o.optBoolean("verified", verifiedDefault),
+            tier = when {
+                o.has("tier") -> runCatching { Tier.valueOf(o.getString("tier").uppercase()) }
+                    .getOrDefault(Tier.COMMUNITY)
+                o.optBoolean("verified") -> Tier.VERIFIED
+                else -> Tier.COMMUNITY
+            },
             config = o.getString("config"),
         )
     }
 }
 
-/** Best first: verified servers, then VPN Gate score (which weighs speed, ping and uptime). */
+/** Best first: most trusted tier, then real measured ping, then VPN Gate's score. */
 val serverRanking: Comparator<Server> =
-    compareByDescending<Server> { it.verified }.thenByDescending { it.score }.thenBy { it.pingMs }
+    compareBy<Server> { it.tier.ordinal }
+        .thenBy { it.pingMs?.takeIf { p -> p >= 0 } ?: Int.MAX_VALUE }
+        .thenByDescending { it.score }

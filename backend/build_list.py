@@ -226,6 +226,23 @@ def verify_all(servers: list[dict]) -> list[dict]:
     return verified
 
 
+def own_servers() -> list[dict]:
+    """Volta's own no-log servers (see server/install.sh), from the OWN_SERVERS secret:
+    a JSON list of {"cc", "country", "config"}. Always listed first, as tier PRIVATE."""
+    raw = os.environ.get("OWN_SERVERS", "").strip()
+    if not raw:
+        return []
+    out = []
+    for i, s in enumerate(json.loads(raw)):
+        host, _, _ = remote_of(s["config"])
+        out.append({
+            "id": f"volta-{s['cc'].lower()}-{i}", "ip": host, "score": 10**9, "ping": 0,
+            "mbps": 0, "country": s["country"], "cc": s["cc"].upper(),
+            "verified": True, "tier": "PRIVATE", "config": s["config"],
+        })
+    return out
+
+
 def sign(payload: bytes, key_path: str) -> str:
     with open(key_path, "rb") as fh:
         key = serialization.load_pem_private_key(fh.read(), password=None)
@@ -245,6 +262,9 @@ def main() -> None:
         verified = verify_all(servers)
         ids = {v["id"] for v in verified}
         servers = verified + [s for s in servers if s["id"] not in ids]
+    for s in servers:
+        s["tier"] = "VERIFIED" if s["verified"] else "COMMUNITY"
+    servers = own_servers() + servers
     if not servers:
         sys.exit("no servers - refusing to publish an empty list")
 

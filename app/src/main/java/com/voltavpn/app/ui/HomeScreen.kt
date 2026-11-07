@@ -1,11 +1,15 @@
 package com.voltavpn.app.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,11 +35,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -53,11 +61,14 @@ fun HomeScreen(
     state: VpnState,
     selected: Server?,
     current: Server?,
+    hasServers: Boolean,
+    loading: Boolean,
     traffic: Traffic,
     connectedSince: Long,
     passRemainingMs: () -> Long,
     onToggle: () -> Unit,
     onPickServer: () -> Unit,
+    onRetryServers: () -> Unit,
     onSettings: () -> Unit,
 ) {
     var now by remember { mutableLongStateOf(System.currentTimeMillis()) }
@@ -66,49 +77,73 @@ fun HomeScreen(
             now = System.currentTimeMillis(); delay(1000)
         }
     }
+    var buttonCenter by remember { mutableStateOf<Offset?>(null) }
+    val connected = state == VpnState.CONNECTED
+    // The country we are (or are getting) in: the live server if any, else the user's pick.
+    val place = (if (state != VpnState.DISCONNECTED) current else null) ?: selected
 
-    Column(
-        Modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            VoltaLogo(Modifier.weight(1f))
-            IconButton(onClick = onSettings) {
-                Icon(painterResource(R.drawable.ic_settings), stringResource(R.string.settings), tint = VoltaColors.Muted)
+    Box(Modifier.fillMaxSize()) {
+        CountryBackdrop(place?.countryCode, connected && place != null, buttonCenter)
+
+        Column(
+            Modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                VoltaLogo(Modifier.weight(1f))
+                IconButton(onClick = onSettings) {
+                    Icon(painterResource(R.drawable.ic_settings), stringResource(R.string.settings), tint = VoltaColors.Muted)
+                }
             }
-        }
 
-        Spacer(Modifier.weight(1f))
-        ConnectButton(state, onToggle)
-        Spacer(Modifier.height(20.dp))
-
-        Text(
-            text = when (state) {
-                VpnState.CONNECTED -> stringResource(R.string.state_connected)
-                VpnState.CONNECTING -> stringResource(R.string.state_connecting)
-                VpnState.FAILED -> stringResource(R.string.state_failed)
-                VpnState.DISCONNECTED -> stringResource(R.string.state_tap)
-            },
-            fontSize = 20.sp, fontWeight = FontWeight.SemiBold,
-        )
-        if (state == VpnState.CONNECTED && connectedSince > 0) {
-            Text(formatDuration(now - connectedSince), color = VoltaColors.Muted, fontSize = 15.sp)
-            Spacer(Modifier.height(10.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                Stat("↓", formatBytes(traffic.downBytes))
-                Stat("↑", formatBytes(traffic.upBytes))
+            Spacer(Modifier.weight(1f))
+            Box(contentAlignment = Alignment.Center) {
+                ConnectButton(state, onToggle, Modifier.onGloballyPositioned {
+                    val b = it.boundsInRoot()
+                    buttonCenter = Offset((b.left + b.right) / 2, (b.top + b.bottom) / 2)
+                })
             }
-        }
+            Spacer(Modifier.height(20.dp))
 
-        Spacer(Modifier.weight(1f))
-        ServerCard(selected, current.takeIf { state != VpnState.DISCONNECTED }, onPickServer)
-        Spacer(Modifier.height(12.dp))
-        PassLine(remember(now) { passRemainingMs() })
+            Text(
+                text = when (state) {
+                    VpnState.CONNECTED -> stringResource(R.string.state_connected)
+                    VpnState.CONNECTING -> stringResource(R.string.state_connecting)
+                    VpnState.FAILED -> stringResource(R.string.state_failed)
+                    VpnState.DISCONNECTED -> stringResource(R.string.state_tap)
+                },
+                fontSize = 20.sp, fontWeight = FontWeight.SemiBold,
+            )
+            AnimatedVisibility(
+                visible = connected && place != null,
+                enter = fadeIn(tween(500, delayMillis = 600)) + slideInVertically(tween(500, delayMillis = 600)) { it / 2 },
+                exit = fadeOut(),
+            ) {
+                Text(
+                    stringResource(R.string.now_in, place?.displayName() ?: "", place?.flag ?: ""),
+                    color = VoltaColors.Text, fontSize = 15.sp, modifier = Modifier.padding(top = 2.dp),
+                )
+            }
+            if (connected && connectedSince > 0) {
+                Text(formatDuration(now - connectedSince), color = VoltaColors.Muted, fontSize = 15.sp)
+                Spacer(Modifier.height(10.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+                    Stat("↓", formatBytes(traffic.downBytes))
+                    Stat("↑", formatBytes(traffic.upBytes))
+                }
+            }
+
+            Spacer(Modifier.weight(1f))
+            if (!hasServers && !loading) NoServersCard(onRetryServers)
+            else ServerCard(selected, if (state != VpnState.DISCONNECTED) current else null, onPickServer)
+            Spacer(Modifier.height(12.dp))
+            PassLine(remember(now) { passRemainingMs() })
+        }
     }
 }
 
 @Composable
-private fun ConnectButton(state: VpnState, onClick: () -> Unit) {
+private fun ConnectButton(state: VpnState, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val ring by animateColorAsState(
         when (state) {
             VpnState.CONNECTED -> VoltaColors.Connected
@@ -123,7 +158,7 @@ private fun ConnectButton(state: VpnState, onClick: () -> Unit) {
         animationSpec = infiniteRepeatable(tween(700), RepeatMode.Reverse), label = "scale",
     )
     Box(
-        Modifier.size(210.dp).scale(scale)
+        modifier.size(210.dp).scale(scale)
             .border(BorderStroke(6.dp, ring), CircleShape)
             .padding(14.dp)
             .background(VoltaColors.Surface, CircleShape)
@@ -139,9 +174,10 @@ private fun ConnectButton(state: VpnState, onClick: () -> Unit) {
     }
 }
 
+/** Shows the user's choice; on automatic, the server actually in use once connecting. */
 @Composable
-private fun ServerCard(selected: Server?, current: Server?, onClick: () -> Unit) {
-    val shown = current ?: selected
+private fun ServerCard(selected: Server?, live: Server?, onClick: () -> Unit) {
+    val shown = selected ?: live
     Surface(
         color = VoltaColors.Surface, shape = RoundedCornerShape(18.dp),
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
@@ -151,11 +187,15 @@ private fun ServerCard(selected: Server?, current: Server?, onClick: () -> Unit)
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(
-                    if (selected == null) stringResource(R.string.fastest_server) else selected.countryName,
+                    selected?.displayName() ?: stringResource(R.string.fastest_server),
                     fontWeight = FontWeight.SemiBold,
                 )
                 Text(
-                    shown?.let { "${it.countryName} · ${it.pingMs} ms" } ?: stringResource(R.string.auto_pick),
+                    when {
+                        shown == null -> stringResource(R.string.auto_pick)
+                        selected == null -> shown.displayName() + pingSuffix(live?.pingMs)
+                        else -> tierLabel(shown) + pingSuffix((live ?: shown).pingMs)
+                    },
                     color = VoltaColors.Muted, fontSize = 13.sp,
                 )
             }
@@ -163,6 +203,21 @@ private fun ServerCard(selected: Server?, current: Server?, onClick: () -> Unit)
         }
     }
 }
+
+@Composable
+private fun NoServersCard(onRetry: () -> Unit) {
+    Surface(
+        color = VoltaColors.Surface, shape = RoundedCornerShape(18.dp),
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onRetry),
+    ) {
+        Column(Modifier.padding(16.dp)) {
+            Text(stringResource(R.string.no_servers_title), fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.no_servers), color = VoltaColors.Muted, fontSize = 13.sp)
+        }
+    }
+}
+
+private fun pingSuffix(ping: Int?) = if (ping != null && ping >= 0) " · $ping ms" else ""
 
 @Composable
 private fun PassLine(remainingMs: Long) {

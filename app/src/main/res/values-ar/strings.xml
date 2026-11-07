@@ -11,14 +11,14 @@
     <string name="state_connecting">جارٍ الاتصال…</string>
     <string name="state_connected">متصل</string>
     <string name="state_failed">فشل الاتصال</string>
-    <string name="all_failed">تعذّر الوصول إلى سيرفر. جرّب دولة أخرى.</string>
+    <string name="all_failed">كل السيرفرات مشغولة الآن. حُدّثت القائمة، أعد المحاولة بعد دقيقة.</string>
 
     <string name="fastest_server">أسرع سيرفر</string>
     <string name="auto_pick">يُختار تلقائيًا</string>
     <string name="choose_location">اختر الدولة</string>
-    <string name="badge_verified">موثّق</string>
-    <string name="badge_community">مجتمعي</string>
-    <string name="no_servers">لا توجد سيرفرات حاليًا. تحقّق من الإنترنت ثم حدّث القائمة.</string>
+    <string name="badge_verified">مفحوص</string>
+    <string name="badge_community">عام</string>
+    <string name="no_servers">تعذّر تحميل قائمة السيرفرات. تحقّق من الإنترنت ثم اضغط هنا لإعادة المحاولة.</string>
 
     <string name="pass_active">اليوم مفتوح مجانًا · يتجدد بعد %1$s</string>
     <string name="pass_needed">شاهد إعلانًا قصيرًا واحدًا لتفتح Volta حتى منتصف الليل</string>
@@ -34,9 +34,26 @@
     <string name="about_title">عن Volta</string>
     <string name="about_body">VPN سريع ومجاني. إعلان قصير واحد يوميًا، بلا إعلانات أثناء الاستخدام، وبلا حساب.</string>
     <string name="privacy_title">الخصوصية</string>
-    <string name="privacy_body">لا نسجّل نشاط تصفحك ولا نجمعه ولا نبيعه. كل حركة الإنترنت، بما فيها DNS وIPv6، تمر عبر النفق المشفّر. الإعلانات تعرضها Google AdMob، وقد تستخدم معرّف الإعلانات إذا وافقت.</string>
+    <string name="privacy_body">Volta نفسه لا يحتفظ بأي سجلات ولا يجمع نشاطك ولا يبيعه. كل حركة الإنترنت، بما فيها DNS وIPv6، تمر عبر النفق المشفّر. الإعلانات تعرضها Google AdMob، وقد تستخدم معرّف الإعلانات إذا وافقت.</string>
     <string name="community_title">السيرفرات المجتمعية</string>
-    <string name="community_body">الدول الموسومة «مجتمعي» يشغّلها متطوعون في مشروع VPN Gate الأكاديمي (جامعة تسوكوبا). الاتصال مشفّر، لكن مشغّليها قد يحتفظون بسجلات الاتصال. تجنّب تسجيل الدخول الحساس عليها، واستخدم الدول «الموثّقة» عند توفرها.</string>
+    <string name="community_body">الدول الموسومة «مفحوص» و«عام» سيرفرات متطوعين في مشروع VPN Gate الأكاديمي (جامعة تسوكوبا). يفحصها Volta كل ساعة ضد تسريب IP والموقع الخاطئ واعتراض HTTPS، لكنه لا يستطيع معرفة ما يسجّله مشغّلوها: قد يسجّل المتطوعون الحركة، ويحتفظ المشروع بسجلات الاتصال (ومنها IP الحقيقي) 3 أشهر أو أكثر. هي تخفيك عن المواقع، لا عن مشغّليها. الدول الموسومة «آمن» يشغّلها Volta بلا سجلات.</string>
     <string name="opensource_title">مفتوح المصدر</string>
     <string name="opensource_body">يستخدم Volta محرك OpenVPN for Android من Arne Schwabe (ترخيص GPLv2)، وكود Volta منشور بنفس الترخيص.</string>
+
+    <string name="now_in">أنت الآن في %1$s %2$s</string>
+    <string name="no_servers_title">لم تُحمَّل السيرفرات</string>
+    <string name="measuring">جارٍ القياس…</string>
+    <string name="offline">غير متاح الآن</string>
+    <string name="badge_private">آمن</string>
+    <string name="tier_legend">آمن: يشغّله Volta بلا سجلات · مفحوص: سيرفر عام اجتاز فحصنا الساعي للتسريب والموقع · عام: سيرفر عام لم يُفحص بعد</string>
+    <string name="country_unavailable">سيرفرات هذه الدولة لا تستجيب الآن. جرّب دولة أخرى.</string>
+    <string name="protect_title">احمِ نفسك</string>
+    <string name="killswitch_title">مفتاح القطع (Kill switch)</string>
+    <string name="killswitch_body">يقطع الإنترنت إذا انقطع الـVPN، فلا يتسرّب شيء. في إعدادات أندرويد اضغط ⚙ بجانب Volta VPN، ثم فعّل «VPN دائم التشغيل» و«حظر الاتصالات بدون VPN».</string>
+    <string name="privatedns_title">أخفِ المواقع التي تزورها</string>
+    <string name="privatedns_body">شفّر DNS حتى لا يرى سيرفر الـVPN أسماء المواقع التي تفتحها. في إعدادات أندرويد اضبط «DNS الخاص» على: 1dot1dot1dot1.cloudflare-dns.com</string>
+    <string name="privatedns_on">DNS الخاص مفعّل: أسماء المواقع التي تزورها مشفّرة بالكامل.</string>
+    <string name="open_settings">افتح الإعدادات</string>
+    <string name="https_title">استخدم HTTPS دائمًا</string>
+    <string name="https_body">الـVPN يخفيك عن المواقع وعن شبكتك المحلية. وحده HTTPS (القفل 🔒 في المتصفح) يخفي ما تفعله عن سيرفر الـVPN أيضًا. لا تُدخل كلمات مرور في مواقع بدونه.</string>
 </resources>

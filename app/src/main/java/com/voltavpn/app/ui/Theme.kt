@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -54,10 +54,7 @@ fun VoltaTheme(content: @Composable () -> Unit) {
 @Composable
 fun VoltaLogo(modifier: Modifier = Modifier) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            painterResource(R.drawable.ic_bolt), contentDescription = null,
-            tint = VoltaColors.Bolt, modifier = Modifier.size(26.dp),
-        )
+        Image(painterResource(R.drawable.ic_logo_mark), contentDescription = null, modifier = Modifier.size(30.dp))
         Spacer(Modifier.width(6.dp))
         Text("Volta", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = VoltaColors.Text)
         Spacer(Modifier.width(8.dp))

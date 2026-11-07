@@ -3,8 +3,11 @@ package com.voltavpn.app
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.voltavpn.app.data.FailedServers
+import com.voltavpn.app.data.Pinger
 import com.voltavpn.app.data.Server
 import com.voltavpn.app.data.ServerRepository
+import com.voltavpn.app.data.serverRanking
 import com.voltavpn.app.pass.DailyPass
 import com.voltavpn.app.vpn.VpnController
 import com.voltavpn.app.vpn.VpnState
@@ -17,8 +20,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
+/** Why the last connect attempt ended without a connection. */
+enum class ConnectError { NO_SERVERS, COUNTRY_UNAVAILABLE, ALL_FAILED }
+
 class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val repo = ServerRepository(app)
+    private val failedServers = FailedServers(app)
 
     private val _servers = MutableStateFlow<List<Server>>(emptyList())
     val servers: StateFlow<List<Server>> = _servers.asStateFlow()
@@ -34,13 +41,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _current = MutableStateFlow<Server?>(null)
     val current: StateFlow<Server?> = _current.asStateFlow()
 
+    private val _error = MutableStateFlow<ConnectError?>(null)
+    val error: StateFlow<ConnectError?> = _error.asStateFlow()
+
     val vpnState = VpnController.state
     val traffic = VpnController.traffic
     val connectedSince = VpnController.connectedSince
-
-    /** Set when every candidate server failed; the UI shows a short message. */
-    private val _failed = MutableStateFlow(false)
-    val failed: StateFlow<Boolean> = _failed.asStateFlow()
 
     private var connectJob: Job? = null
 
@@ -48,67 +54,101 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         refresh(force = false)
     }
 
+    /** Loads the list and measures every server from this phone (only while the VPN is down). */
     fun refresh(force: Boolean = true) {
-        viewModelScope.launch {
-            _loading.value = true
-            _servers.value = repo.load(forceRefresh = force)
-            _loading.value = false
-        }
+        viewModelScope.launch { reload(force) }
     }
 
+    private suspend fun reload(force: Boolean) {
+        _loading.value = true
+        val list = repo.load(forceRefresh = force)
+        _servers.value = list.sortedWith(serverRanking)
+        if (vpnState.value == VpnState.DISCONNECTED) {
+            _servers.value = Pinger.measure(list).sortedWith(serverRanking)
+        }
+        _loading.value = false
+    }
+
+    /** Picking another country while connected switches to it right away. */
     fun select(server: Server?) {
         _selected.value = server
+        if (vpnState.value == VpnState.CONNECTED || vpnState.value == VpnState.CONNECTING) connect()
     }
 
     fun passActive() = DailyPass.isActive(getApplication())
 
     fun passRemainingMs() = DailyPass.remainingMs(getApplication())
 
+    fun clearError() {
+        _error.value = null
+    }
+
     /**
-     * Connects to the chosen server; if it doesn't come up in time, falls back to
-     * the next best server in the same country (or overall, on automatic).
+     * Tries the best reachable servers of the chosen country (or of all countries on
+     * automatic). If they all fail, the list is re-downloaded and re-measured once, since
+     * public servers come and go every hour.
      */
     fun connect() {
         connectJob?.cancel()
-        _failed.value = false
+        _error.value = null
         connectJob = viewModelScope.launch {
-            if (_servers.value.isEmpty()) {
-                _loading.value = true
-                _servers.value = repo.load(forceRefresh = true)
-                _loading.value = false
-            }
-            val chosen = _selected.value
-            val candidates = _servers.value
-                .filter { chosen == null || it.countryCode == chosen.countryCode }
-                .let { list -> if (chosen != null) listOf(chosen) + list.filter { it.id != chosen.id } else list }
-                .take(MAX_ATTEMPTS)
-            for (server in candidates) {
-                _current.value = server
-                runCatching { VpnController.connect(getApplication(), server) }.onFailure { continue }
-                val result = withTimeoutOrNull(CONNECT_TIMEOUT_MS) {
-                    vpnState.first { it == VpnState.CONNECTED || it == VpnState.FAILED }
-                }
-                if (result == VpnState.CONNECTED) return@launch
+            val wasConnected = vpnState.value != VpnState.DISCONNECTED
+            if (wasConnected) {
                 VpnController.disconnect(getApplication())
-                delay(500)
+                delay(800)
             }
+            if (_servers.value.isEmpty() || _servers.value.all { it.pingMs == null }) reload(force = _servers.value.isEmpty())
+            if (tryCandidates()) return@launch
+
+            // Everything we had failed: the list is probably stale. Fetch a fresh one and retry.
+            reload(force = true)
+            if (tryCandidates()) return@launch
+
             _current.value = null
             VpnController.disconnect(getApplication())
-            _failed.value = true
+            _error.value = when {
+                _servers.value.isEmpty() -> ConnectError.NO_SERVERS
+                _selected.value != null -> ConnectError.COUNTRY_UNAVAILABLE
+                else -> ConnectError.ALL_FAILED
+            }
         }
     }
 
-    fun clearFailed() {
-        _failed.value = false
+    private suspend fun tryCandidates(): Boolean {
+        val chosen = _selected.value
+        val candidates = _servers.value
+            .filter { chosen == null || it.countryCode == chosen.countryCode }
+            .filter { it.pingMs != -1 && !failedServers.isRecentlyFailed(it.id) }
+            .sortedWith(serverRanking)
+            .take(MAX_ATTEMPTS)
+        for (server in candidates) {
+            _current.value = server
+            if (runCatching { VpnController.connect(getApplication(), server) }.isFailure) {
+                failedServers.mark(server.id)
+                continue
+            }
+            val result = withTimeoutOrNull(CONNECT_TIMEOUT_MS) {
+                vpnState.first { it == VpnState.CONNECTED || it == VpnState.FAILED }
+            }
+            if (result == VpnState.CONNECTED) {
+                failedServers.clear(server.id)
+                return true
+            }
+            failedServers.mark(server.id)
+            VpnController.disconnect(getApplication())
+            delay(500)
+        }
+        return false
     }
 
     fun disconnect() {
         connectJob?.cancel()
         VpnController.disconnect(getApplication())
+        _current.value = null
     }
 
     companion object {
-        private const val CONNECT_TIMEOUT_MS = 20_000L
-        private const val MAX_ATTEMPTS = 3
+        private const val CONNECT_TIMEOUT_MS = 15_000L
+        private const val MAX_ATTEMPTS = 4
     }
 }

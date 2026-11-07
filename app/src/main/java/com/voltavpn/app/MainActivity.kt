@@ -70,15 +70,19 @@ class MainActivity : ComponentActivity() {
                 val traffic by vm.traffic.collectAsStateWithLifecycle()
                 val since by vm.connectedSince.collectAsStateWithLifecycle()
                 val loading by vm.loading.collectAsStateWithLifecycle()
-                val failed by vm.failed.collectAsStateWithLifecycle()
+                val error by vm.error.collectAsStateWithLifecycle()
 
                 BackHandler(enabled = screen != Screen.HOME) { screen = Screen.HOME }
 
-                LaunchedEffect(failed) {
-                    if (failed) {
-                        Toast.makeText(this@MainActivity, R.string.all_failed, Toast.LENGTH_LONG).show()
-                        vm.clearFailed()
+                LaunchedEffect(error) {
+                    val msg = when (error) {
+                        ConnectError.NO_SERVERS -> R.string.no_servers
+                        ConnectError.COUNTRY_UNAVAILABLE -> R.string.country_unavailable
+                        ConnectError.ALL_FAILED -> R.string.all_failed
+                        null -> return@LaunchedEffect
                     }
+                    Toast.makeText(this@MainActivity, msg, Toast.LENGTH_LONG).show()
+                    vm.clearError()
                 }
 
                 // Surface sets the default (light) text colour for everything inside.
@@ -87,10 +91,12 @@ class MainActivity : ComponentActivity() {
                     when (screen) {
                         Screen.HOME -> HomeScreen(
                             state = state, selected = selected, current = current,
+                            hasServers = servers.isNotEmpty(), loading = loading,
                             traffic = traffic, connectedSince = since,
                             passRemainingMs = vm::passRemainingMs,
                             onToggle = { onToggle(state) },
                             onPickServer = { screen = Screen.SERVERS },
+                            onRetryServers = { vm.refresh() },
                             onSettings = { screen = Screen.SETTINGS },
                         )
                         Screen.SERVERS -> ServersScreen(
