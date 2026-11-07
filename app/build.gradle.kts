@@ -49,6 +49,15 @@ android {
             manifestPlaceholders["admobAppId"] = "ca-app-pub-3992840462159319~5850229995"
             buildConfigField("String", "REWARDED_AD_UNIT", "\"ca-app-pub-3992840462159319/7191231821\"")
         }
+        // Release-optimized build for testing on your own phone: Google test ads
+        // (never risk the AdMob account) and the debug signing key.
+        create("preview") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            manifestPlaceholders["admobAppId"] = "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "REWARDED_AD_UNIT", "\"ca-app-pub-3940256099942544/5224354917\"")
+        }
     }
 
     buildFeatures {

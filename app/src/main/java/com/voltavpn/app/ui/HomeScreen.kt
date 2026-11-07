@@ -14,6 +14,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material3.ripple
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -186,8 +189,14 @@ private fun ConnectButton(state: VpnState, accent: Color?, onClick: () -> Unit, 
         modifier.size(210.dp).scale(scale)
             .border(BorderStroke(6.dp, ring), CircleShape)
             .padding(14.dp)
-            .background(VoltaColors.Surface, CircleShape)
-            .clickable(onClick = onClick),
+            // Clip first so the touch ripple is a soft circle, not a square.
+            .clip(CircleShape)
+            .background(VoltaColors.Surface)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = ripple(color = ring),
+                onClick = onClick,
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
