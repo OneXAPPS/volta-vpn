@@ -3,6 +3,7 @@ package com.voltavpn.app
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.voltavpn.app.data.ClientCert
 import com.voltavpn.app.data.FailedServers
 import com.voltavpn.app.data.Pinger
 import com.voltavpn.app.data.Server
@@ -142,7 +143,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             .take(MAX_ATTEMPTS)
         for (server in candidates) {
             _current.value = server
-            if (runCatching { VpnController.connect(getApplication(), server) }.isFailure) {
+            val ready = runCatching { ClientCert.attach(getApplication(), server) }.getOrNull()
+            if (ready == null || runCatching { VpnController.connect(getApplication(), ready) }.isFailure) {
                 failedServers.mark(server.id)
                 continue
             }

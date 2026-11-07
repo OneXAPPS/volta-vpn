@@ -152,13 +152,13 @@ fun HomeScreen(
     }
 }
 
-/** Live proof of protection: the IP websites see now, and whether it is in the right country. */
+/** Live proof of protection: the country websites see now (the IP itself is never shown). */
 @Composable
 private fun ProtectionLine(exit: ExitInfo?, place: Server?) {
     val (text, color) = when {
         exit == null -> stringResource(R.string.exit_checking) to VoltaColors.Muted
         place == null || exit.country == place.countryCode ->
-            stringResource(R.string.exit_ok, exit.ip, place?.displayName() ?: exit.country) to VoltaColors.Connected
+            stringResource(R.string.exit_ok, place?.displayName() ?: exit.country) to VoltaColors.Connected
         else -> stringResource(R.string.exit_mismatch, exit.country) to VoltaColors.Danger
     }
     Text(text, color = color, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 4.dp))

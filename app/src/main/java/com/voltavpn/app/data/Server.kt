@@ -5,10 +5,11 @@ import java.util.Locale
 
 /**
  * How much the user can trust whoever runs the server.
- * PRIVATE: our own no-log servers. VERIFIED: public VPN Gate server that passed our
- * leak / geo / TLS checks (operator may still keep logs). COMMUNITY: public, untested.
+ * PRIVATE: our own no-log servers. NOLOG: an audited no-log provider (Riseup).
+ * VERIFIED: public volunteer server that passed our leak / geo / TLS checks (operator may
+ * still keep logs). COMMUNITY: public, untested.
  */
-enum class Tier { PRIVATE, VERIFIED, COMMUNITY }
+enum class Tier { PRIVATE, NOLOG, VERIFIED, COMMUNITY }
 
 data class Server(
     val id: String,
@@ -23,6 +24,8 @@ data class Server(
     val config: String,
     /** Local / government sites the backend confirmed this server opens (geo-fenced from abroad). */
     val unlocks: List<String> = emptyList(),
+    /** Where this phone must fetch its own anonymous client certificate (Riseup), if any. */
+    val certUrl: String? = null,
 ) {
     val flag: String
         get() = if (countryCode.length != 2) "🌐" else countryCode.uppercase()
@@ -45,7 +48,7 @@ data class Server(
     fun toJson(): JSONObject = JSONObject()
         .put("id", id).put("cc", countryCode).put("country", countryName).put("ip", ip)
         .put("mbps", speedMbps).put("score", score).put("tier", tier.name).put("config", config)
-        .put("unlocks", org.json.JSONArray(unlocks))
+        .put("unlocks", org.json.JSONArray(unlocks)).put("cert_url", certUrl)
 
     companion object {
         fun fromJson(o: JSONObject) = Server(
@@ -64,6 +67,7 @@ data class Server(
             },
             config = o.getString("config"),
             unlocks = o.optJSONArray("unlocks")?.let { a -> List(a.length()) { a.getString(it) } }.orEmpty(),
+            certUrl = o.optString("cert_url").takeIf { it.startsWith("https://") },
         )
     }
 }

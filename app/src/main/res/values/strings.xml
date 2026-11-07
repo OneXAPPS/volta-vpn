@@ -45,7 +45,7 @@
     <string name="measuring">Measuring…</string>
     <string name="offline">Not reachable now</string>
     <string name="badge_private">SECURE</string>
-    <string name="tier_legend">SECURE: run by Volta, no logs · TESTED: public server that passed our hourly leak and location checks · PUBLIC: public server, not tested yet</string>
+    <string name="tier_legend">SECURE: run by Volta · NO-LOG: Riseup, an audited no-log nonprofit · TESTED: volunteer server that passed our hourly leak and location checks · PUBLIC: not tested yet</string>
     <string name="country_unavailable">Servers in this country aren\'t answering right now. Try another country.</string>
     <string name="protect_title">Protect yourself</string>
     <string name="killswitch_title">Kill switch</string>
@@ -57,7 +57,7 @@
     <string name="https_title">Always use HTTPS</string>
     <string name="https_body">The VPN hides you from websites and your local network. Only HTTPS (the 🔒 in the browser) hides what you do from the VPN server too. Avoid entering passwords on sites without it.</string>
     <string name="exit_checking">Checking your protection…</string>
-    <string name="exit_ok">🛡 Websites now see %1$s · %2$s ✓</string>
+    <string name="exit_ok">🛡 Protected · websites see you in %1$s ✓</string>
     <string name="exit_mismatch">⚠ Websites see you in %1$s. Try another server.</string>
     <string name="unlocks_line">🏛 Opens local sites: %1$s</string>
     <string name="local_sites">🏛 local sites</string>
@@ -69,4 +69,7 @@
     <string name="dns_trackers">Block ads and trackers</string>
     <string name="dns_trackers_desc">Also blocks trackers and many ads (AdGuard DNS)</string>
     <string name="dns_note">Applies from your next connection. Lookups always go inside the encrypted tunnel.</string>
+    <string name="badge_nolog">NO-LOG</string>
+    <string name="riseup_title">Riseup servers</string>
+    <string name="riseup_body">NO-LOG locations are run by Riseup (riseup.net), a nonprofit funded by donations. Your phone gets its own anonymous certificate from Riseup; nothing ties it to you. If you use them often, please consider donating to Riseup.</string>
 </resources>

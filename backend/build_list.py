@@ -8,6 +8,9 @@ Sources:
     skipped (Volta is ad-supported), as are servers that keep logs permanently.
   * PublicVPNList API (only when PUBLICVPNLIST_KEY is set: an individually approved key,
     as its license forbids automating the 24-hour reCAPTCHA keys)
+  * RiseupVPN (riseup.net, audited no-log nonprofit) via its official LEAP API. Its
+    configs carry no client key: each phone fetches its own anonymous certificate from
+    Riseup when connecting, exactly like Riseup's own app (tier NOLOG).
   * Volta's own servers from OWN_SERVERS (listed first as tier PRIVATE)
 
 Every public candidate is connected through a real OpenVPN tunnel and must pass ALL of:
@@ -52,6 +55,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 VPNGATE_API = "http://www.vpngate.net/api/iphone/"
 VPNGATE_MIRROR = "https://raw.githubusercontent.com/9xN/auto-ovpn/main/json/data.json"
 PUBLICVPNLIST_API = "https://publicvpnlist.com/api/v1"
+RISEUP_PROVIDER = "https://riseup.net/provider.json"
 
 # Most requested VPN locations; everything else is capped lower.
 TOP_COUNTRIES = ["US", "GB", "DE", "NL", "FR", "CA", "JP", "SG", "KR", "TR"]
@@ -192,6 +196,49 @@ def fetch_publicvpnlist(key: str) -> list[dict]:
     return servers
 
 
+def fetch_riseup() -> list[dict]:
+    """Riseup gateways as OpenVPN configs (without client key; see module docstring)."""
+    import hashlib
+    provider = json.loads(http_get(RISEUP_PROVIDER))
+    ca = http_get(provider["ca_cert_uri"]).decode()
+    # Pin the CA to the fingerprint Riseup publishes, so a tampered CA is never shipped.
+    der = ssl.PEM_cert_to_DER_cert(ca)
+    want = provider["ca_cert_fingerprint"].split(":", 1)[1].strip().lower()
+    if hashlib.sha256(der).hexdigest() != want:
+        raise ValueError("Riseup CA fingerprint mismatch")
+    api = provider["api_uri"].rstrip("/") + "/" + str(provider["api_version"])
+    eip = json.loads(http_get(api + "/config/eip-service.json"))
+    locations = eip.get("locations", {})
+    servers = []
+    for g in eip.get("gateways", []):
+        ovpn = next((t for t in g["capabilities"]["transport"] if t["type"] == "openvpn"), None)
+        cc = (locations.get(g.get("location"), {}).get("country_code") or "").upper()
+        if not ovpn or len(cc) != 2:
+            continue
+        port = "1194" if "1194" in ovpn["ports"] else ovpn["ports"][0]
+        remotes = "".join(f"remote {g['ip_address']} {port} {proto}\n"
+                          for proto in ("udp", "tcp") if proto in ovpn["protocols"])
+        config = ("client\ndev tun\n" + remotes +
+                  "nobind\npersist-key\nremote-cert-tls server\ntls-version-min 1.2\n"
+                  "tls-cipher TLS-ECDHE-ECDSA-WITH-AES-256-GCM-SHA384\n"
+                  "cipher AES-256-GCM\ndata-ciphers AES-256-GCM\nauth SHA512\n"
+                  f"<ca>\n{ca.strip()}\n</ca>\n")
+        servers.append({
+            "id": "riseup-" + g["host"], "ip": g["ip_address"], "score": 10**8,
+            "country": g.get("location") or cc, "cc": cc, "source": "Riseup",
+            "cert_source": "riseup", "cert_url": api + "/cert", "config": config,
+        })
+    return servers
+
+
+def riseup_client_cert(url: str) -> str:
+    """A fresh anonymous Riseup client key + certificate, as inline OpenVPN blocks."""
+    pem = http_get(url, timeout=30).decode()
+    key = re.search(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", pem, re.S)
+    cert = re.search(r"-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----", pem, re.S)
+    return f"<key>\n{key.group(0)}\n</key>\n<cert>\n{cert.group(0)}\n</cert>\n"
+
+
 def own_servers() -> list[dict]:
     """Volta's own no-log servers (see server/install.sh), from the OWN_SERVERS secret:
     a JSON list of {"cc", "country", "config"}. Always listed first, as tier PRIVATE."""
@@ -295,6 +342,8 @@ def _check(server: dict, real_ip: str, table: int) -> tuple[dict | None, str]:
         cfg, up, log = (os.path.join(d, n) for n in ("c.ovpn", "up.sh", "ovpn.log"))
         with open(cfg, "w") as fh:
             fh.write(server["config"])
+            if server.get("cert_source") == "riseup":
+                fh.write(riseup_client_cert(server["cert_url"]))
             fh.write("route-nopull\nconnect-retry-max 1\nverb 3\n"
                      "data-ciphers AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305:AES-256-CBC:AES-128-CBC\n"
                      f"script-security 2\nup {up}\n")
@@ -349,7 +398,8 @@ def _check(server: dict, real_ip: str, table: int) -> tuple[dict | None, str]:
                 return None, f"too slow ({mbps} Mbps)"
             unlocks = [site for site in GEO_SITES.get(server["cc"], [])
                        if not reachable(site) and site_ok(curl("-L", "-o", "/dev/null", "-w", "%{http_code}", site))]
-            return ({**server, "verified": True, "tier": "VERIFIED", "mbps": mbps,
+            tier = "NOLOG" if server.get("cert_source") == "riseup" else "VERIFIED"
+            return ({**server, "verified": True, "tier": tier, "mbps": mbps,
                      "connect_ms": connect_ms, "cipher": cipher,
                      "unlocks": [u.split("//")[1].removeprefix("www.") for u in unlocks]},
                     f"{mbps} Mbps, {cipher}" + (f", unlocks {len(unlocks)} local site(s)" if unlocks else ""))
@@ -433,6 +483,10 @@ def main() -> None:
     args = ap.parse_args()
 
     pool = fetch_vpngate()
+    try:
+        pool += fetch_riseup()
+    except Exception as e:
+        print(f"Riseup unavailable: {e}", flush=True)
     pvl_key = os.environ.get("PUBLICVPNLIST_KEY", "").strip()
     if pvl_key:
         try:

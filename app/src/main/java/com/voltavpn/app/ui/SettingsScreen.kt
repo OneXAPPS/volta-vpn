@@ -70,6 +70,7 @@ fun SettingsScreen(onBack: () -> Unit) {
             Spacer(Modifier.height(8.dp))
             Section(stringResource(R.string.privacy_title), stringResource(R.string.privacy_body))
             Section(stringResource(R.string.community_title), stringResource(R.string.community_body))
+            Section(stringResource(R.string.riseup_title), stringResource(R.string.riseup_body))
             Section(stringResource(R.string.about_title), stringResource(R.string.about_body))
             Section(stringResource(R.string.opensource_title), stringResource(R.string.opensource_body))
             Text(

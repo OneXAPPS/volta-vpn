@@ -32,7 +32,13 @@ android {
     }
 
     androidResources {
-        localeFilters += listOf("en", "ar")
+        // Lets users pick Volta's language in Android settings (Android 13+).
+        generateLocaleConfig = true
+        // English + Arabic + the main languages of the countries Volta targets.
+        localeFilters += listOf(
+            "en", "ar", "es", "fr", "de", "pt", "tr", "ru", "uk",
+            "fa", "ur", "hi", "bn", "zh-rCN", "tl", "in",
+        )
     }
 
     buildTypes {

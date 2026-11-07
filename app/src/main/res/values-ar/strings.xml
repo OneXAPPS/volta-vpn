@@ -45,7 +45,7 @@
     <string name="measuring">جارٍ القياس…</string>
     <string name="offline">غير متاح الآن</string>
     <string name="badge_private">آمن</string>
-    <string name="tier_legend">آمن: يشغّله Volta بلا سجلات · مفحوص: سيرفر عام اجتاز فحصنا الساعي للتسريب والموقع · عام: سيرفر عام لم يُفحص بعد</string>
+    <string name="tier_legend">آمن: يشغّله Volta · بلا سجلات: Riseup، منظمة غير ربحية بلا سجلات ومُدقّقة · مفحوص: سيرفر متطوع اجتاز فحصنا الساعي · عام: لم يُفحص بعد</string>
     <string name="country_unavailable">سيرفرات هذه الدولة لا تستجيب الآن. جرّب دولة أخرى.</string>
     <string name="protect_title">احمِ نفسك</string>
     <string name="killswitch_title">مفتاح القطع (Kill switch)</string>
@@ -57,7 +57,7 @@
     <string name="https_title">استخدم HTTPS دائمًا</string>
     <string name="https_body">الـVPN يخفيك عن المواقع وعن شبكتك المحلية. وحده HTTPS (القفل 🔒 في المتصفح) يخفي ما تفعله عن سيرفر الـVPN أيضًا. لا تُدخل كلمات مرور في مواقع بدونه.</string>
     <string name="exit_checking">جارٍ التحقق من حمايتك…</string>
-    <string name="exit_ok">🛡 المواقع ترى الآن %1$s · %2$s ✓</string>
+    <string name="exit_ok">🛡 محمي · المواقع تراك في %1$s ✓</string>
     <string name="exit_mismatch">⚠ المواقع تراك في %1$s. جرّب سيرفرًا آخر.</string>
     <string name="unlocks_line">🏛 يفتح المواقع المحلية: %1$s</string>
     <string name="local_sites">🏛 مواقع محلية</string>
@@ -69,4 +69,7 @@
     <string name="dns_trackers">حظر الإعلانات والمتتبعات</string>
     <string name="dns_trackers_desc">يحظر أيضًا المتتبعات وكثيرًا من الإعلانات (AdGuard DNS)</string>
     <string name="dns_note">يُطبَّق من الاتصال التالي. الاستعلامات تمر دائمًا داخل النفق المشفّر.</string>
+    <string name="badge_nolog">بلا سجلات</string>
+    <string name="riseup_title">سيرفرات Riseup</string>
+    <string name="riseup_body">الدول الموسومة «بلا سجلات» تشغّلها Riseup ‏(riseup.net)، منظمة غير ربحية تعيش على التبرعات. يحصل هاتفك على شهادة مجهولة خاصة به من Riseup، ولا شيء يربطها بك. إذا استخدمتها كثيرًا ففكّر في التبرع لـ Riseup.</string>
 </resources>

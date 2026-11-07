@@ -99,6 +99,7 @@ fun ServersScreen(
 fun tierLabel(s: Server): String = stringResource(
     when (s.tier) {
         Tier.PRIVATE -> R.string.badge_private
+        Tier.NOLOG -> R.string.badge_nolog
         Tier.VERIFIED -> R.string.badge_verified
         Tier.COMMUNITY -> R.string.badge_community
     }
@@ -106,6 +107,7 @@ fun tierLabel(s: Server): String = stringResource(
 
 fun tierColor(t: Tier): Color = when (t) {
     Tier.PRIVATE -> VoltaColors.Bolt
+    Tier.NOLOG -> Color(0xFF5BF0C9)
     Tier.VERIFIED -> VoltaColors.Connected
     Tier.COMMUNITY -> VoltaColors.Muted
 }

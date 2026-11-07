@@ -1,0 +1,468 @@
+@es
+connect|Conectar
+settings|Ajustes
+back|Atrás
+refresh|Actualizar
+cancel|Cancelar
+state_tap|Toca para conectar
+state_connecting|Conectando…
+state_connected|Conectado
+state_failed|Error de conexión
+all_failed|Todos los servidores están ocupados. La lista se actualizó; inténtalo de nuevo en un minuto.
+fastest_server|Servidor más rápido
+auto_pick|Elegido automáticamente
+choose_location|Elige ubicación
+badge_verified|PROBADO
+badge_community|PÚBLICO
+no_servers|No se pudo cargar la lista de servidores. Revisa tu internet y toca aquí para reintentar.
+pass_active|Pase gratis activo · se renueva en %1$s
+pass_needed|Mira 1 anuncio corto para desbloquear Volta hasta medianoche
+ad_prompt_title|Desbloquea hoy gratis
+ad_prompt_body|Mira un anuncio corto y conéctate todo lo que quieras hasta medianoche. Es el único anuncio que verás hoy.
+ad_prompt_watch|Ver anuncio
+ad_not_finished|Mira el anuncio completo para desbloquear hoy.
+channel_pass|Pase diario
+pass_expired_title|Tu día gratis terminó
+pass_expired_body|Sigues conectado. La próxima vez que te conectes, un anuncio corto desbloquea un nuevo día.
+about_title|Acerca de Volta
+about_body|VPN rápida y gratis. Un anuncio corto al día, sin anuncios durante el uso, sin cuenta.
+privacy_title|Privacidad
+privacy_body|Volta no guarda registros ni recopila o vende tu actividad. Todo el tráfico, incluidos DNS e IPv6, pasa por el túnel cifrado. Los anuncios los muestra Google AdMob, que puede usar un ID de publicidad si das tu consentimiento.
+community_title|Servidores comunitarios
+community_body|Las ubicaciones PROBADO y PÚBLICO son servidores voluntarios del proyecto académico VPN Gate (Universidad de Tsukuba). Volta los revisa cada hora contra fugas de IP, ubicación falsa e interceptación HTTPS, pero no puede saber qué registran sus operadores: el proyecto guarda registros de conexión (incluida tu IP real) 3 meses o más. Te ocultan de los sitios web, no de esos operadores.
+opensource_title|Código abierto
+opensource_body|Volta usa el motor OpenVPN for Android de Arne Schwabe (GPLv2). El código de Volta se publica con la misma licencia.
+now_in|Ahora estás en %1$s %2$s
+no_servers_title|No se cargaron servidores
+measuring|Midiendo…
+offline|No disponible ahora
+badge_private|SEGURO
+tier_legend|SEGURO: de Volta · SIN REGISTROS: Riseup, sin registros y auditado · PROBADO: servidor voluntario que pasó nuestras pruebas horarias · PÚBLICO: aún sin probar
+country_unavailable|Los servidores de este país no responden ahora. Prueba otro país.
+protect_title|Protégete
+killswitch_title|Interruptor de emergencia
+killswitch_body|Bloquea internet si la VPN se cae, para que nada se filtre. En los ajustes de Android toca ⚙ junto a Volta VPN y activa “VPN siempre activa” y “Bloquear conexiones sin VPN”.
+privatedns_title|Oculta los sitios que visitas
+privatedns_body|Cifra el DNS para que el servidor VPN no vea qué sitios abres. En los ajustes de Android pon “DNS privado” en: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|El DNS privado está activo: los sitios que buscas van cifrados de extremo a extremo.
+open_settings|Abrir ajustes
+https_title|Usa siempre HTTPS
+https_body|La VPN te oculta de los sitios web y de tu red local. Solo HTTPS (el 🔒 del navegador) oculta lo que haces también al servidor VPN. No escribas contraseñas en sitios sin él.
+exit_checking|Comprobando tu protección…
+exit_ok|🛡 Protegido · los sitios te ven en %1$s ✓
+exit_mismatch|⚠ Los sitios te ven en %1$s. Prueba otro servidor.
+unlocks_line|🏛 Abre sitios locales: %1$s
+local_sites|🏛 sitios locales
+dns_title|Navegación segura (DNS)
+dns_standard|Estándar
+dns_standard_desc|El más rápido. Cloudflare 1.1.1.1
+dns_malware|Bloquear malware y estafas
+dns_malware_desc|Recomendado. Detiene sitios conocidos de phishing y malware
+dns_trackers|Bloquear anuncios y rastreadores
+dns_trackers_desc|También bloquea rastreadores y muchos anuncios (AdGuard DNS)
+dns_note|Se aplica desde tu próxima conexión. Las consultas siempre van dentro del túnel cifrado.
+badge_nolog|SIN REGISTROS
+riseup_title|Servidores Riseup
+riseup_body|Las ubicaciones SIN REGISTROS las opera Riseup (riseup.net), una organización sin fines de lucro financiada por donaciones. Tu teléfono obtiene su propio certificado anónimo; nada lo vincula contigo. Si los usas a menudo, considera donar a Riseup.
+
+@fr
+connect|Se connecter
+settings|Paramètres
+back|Retour
+refresh|Actualiser
+cancel|Annuler
+state_tap|Touchez pour vous connecter
+state_connecting|Connexion…
+state_connected|Connecté
+state_failed|Échec de la connexion
+all_failed|Tous les serveurs sont occupés. La liste a été actualisée ; réessayez dans une minute.
+fastest_server|Serveur le plus rapide
+auto_pick|Choisi automatiquement
+choose_location|Choisir un pays
+badge_verified|TESTÉ
+badge_community|PUBLIC
+no_servers|Impossible de charger la liste des serveurs. Vérifiez votre connexion puis touchez ici pour réessayer.
+pass_active|Pass gratuit actif · renouvelé dans %1$s
+pass_needed|Regardez 1 courte pub pour débloquer Volta jusqu’à minuit
+ad_prompt_title|Débloquez la journée gratuitement
+ad_prompt_body|Regardez une courte pub et connectez-vous autant que vous voulez jusqu’à minuit. C’est la seule pub de la journée.
+ad_prompt_watch|Voir la pub
+ad_not_finished|Regardez la pub en entier pour débloquer la journée.
+channel_pass|Pass du jour
+pass_expired_title|Votre journée gratuite est terminée
+pass_expired_body|Vous restez connecté. À la prochaine connexion, une courte pub débloque une nouvelle journée.
+about_title|À propos de Volta
+about_body|VPN rapide et gratuit. Une courte pub par jour, aucune pub pendant l’utilisation, aucun compte.
+privacy_title|Confidentialité
+privacy_body|Volta ne conserve aucun journal et ne collecte ni ne vend votre activité. Tout le trafic, y compris DNS et IPv6, passe par le tunnel chiffré. Les pubs sont affichées par Google AdMob, qui peut utiliser un identifiant publicitaire si vous y consentez.
+community_title|Serveurs communautaires
+community_body|Les pays TESTÉ et PUBLIC sont des serveurs bénévoles du projet académique VPN Gate (Université de Tsukuba). Volta les vérifie chaque heure contre les fuites d’IP, la fausse localisation et l’interception HTTPS, mais ne peut pas savoir ce que leurs opérateurs enregistrent : le projet conserve les journaux de connexion (dont votre vraie IP) 3 mois ou plus. Ils vous cachent des sites web, pas de ces opérateurs.
+opensource_title|Open source
+opensource_body|Volta utilise le moteur OpenVPN for Android d’Arne Schwabe (GPLv2). Le code de Volta est publié sous la même licence.
+now_in|Vous êtes maintenant en %1$s %2$s
+no_servers_title|Aucun serveur chargé
+measuring|Mesure…
+offline|Indisponible pour le moment
+badge_private|SÉCURISÉ
+tier_legend|SÉCURISÉ : géré par Volta · SANS JOURNAUX : Riseup, sans journaux et audité · TESTÉ : serveur bénévole ayant réussi nos tests horaires · PUBLIC : pas encore testé
+country_unavailable|Les serveurs de ce pays ne répondent pas. Essayez un autre pays.
+protect_title|Protégez-vous
+killswitch_title|Kill switch
+killswitch_body|Coupe internet si le VPN tombe, pour éviter toute fuite. Dans les paramètres Android, touchez ⚙ à côté de Volta VPN puis activez « VPN permanent » et « Bloquer les connexions sans VPN ».
+privatedns_title|Cachez les sites que vous visitez
+privatedns_body|Chiffrez le DNS pour que le serveur VPN ne voie pas quels sites vous ouvrez. Dans les paramètres Android, réglez « DNS privé » sur : 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Le DNS privé est actif : les sites que vous recherchez sont chiffrés de bout en bout.
+open_settings|Ouvrir les paramètres
+https_title|Utilisez toujours HTTPS
+https_body|Le VPN vous cache des sites web et de votre réseau local. Seul HTTPS (le 🔒 du navigateur) cache aussi ce que vous faites au serveur VPN. N’entrez pas de mot de passe sur un site sans lui.
+exit_checking|Vérification de votre protection…
+exit_ok|🛡 Protégé · les sites vous voient en %1$s ✓
+exit_mismatch|⚠ Les sites vous voient en %1$s. Essayez un autre serveur.
+unlocks_line|🏛 Ouvre les sites locaux : %1$s
+local_sites|🏛 sites locaux
+dns_title|Navigation sûre (DNS)
+dns_standard|Standard
+dns_standard_desc|Le plus rapide. Cloudflare 1.1.1.1
+dns_malware|Bloquer malwares et arnaques
+dns_malware_desc|Recommandé. Bloque les sites connus de phishing et de malwares
+dns_trackers|Bloquer pubs et traqueurs
+dns_trackers_desc|Bloque aussi les traqueurs et beaucoup de pubs (AdGuard DNS)
+dns_note|S’applique à la prochaine connexion. Les requêtes passent toujours dans le tunnel chiffré.
+badge_nolog|SANS JOURNAUX
+riseup_title|Serveurs Riseup
+riseup_body|Les pays SANS JOURNAUX sont gérés par Riseup (riseup.net), une association financée par des dons. Votre téléphone reçoit son propre certificat anonyme ; rien ne le relie à vous. Si vous les utilisez souvent, pensez à faire un don à Riseup.
+
+@de
+connect|Verbinden
+settings|Einstellungen
+back|Zurück
+refresh|Aktualisieren
+cancel|Abbrechen
+state_tap|Tippen zum Verbinden
+state_connecting|Verbinde…
+state_connected|Verbunden
+state_failed|Verbindung fehlgeschlagen
+all_failed|Alle Server sind gerade ausgelastet. Die Liste wurde aktualisiert; versuche es in einer Minute erneut.
+fastest_server|Schnellster Server
+auto_pick|Automatisch gewählt
+choose_location|Standort wählen
+badge_verified|GEPRÜFT
+badge_community|ÖFFENTLICH
+no_servers|Serverliste konnte nicht geladen werden. Prüfe dein Internet und tippe hier, um es erneut zu versuchen.
+pass_active|Gratis-Pass aktiv · erneuert in %1$s
+pass_needed|Sieh 1 kurze Werbung, um Volta bis Mitternacht freizuschalten
+ad_prompt_title|Heute gratis freischalten
+ad_prompt_body|Sieh eine kurze Werbung und verbinde dich bis Mitternacht so oft du willst. Das ist die einzige Werbung heute.
+ad_prompt_watch|Werbung ansehen
+ad_not_finished|Sieh die ganze Werbung, um heute freizuschalten.
+channel_pass|Tagespass
+pass_expired_title|Dein Gratis-Tag ist vorbei
+pass_expired_body|Du bleibst verbunden. Beim nächsten Verbinden schaltet eine kurze Werbung einen neuen Tag frei.
+about_title|Über Volta
+about_body|Schnelles, kostenloses VPN. Eine kurze Werbung pro Tag, keine Werbung während der Nutzung, kein Konto.
+privacy_title|Datenschutz
+privacy_body|Volta speichert keine Protokolle und sammelt oder verkauft deine Aktivität nicht. Der gesamte Verkehr, auch DNS und IPv6, läuft durch den verschlüsselten Tunnel. Werbung zeigt Google AdMob, das mit deiner Zustimmung eine Werbe-ID nutzen kann.
+community_title|Community-Server
+community_body|GEPRÜFT- und ÖFFENTLICH-Standorte sind Freiwilligen-Server des akademischen Projekts VPN Gate (Universität Tsukuba). Volta prüft sie stündlich auf IP-Lecks, falschen Standort und HTTPS-Abfangen, kann aber nicht wissen, was ihre Betreiber speichern: Das Projekt bewahrt Verbindungsprotokolle (auch deine echte IP) 3 Monate oder länger auf. Sie verbergen dich vor Websites, nicht vor diesen Betreibern.
+opensource_title|Open Source
+opensource_body|Volta nutzt die Engine OpenVPN for Android von Arne Schwabe (GPLv2). Der Code von Volta ist unter derselben Lizenz veröffentlicht.
+now_in|Du bist jetzt in %1$s %2$s
+no_servers_title|Keine Server geladen
+measuring|Messe…
+offline|Gerade nicht erreichbar
+badge_private|SICHER
+tier_legend|SICHER: von Volta · OHNE LOGS: Riseup, geprüft ohne Protokolle · GEPRÜFT: Freiwilligen-Server, der unsere stündlichen Tests bestand · ÖFFENTLICH: noch nicht getestet
+country_unavailable|Die Server in diesem Land antworten gerade nicht. Versuche ein anderes Land.
+protect_title|Schütze dich
+killswitch_title|Kill Switch
+killswitch_body|Sperrt das Internet, wenn das VPN abbricht, damit nichts durchsickert. Tippe in den Android-Einstellungen auf ⚙ neben Volta VPN und aktiviere „Durchgehend aktives VPN“ und „Verbindungen ohne VPN blockieren“.
+privatedns_title|Verberge die besuchten Seiten
+privatedns_body|Verschlüssle DNS, damit der VPN-Server nicht sieht, welche Seiten du öffnest. Setze in den Android-Einstellungen „Privates DNS“ auf: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Privates DNS ist aktiv: Deine Seitenabfragen sind Ende-zu-Ende verschlüsselt.
+open_settings|Einstellungen öffnen
+https_title|Immer HTTPS nutzen
+https_body|Das VPN verbirgt dich vor Websites und deinem lokalen Netz. Nur HTTPS (das 🔒 im Browser) verbirgt dein Tun auch vor dem VPN-Server. Gib ohne es keine Passwörter ein.
+exit_checking|Prüfe deinen Schutz…
+exit_ok|🛡 Geschützt · Websites sehen dich in %1$s ✓
+exit_mismatch|⚠ Websites sehen dich in %1$s. Versuche einen anderen Server.
+unlocks_line|🏛 Öffnet lokale Seiten: %1$s
+local_sites|🏛 lokale Seiten
+dns_title|Sicheres Surfen (DNS)
+dns_standard|Standard
+dns_standard_desc|Am schnellsten. Cloudflare 1.1.1.1
+dns_malware|Malware und Betrug blockieren
+dns_malware_desc|Empfohlen. Stoppt bekannte Phishing- und Malware-Seiten
+dns_trackers|Werbung und Tracker blockieren
+dns_trackers_desc|Blockiert auch Tracker und viel Werbung (AdGuard DNS)
+dns_note|Gilt ab der nächsten Verbindung. Abfragen laufen immer im verschlüsselten Tunnel.
+badge_nolog|OHNE LOGS
+riseup_title|Riseup-Server
+riseup_body|OHNE-LOGS-Standorte betreibt Riseup (riseup.net), eine spendenfinanzierte gemeinnützige Organisation. Dein Handy erhält ein eigenes anonymes Zertifikat; nichts verbindet es mit dir. Wenn du sie oft nutzt, erwäge eine Spende an Riseup.
+
+@pt
+connect|Conectar
+settings|Configurações
+back|Voltar
+refresh|Atualizar
+cancel|Cancelar
+state_tap|Toque para conectar
+state_connecting|Conectando…
+state_connected|Conectado
+state_failed|Falha na conexão
+all_failed|Todos os servidores estão ocupados. A lista foi atualizada; tente de novo em um minuto.
+fastest_server|Servidor mais rápido
+auto_pick|Escolhido automaticamente
+choose_location|Escolha o local
+badge_verified|TESTADO
+badge_community|PÚBLICO
+no_servers|Não foi possível carregar a lista de servidores. Verifique sua internet e toque aqui para tentar de novo.
+pass_active|Passe grátis ativo · renova em %1$s
+pass_needed|Assista 1 anúncio curto para liberar o Volta até a meia-noite
+ad_prompt_title|Libere o dia de graça
+ad_prompt_body|Assista um anúncio curto e conecte quanto quiser até a meia-noite. É o único anúncio do dia.
+ad_prompt_watch|Ver anúncio
+ad_not_finished|Assista o anúncio inteiro para liberar o dia.
+channel_pass|Passe diário
+pass_expired_title|Seu dia grátis acabou
+pass_expired_body|Você continua conectado. Na próxima conexão, um anúncio curto libera um novo dia.
+about_title|Sobre o Volta
+about_body|VPN rápida e grátis. Um anúncio curto por dia, sem anúncios durante o uso, sem conta.
+privacy_title|Privacidade
+privacy_body|O Volta não guarda registros nem coleta ou vende sua atividade. Todo o tráfego, incluindo DNS e IPv6, passa pelo túnel criptografado. Os anúncios são do Google AdMob, que pode usar um ID de publicidade se você consentir.
+community_title|Servidores comunitários
+community_body|Os locais TESTADO e PÚBLICO são servidores voluntários do projeto acadêmico VPN Gate (Universidade de Tsukuba). O Volta os verifica a cada hora contra vazamento de IP, local falso e interceptação HTTPS, mas não sabe o que seus operadores registram: o projeto guarda registros de conexão (incluindo seu IP real) por 3 meses ou mais. Eles escondem você dos sites, não desses operadores.
+opensource_title|Código aberto
+opensource_body|O Volta usa o motor OpenVPN for Android de Arne Schwabe (GPLv2). O código do Volta é publicado sob a mesma licença.
+now_in|Agora você está em %1$s %2$s
+no_servers_title|Nenhum servidor carregado
+measuring|Medindo…
+offline|Indisponível agora
+badge_private|SEGURO
+tier_legend|SEGURO: do Volta · SEM REGISTROS: Riseup, sem registros e auditado · TESTADO: servidor voluntário aprovado em nossos testes por hora · PÚBLICO: ainda não testado
+country_unavailable|Os servidores deste país não estão respondendo. Tente outro país.
+protect_title|Proteja-se
+killswitch_title|Kill switch
+killswitch_body|Bloqueia a internet se a VPN cair, para nada vazar. Nas configurações do Android toque em ⚙ ao lado do Volta VPN e ative “VPN sempre ativa” e “Bloquear conexões sem VPN”.
+privatedns_title|Esconda os sites que você visita
+privatedns_body|Criptografe o DNS para o servidor VPN não ver quais sites você abre. Nas configurações do Android defina “DNS privado” como: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|O DNS privado está ativo: suas consultas de sites são criptografadas de ponta a ponta.
+open_settings|Abrir configurações
+https_title|Use sempre HTTPS
+https_body|A VPN esconde você dos sites e da sua rede local. Só o HTTPS (o 🔒 no navegador) esconde o que você faz também do servidor VPN. Não digite senhas em sites sem ele.
+exit_checking|Verificando sua proteção…
+exit_ok|🛡 Protegido · os sites veem você em %1$s ✓
+exit_mismatch|⚠ Os sites veem você em %1$s. Tente outro servidor.
+unlocks_line|🏛 Abre sites locais: %1$s
+local_sites|🏛 sites locais
+dns_title|Navegação segura (DNS)
+dns_standard|Padrão
+dns_standard_desc|O mais rápido. Cloudflare 1.1.1.1
+dns_malware|Bloquear malware e golpes
+dns_malware_desc|Recomendado. Bloqueia sites conhecidos de phishing e malware
+dns_trackers|Bloquear anúncios e rastreadores
+dns_trackers_desc|Também bloqueia rastreadores e muitos anúncios (AdGuard DNS)
+dns_note|Vale a partir da próxima conexão. As consultas sempre passam dentro do túnel criptografado.
+badge_nolog|SEM REGISTROS
+riseup_title|Servidores Riseup
+riseup_body|Os locais SEM REGISTROS são operados pela Riseup (riseup.net), uma organização sem fins lucrativos mantida por doações. Seu celular recebe um certificado anônimo próprio; nada o liga a você. Se usar muito, considere doar à Riseup.
+
+@tr
+connect|Bağlan
+settings|Ayarlar
+back|Geri
+refresh|Yenile
+cancel|İptal
+state_tap|Bağlanmak için dokun
+state_connecting|Bağlanıyor…
+state_connected|Bağlandı
+state_failed|Bağlantı başarısız
+all_failed|Tüm sunucular şu an meşgul. Liste yenilendi; bir dakika sonra tekrar dene.
+fastest_server|En hızlı sunucu
+auto_pick|Otomatik seçildi
+choose_location|Konum seç
+badge_verified|TEST EDİLDİ
+badge_community|HERKESE AÇIK
+no_servers|Sunucu listesi yüklenemedi. İnternetini kontrol et ve tekrar denemek için buraya dokun.
+pass_active|Ücretsiz geçiş aktif · %1$s sonra yenilenir
+pass_needed|Volta’yı gece yarısına kadar açmak için 1 kısa reklam izle
+ad_prompt_title|Bugünü ücretsiz aç
+ad_prompt_body|Kısa bir reklam izle ve gece yarısına kadar istediğin kadar bağlan. Bugün göreceğin tek reklam bu.
+ad_prompt_watch|Reklamı izle
+ad_not_finished|Bugünü açmak için reklamın tamamını izle.
+channel_pass|Günlük geçiş
+pass_expired_title|Ücretsiz günün bitti
+pass_expired_body|Bağlı kalmaya devam ediyorsun. Bir sonraki bağlantıda kısa bir reklam yeni bir gün açar.
+about_title|Volta hakkında
+about_body|Hızlı ve ücretsiz VPN. Günde bir kısa reklam, kullanım sırasında reklam yok, hesap yok.
+privacy_title|Gizlilik
+privacy_body|Volta kayıt tutmaz, etkinliğini toplamaz veya satmaz. DNS ve IPv6 dahil tüm trafik şifreli tünelden geçer. Reklamları Google AdMob gösterir; onay verirsen reklam kimliği kullanabilir.
+community_title|Topluluk sunucuları
+community_body|TEST EDİLDİ ve HERKESE AÇIK konumlar, VPN Gate akademik projesinin (Tsukuba Üniversitesi) gönüllü sunucularıdır. Volta onları her saat IP sızıntısı, yanlış konum ve HTTPS müdahalesine karşı denetler ama operatörlerinin ne kaydettiğini bilemez: proje bağlantı kayıtlarını (gerçek IP’n dahil) 3 ay veya daha uzun tutar. Seni web sitelerinden gizler, bu operatörlerden değil.
+opensource_title|Açık kaynak
+opensource_body|Volta, Arne Schwabe’nin OpenVPN for Android motorunu (GPLv2) kullanır. Volta’nın kodu aynı lisansla yayımlanır.
+now_in|Şu an buradasın: %1$s %2$s
+no_servers_title|Sunucu yüklenmedi
+measuring|Ölçülüyor…
+offline|Şu an ulaşılamıyor
+badge_private|GÜVENLİ
+tier_legend|GÜVENLİ: Volta’nın · KAYITSIZ: Riseup, denetlenmiş ve kayıtsız · TEST EDİLDİ: saatlik testlerimizi geçen gönüllü sunucu · HERKESE AÇIK: henüz test edilmedi
+country_unavailable|Bu ülkedeki sunucular şu an yanıt vermiyor. Başka bir ülke dene.
+protect_title|Kendini koru
+killswitch_title|Kill switch
+killswitch_body|VPN koparsa interneti keser, böylece hiçbir şey sızmaz. Android ayarlarında Volta VPN’in yanındaki ⚙’e dokun, “Her zaman açık VPN” ve “VPN olmadan bağlantıları engelle”yi aç.
+privatedns_title|Ziyaret ettiğin siteleri gizle
+privatedns_body|VPN sunucusu hangi siteleri açtığını görmesin diye DNS’i şifrele. Android ayarlarında “Özel DNS”i şuna ayarla: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Özel DNS açık: aradığın siteler uçtan uca şifreli.
+open_settings|Ayarları aç
+https_title|Her zaman HTTPS kullan
+https_body|VPN seni web sitelerinden ve yerel ağından gizler. Yaptıklarını VPN sunucusundan da yalnızca HTTPS (tarayıcıdaki 🔒) gizler. Onsuz sitelere şifre girme.
+exit_checking|Korumanız kontrol ediliyor…
+exit_ok|🛡 Korunuyorsun · siteler seni %1$s konumunda görüyor ✓
+exit_mismatch|⚠ Siteler seni %1$s konumunda görüyor. Başka bir sunucu dene.
+unlocks_line|🏛 Yerel siteleri açar: %1$s
+local_sites|🏛 yerel siteler
+dns_title|Güvenli gezinme (DNS)
+dns_standard|Standart
+dns_standard_desc|En hızlısı. Cloudflare 1.1.1.1
+dns_malware|Kötü amaçlı yazılım ve dolandırıcılığı engelle
+dns_malware_desc|Önerilir. Bilinen kimlik avı ve zararlı siteleri durdurur
+dns_trackers|Reklam ve izleyicileri engelle
+dns_trackers_desc|İzleyicileri ve birçok reklamı da engeller (AdGuard DNS)
+dns_note|Bir sonraki bağlantıdan itibaren geçerlidir. Sorgular her zaman şifreli tünelden geçer.
+badge_nolog|KAYITSIZ
+riseup_title|Riseup sunucuları
+riseup_body|KAYITSIZ konumları bağışlarla yaşayan kâr amacı gütmeyen Riseup (riseup.net) işletir. Telefonun kendine ait anonim bir sertifika alır; hiçbir şey onu sana bağlamaz. Sık kullanıyorsan Riseup’a bağış yapmayı düşün.
+
+@ru
+connect|Подключить
+settings|Настройки
+back|Назад
+refresh|Обновить
+cancel|Отмена
+state_tap|Нажмите, чтобы подключиться
+state_connecting|Подключение…
+state_connected|Подключено
+state_failed|Ошибка подключения
+all_failed|Все серверы сейчас заняты. Список обновлён; попробуйте через минуту.
+fastest_server|Самый быстрый сервер
+auto_pick|Выбран автоматически
+choose_location|Выберите страну
+badge_verified|ПРОВЕРЕН
+badge_community|ПУБЛИЧНЫЙ
+no_servers|Не удалось загрузить список серверов. Проверьте интернет и нажмите здесь, чтобы повторить.
+pass_active|Бесплатный доступ активен · обновится через %1$s
+pass_needed|Посмотрите 1 короткую рекламу, чтобы открыть Volta до полуночи
+ad_prompt_title|Откройте день бесплатно
+ad_prompt_body|Посмотрите одну короткую рекламу и подключайтесь сколько угодно до полуночи. Это единственная реклама за день.
+ad_prompt_watch|Смотреть рекламу
+ad_not_finished|Досмотрите рекламу до конца, чтобы открыть день.
+channel_pass|Дневной доступ
+pass_expired_title|Ваш бесплатный день закончился
+pass_expired_body|Вы остаётесь подключены. При следующем подключении короткая реклама откроет новый день.
+about_title|О Volta
+about_body|Быстрый бесплатный VPN. Одна короткая реклама в день, без рекламы во время работы, без аккаунта.
+privacy_title|Конфиденциальность
+privacy_body|Volta не ведёт журналов и не собирает и не продаёт ваши данные. Весь трафик, включая DNS и IPv6, идёт через зашифрованный туннель. Рекламу показывает Google AdMob, который с вашего согласия может использовать рекламный ID.
+community_title|Серверы сообщества
+community_body|Страны ПРОВЕРЕН и ПУБЛИЧНЫЙ — это серверы добровольцев академического проекта VPN Gate (Университет Цукубы). Volta ежечасно проверяет их на утечку IP, неверное местоположение и перехват HTTPS, но не может знать, что записывают их операторы: проект хранит журналы подключений (включая ваш реальный IP) 3 месяца и дольше. Они скрывают вас от сайтов, но не от этих операторов.
+opensource_title|Открытый код
+opensource_body|Volta использует движок OpenVPN for Android от Arne Schwabe (GPLv2). Код Volta опубликован под той же лицензией.
+now_in|Вы сейчас в стране: %1$s %2$s
+no_servers_title|Серверы не загружены
+measuring|Измерение…
+offline|Сейчас недоступен
+badge_private|БЕЗОПАСНЫЙ
+tier_legend|БЕЗОПАСНЫЙ: от Volta · БЕЗ ЛОГОВ: Riseup, проверенный и без журналов · ПРОВЕРЕН: сервер добровольца, прошедший наши ежечасные проверки · ПУБЛИЧНЫЙ: ещё не проверен
+country_unavailable|Серверы этой страны сейчас не отвечают. Попробуйте другую страну.
+protect_title|Защитите себя
+killswitch_title|Kill switch
+killswitch_body|Отключает интернет, если VPN оборвётся, чтобы ничего не утекло. В настройках Android нажмите ⚙ рядом с Volta VPN и включите «Постоянный VPN» и «Блокировать соединения без VPN».
+privatedns_title|Скройте посещаемые сайты
+privatedns_body|Зашифруйте DNS, чтобы сервер VPN не видел, какие сайты вы открываете. В настройках Android установите «Персональный DNS-сервер»: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Персональный DNS включён: ваши запросы сайтов зашифрованы от начала до конца.
+open_settings|Открыть настройки
+https_title|Всегда используйте HTTPS
+https_body|VPN скрывает вас от сайтов и вашей локальной сети. Только HTTPS (замок 🔒 в браузере) скрывает ваши действия и от сервера VPN. Не вводите пароли на сайтах без него.
+exit_checking|Проверяем вашу защиту…
+exit_ok|🛡 Защищено · сайты видят вас в стране: %1$s ✓
+exit_mismatch|⚠ Сайты видят вас в стране: %1$s. Попробуйте другой сервер.
+unlocks_line|🏛 Открывает местные сайты: %1$s
+local_sites|🏛 местные сайты
+dns_title|Безопасный интернет (DNS)
+dns_standard|Стандартный
+dns_standard_desc|Самый быстрый. Cloudflare 1.1.1.1
+dns_malware|Блокировать вредоносные и мошеннические сайты
+dns_malware_desc|Рекомендуется. Блокирует известные фишинговые и вредоносные сайты
+dns_trackers|Блокировать рекламу и трекеры
+dns_trackers_desc|Также блокирует трекеры и много рекламы (AdGuard DNS)
+dns_note|Действует со следующего подключения. Запросы всегда идут внутри зашифрованного туннеля.
+badge_nolog|БЕЗ ЛОГОВ
+riseup_title|Серверы Riseup
+riseup_body|Страны БЕЗ ЛОГОВ обслуживает Riseup (riseup.net) — некоммерческая организация, живущая на пожертвования. Ваш телефон получает собственный анонимный сертификат; ничто не связывает его с вами. Если пользуетесь часто, поддержите Riseup пожертвованием.
+
+@uk
+connect|Підключити
+settings|Налаштування
+back|Назад
+refresh|Оновити
+cancel|Скасувати
+state_tap|Натисніть, щоб підключитися
+state_connecting|Підключення…
+state_connected|Підключено
+state_failed|Помилка підключення
+all_failed|Усі сервери зараз зайняті. Список оновлено; спробуйте за хвилину.
+fastest_server|Найшвидший сервер
+auto_pick|Обрано автоматично
+choose_location|Оберіть країну
+badge_verified|ПЕРЕВІРЕНО
+badge_community|ПУБЛІЧНИЙ
+no_servers|Не вдалося завантажити список серверів. Перевірте інтернет і натисніть тут, щоб повторити.
+pass_active|Безкоштовний доступ активний · оновиться через %1$s
+pass_needed|Перегляньте 1 коротку рекламу, щоб відкрити Volta до опівночі
+ad_prompt_title|Відкрийте день безкоштовно
+ad_prompt_body|Перегляньте одну коротку рекламу та підключайтеся скільки завгодно до опівночі. Це єдина реклама за день.
+ad_prompt_watch|Дивитися рекламу
+ad_not_finished|Додивіться рекламу до кінця, щоб відкрити день.
+channel_pass|Денний доступ
+pass_expired_title|Ваш безкоштовний день завершився
+pass_expired_body|Ви залишаєтеся підключені. Під час наступного підключення коротка реклама відкриє новий день.
+about_title|Про Volta
+about_body|Швидкий безкоштовний VPN. Одна коротка реклама на день, без реклами під час роботи, без облікового запису.
+privacy_title|Конфіденційність
+privacy_body|Volta не веде журналів і не збирає та не продає вашу активність. Увесь трафік, включно з DNS та IPv6, іде через зашифрований тунель. Рекламу показує Google AdMob, який за вашою згодою може використовувати рекламний ID.
+community_title|Сервери спільноти
+community_body|Країни ПЕРЕВІРЕНО та ПУБЛІЧНИЙ — це сервери волонтерів академічного проєкту VPN Gate (Університет Цукуби). Volta щогодини перевіряє їх на витік IP, хибне розташування та перехоплення HTTPS, але не може знати, що записують їхні оператори: проєкт зберігає журнали підключень (включно з вашим справжнім IP) 3 місяці й довше. Вони приховують вас від сайтів, а не від цих операторів.
+opensource_title|Відкритий код
+opensource_body|Volta використовує рушій OpenVPN for Android від Arne Schwabe (GPLv2). Код Volta опубліковано під тією ж ліцензією.
+now_in|Ви зараз у країні: %1$s %2$s
+no_servers_title|Сервери не завантажено
+measuring|Вимірювання…
+offline|Зараз недоступний
+badge_private|БЕЗПЕЧНИЙ
+tier_legend|БЕЗПЕЧНИЙ: від Volta · БЕЗ ЛОГІВ: Riseup, перевірений і без журналів · ПЕРЕВІРЕНО: сервер волонтера, що пройшов наші щогодинні перевірки · ПУБЛІЧНИЙ: ще не перевірено
+country_unavailable|Сервери цієї країни зараз не відповідають. Спробуйте іншу країну.
+protect_title|Захистіть себе
+killswitch_title|Kill switch
+killswitch_body|Вимикає інтернет, якщо VPN обірветься, щоб нічого не витекло. У налаштуваннях Android натисніть ⚙ біля Volta VPN і увімкніть «Постійна VPN» та «Блокувати з’єднання без VPN».
+privatedns_title|Приховайте сайти, які відвідуєте
+privatedns_body|Зашифруйте DNS, щоб сервер VPN не бачив, які сайти ви відкриваєте. У налаштуваннях Android встановіть «Приватний DNS»: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Приватний DNS увімкнено: ваші запити сайтів зашифровано наскрізно.
+open_settings|Відкрити налаштування
+https_title|Завжди використовуйте HTTPS
+https_body|VPN приховує вас від сайтів і локальної мережі. Лише HTTPS (замок 🔒 у браузері) приховує ваші дії й від сервера VPN. Не вводьте паролі на сайтах без нього.
+exit_checking|Перевіряємо ваш захист…
+exit_ok|🛡 Захищено · сайти бачать вас у країні: %1$s ✓
+exit_mismatch|⚠ Сайти бачать вас у країні: %1$s. Спробуйте інший сервер.
+unlocks_line|🏛 Відкриває місцеві сайти: %1$s
+local_sites|🏛 місцеві сайти
+dns_title|Безпечний інтернет (DNS)
+dns_standard|Стандартний
+dns_standard_desc|Найшвидший. Cloudflare 1.1.1.1
+dns_malware|Блокувати шкідливі та шахрайські сайти
+dns_malware_desc|Рекомендовано. Зупиняє відомі фішингові та шкідливі сайти
+dns_trackers|Блокувати рекламу й трекери
+dns_trackers_desc|Також блокує трекери та багато реклами (AdGuard DNS)
+dns_note|Діє з наступного підключення. Запити завжди йдуть усередині зашифрованого тунелю.
+badge_nolog|БЕЗ ЛОГІВ
+riseup_title|Сервери Riseup
+riseup_body|Країни БЕЗ ЛОГІВ обслуговує Riseup (riseup.net) — неприбуткова організація, що існує на пожертви. Ваш телефон отримує власний анонімний сертифікат; ніщо не пов’язує його з вами. Якщо користуєтеся часто, підтримайте Riseup пожертвою.
