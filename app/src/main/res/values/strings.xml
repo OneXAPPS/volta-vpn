@@ -56,4 +56,17 @@
     <string name="open_settings">Open settings</string>
     <string name="https_title">Always use HTTPS</string>
     <string name="https_body">The VPN hides you from websites and your local network. Only HTTPS (the 🔒 in the browser) hides what you do from the VPN server too. Avoid entering passwords on sites without it.</string>
+    <string name="exit_checking">Checking your protection…</string>
+    <string name="exit_ok">🛡 Websites now see %1$s · %2$s ✓</string>
+    <string name="exit_mismatch">⚠ Websites see you in %1$s. Try another server.</string>
+    <string name="unlocks_line">🏛 Opens local sites: %1$s</string>
+    <string name="local_sites">🏛 local sites</string>
+    <string name="dns_title">Safe browsing (DNS)</string>
+    <string name="dns_standard">Standard</string>
+    <string name="dns_standard_desc">Fastest. Cloudflare 1.1.1.1</string>
+    <string name="dns_malware">Block malware and scams</string>
+    <string name="dns_malware_desc">Recommended. Stops known phishing and malware sites</string>
+    <string name="dns_trackers">Block ads and trackers</string>
+    <string name="dns_trackers_desc">Also blocks trackers and many ads (AdGuard DNS)</string>
+    <string name="dns_note">Applies from your next connection. Lookups always go inside the encrypted tunnel.</string>
 </resources>

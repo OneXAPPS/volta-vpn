@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.voltavpn.app.R
 import com.voltavpn.app.data.Server
+import com.voltavpn.app.vpn.ExitInfo
 import com.voltavpn.app.vpn.Traffic
 import com.voltavpn.app.vpn.VpnState
 import kotlinx.coroutines.delay
@@ -65,6 +66,7 @@ fun HomeScreen(
     hasServers: Boolean,
     loading: Boolean,
     traffic: Traffic,
+    exit: ExitInfo?,
     connectedSince: Long,
     passRemainingMs: () -> Long,
     onToggle: () -> Unit,
@@ -130,6 +132,7 @@ fun HomeScreen(
             }
             if (connected && connectedSince > 0) {
                 Text(formatDuration(now - connectedSince), color = VoltaColors.Muted, fontSize = 15.sp)
+                ProtectionLine(exit, place)
                 Spacer(Modifier.height(10.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                     Stat("↓", formatBytes(traffic.downBytes))
@@ -143,6 +146,24 @@ fun HomeScreen(
             Spacer(Modifier.height(12.dp))
             PassLine(remember(now) { passRemainingMs() })
         }
+    }
+}
+
+/** Live proof of protection: the IP websites see now, and whether it is in the right country. */
+@Composable
+private fun ProtectionLine(exit: ExitInfo?, place: Server?) {
+    val (text, color) = when {
+        exit == null -> stringResource(R.string.exit_checking) to VoltaColors.Muted
+        place == null || exit.country == place.countryCode ->
+            stringResource(R.string.exit_ok, exit.ip, place?.displayName() ?: exit.country) to VoltaColors.Connected
+        else -> stringResource(R.string.exit_mismatch, exit.country) to VoltaColors.Danger
+    }
+    Text(text, color = color, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 4.dp))
+    if (place != null && place.unlocks.isNotEmpty()) {
+        Text(
+            stringResource(R.string.unlocks_line, place.unlocks.joinToString(", ")),
+            color = VoltaColors.Bolt, fontSize = 13.sp, textAlign = TextAlign.Center,
+        )
     }
 }
 

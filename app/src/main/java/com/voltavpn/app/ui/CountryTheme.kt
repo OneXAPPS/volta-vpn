@@ -25,7 +25,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /** What drifts across the screen in a country's theme. */
-enum class Motif { SAKURA, MAPLE, SNOW, STARS, PETALS, SAND, LANTERNS, CONFETTI }
+enum class Motif { SAKURA, MAPLE, SNOW, STARS, PETALS, LEAVES, SAND, LANTERNS, CONFETTI }
 
 /**
  * A country's look while connected: the motif (sakura for Japan, maple leaves for
@@ -48,8 +48,15 @@ fun themeFor(cc: String?): CountryTheme {
             CountryTheme(Motif.STARS, flag.filter { it != Color.White }.ifEmpty { flag } + Color(0xFFFFF4C2), flag.first(), rises = true)
         "TH", "IN", "MY", "ID", "PH", "NL" ->
             CountryTheme(Motif.PETALS, if (cc.uppercase() == "IN") c(0xFFA726, 0xFFCC80, 0xFFF3E0) else c(0xFF8A80, 0xFFD180, 0xFFFFFF), Color(0xFFFFB74D))
-        "AE", "SA", "EG", "QA", "KW", "BH", "OM", "JO", "MA" ->
+        "AE", "SA", "EG", "QA", "KW", "BH", "OM", "JO", "MA", "IQ", "PS", "YE", "TN", "DZ", "LY" ->
             CountryTheme(Motif.SAND, c(0xFFD54F, 0xFFE082, 0xFFF8E1), Color(0xFFFFD54F), rises = true)
+        "SY" -> CountryTheme(Motif.PETALS, c(0xFFFFFF, 0xFFF8E7, 0xF3E5F5), Color(0xFFF5F0FF)) // Damascus jasmine
+        "PH" -> CountryTheme(Motif.PETALS, c(0xFFFFFF, 0xFFFDE7, 0xE8F5E9), Color(0xFFFCD116)) // sampaguita
+        "UA" -> CountryTheme(Motif.PETALS, c(0xFFD600, 0xFFC107, 0xFFE57F), Color(0xFFFFD600))  // sunflower
+        "MX" -> CountryTheme(Motif.PETALS, c(0xFF8F00, 0xFFA726, 0xFFCC80), Color(0xFFFF9800))  // cempasúchil
+        "LB" -> CountryTheme(Motif.LEAVES, c(0x2E7D32, 0x43A047, 0x81C784), Color(0xFF66BB6A))  // cedar
+        "PK", "BD" -> CountryTheme(Motif.STARS, c(0xFFFFFF, 0x43A047, 0xC8E6C9), Color(0xFF66BB6A), rises = true)
+        "VE" -> CountryTheme(Motif.STARS, c(0xFFFFFF, 0xFFCC00, 0xCF142B), Color(0xFFFFCC00), rises = true)
         else -> CountryTheme(Motif.CONFETTI, flag, flag.firstOrNull { it != Color.White } ?: VoltaColors.Connected)
     }
 }
@@ -93,7 +100,7 @@ fun MotifLayer(theme: CountryTheme, active: Boolean, key: Any?, modifier: Modifi
             val y = yFrac * size.height
             // Fade near the edges so particles never pop in or out.
             val edge = (minOf(travel, 1f - travel) * 8f).coerceIn(0f, 1f)
-            val color = theme.colors[p.color % theme.colors.size].copy(alpha = 0.85f * alpha.value * edge)
+            val color = theme.colors[p.color % theme.colors.size].copy(alpha = 0.6f * alpha.value * edge)
             translate(x, y) {
                 rotate(p.phase * 360f + time * p.spin, pivot = Offset.Zero) {
                     scale(unit * p.size, pivot = Offset.Zero) { drawMotif(theme.motif, paths, color, time + p.phase * 10f) }
@@ -132,6 +139,13 @@ private class MotifPaths {
         for (i in 2 until pts.size step 2) lineTo(pts[i], pts[i + 1])
         close()
     }
+    val leaf = Path().apply {
+        // Slender evergreen leaf (cedar sprig) with a midrib cut by the background.
+        moveTo(0f, -0.55f)
+        cubicTo(0.28f, -0.25f, 0.28f, 0.25f, 0f, 0.55f)
+        cubicTo(-0.28f, 0.25f, -0.28f, -0.25f, 0f, -0.55f)
+        close()
+    }
     val star = Path().apply {
         for (i in 0 until 10) {
             val r = if (i % 2 == 0) 0.5f else 0.21f
@@ -160,6 +174,7 @@ private fun DrawScope.drawMotif(m: Motif, p: MotifPaths, color: Color, t: Float)
         Motif.SAKURA -> drawPath(p.petal, color)
         Motif.PETALS -> drawPath(p.roundPetal, color)
         Motif.MAPLE -> drawPath(p.maple, color)
+        Motif.LEAVES -> drawPath(p.leaf, color)
         Motif.STARS -> drawPath(p.star, color.copy(alpha = color.alpha * (0.6f + 0.4f * sin(t * 3f))))
         Motif.SAND -> drawPath(p.sparkle, color.copy(alpha = color.alpha * (0.5f + 0.5f * sin(t * 4f))))
         Motif.LANTERNS -> {

@@ -21,6 +21,8 @@ data class Server(
     val score: Long,
     val tier: Tier,
     val config: String,
+    /** Local / government sites the backend confirmed this server opens (geo-fenced from abroad). */
+    val unlocks: List<String> = emptyList(),
 ) {
     val flag: String
         get() = if (countryCode.length != 2) "🌐" else countryCode.uppercase()
@@ -43,6 +45,7 @@ data class Server(
     fun toJson(): JSONObject = JSONObject()
         .put("id", id).put("cc", countryCode).put("country", countryName).put("ip", ip)
         .put("mbps", speedMbps).put("score", score).put("tier", tier.name).put("config", config)
+        .put("unlocks", org.json.JSONArray(unlocks))
 
     companion object {
         fun fromJson(o: JSONObject) = Server(
@@ -60,6 +63,7 @@ data class Server(
                 else -> Tier.COMMUNITY
             },
             config = o.getString("config"),
+            unlocks = o.optJSONArray("unlocks")?.let { a -> List(a.length()) { a.getString(it) } }.orEmpty(),
         )
     }
 }

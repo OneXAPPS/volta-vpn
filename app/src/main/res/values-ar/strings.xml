@@ -56,4 +56,17 @@
     <string name="open_settings">افتح الإعدادات</string>
     <string name="https_title">استخدم HTTPS دائمًا</string>
     <string name="https_body">الـVPN يخفيك عن المواقع وعن شبكتك المحلية. وحده HTTPS (القفل 🔒 في المتصفح) يخفي ما تفعله عن سيرفر الـVPN أيضًا. لا تُدخل كلمات مرور في مواقع بدونه.</string>
+    <string name="exit_checking">جارٍ التحقق من حمايتك…</string>
+    <string name="exit_ok">🛡 المواقع ترى الآن %1$s · %2$s ✓</string>
+    <string name="exit_mismatch">⚠ المواقع تراك في %1$s. جرّب سيرفرًا آخر.</string>
+    <string name="unlocks_line">🏛 يفتح المواقع المحلية: %1$s</string>
+    <string name="local_sites">🏛 مواقع محلية</string>
+    <string name="dns_title">تصفّح آمن (DNS)</string>
+    <string name="dns_standard">عادي</string>
+    <string name="dns_standard_desc">الأسرع. Cloudflare 1.1.1.1</string>
+    <string name="dns_malware">حظر البرمجيات الخبيثة والاحتيال</string>
+    <string name="dns_malware_desc">موصى به. يمنع مواقع التصيّد والبرمجيات الخبيثة المعروفة</string>
+    <string name="dns_trackers">حظر الإعلانات والمتتبعات</string>
+    <string name="dns_trackers_desc">يحظر أيضًا المتتبعات وكثيرًا من الإعلانات (AdGuard DNS)</string>
+    <string name="dns_note">يُطبَّق من الاتصال التالي. الاستعلامات تمر دائمًا داخل النفق المشفّر.</string>
 </resources>

@@ -9,6 +9,8 @@ import com.voltavpn.app.data.Server
 import com.voltavpn.app.data.ServerRepository
 import com.voltavpn.app.data.serverRanking
 import com.voltavpn.app.pass.DailyPass
+import com.voltavpn.app.vpn.ExitCheck
+import com.voltavpn.app.vpn.ExitInfo
 import com.voltavpn.app.vpn.VpnController
 import com.voltavpn.app.vpn.VpnState
 import kotlinx.coroutines.Job
@@ -16,6 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
@@ -48,10 +51,26 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     val traffic = VpnController.traffic
     val connectedSince = VpnController.connectedSince
 
+    /** What websites see once connected (checked through the tunnel); null while unknown. */
+    private val _exit = MutableStateFlow<ExitInfo?>(null)
+    val exit: StateFlow<ExitInfo?> = _exit.asStateFlow()
+
     private var connectJob: Job? = null
 
     init {
         refresh(force = false)
+        viewModelScope.launch {
+            vpnState.collectLatest { state ->
+                _exit.value = null
+                if (state == VpnState.CONNECTED) {
+                    delay(1200) // let routes and DNS settle first
+                    repeat(3) {
+                        ExitCheck.fetch()?.let { _exit.value = it; return@collectLatest }
+                        delay(2000)
+                    }
+                }
+            }
+        }
     }
 
     /** Loads the list and measures every server from this phone (only while the VPN is down). */

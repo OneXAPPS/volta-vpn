@@ -80,7 +80,7 @@ fun ServersScreen(
                         null -> if (loading) stringResource(R.string.measuring) else "—"
                         -1 -> stringResource(R.string.offline)
                         else -> "${s.pingMs} ms"
-                    },
+                    } + if (s.unlocks.isNotEmpty()) " · " + stringResource(R.string.local_sites) else "",
                     badge = tierLabel(s), badgeColor = tierColor(s.tier),
                     isSelected = selected?.countryCode == s.countryCode,
                     dimmed = s.pingMs == -1,

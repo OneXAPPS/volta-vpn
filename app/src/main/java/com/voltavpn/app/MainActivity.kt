@@ -71,6 +71,7 @@ class MainActivity : ComponentActivity() {
                 val since by vm.connectedSince.collectAsStateWithLifecycle()
                 val loading by vm.loading.collectAsStateWithLifecycle()
                 val error by vm.error.collectAsStateWithLifecycle()
+                val exit by vm.exit.collectAsStateWithLifecycle()
 
                 BackHandler(enabled = screen != Screen.HOME) { screen = Screen.HOME }
 
@@ -92,7 +93,7 @@ class MainActivity : ComponentActivity() {
                         Screen.HOME -> HomeScreen(
                             state = state, selected = selected, current = current,
                             hasServers = servers.isNotEmpty(), loading = loading,
-                            traffic = traffic, connectedSince = since,
+                            traffic = traffic, exit = exit, connectedSince = since,
                             passRemainingMs = vm::passRemainingMs,
                             onToggle = { onToggle(state) },
                             onPickServer = { screen = Screen.SERVERS },

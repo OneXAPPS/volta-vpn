@@ -70,6 +70,7 @@ object VpnController {
     fun connect(context: Context, server: Server) {
         val parser = ConfigParser()
         parser.parseConfig(StringReader(server.config))
+        val dns = ProtectionPrefs.dnsMode(context)
         val profile = parser.convertProfile().apply {
             mName = "${server.countryName} · ${server.ip}"
             // Leak protection: all IPv4 + IPv6 through the tunnel, unused families blocked.
@@ -77,10 +78,14 @@ object VpnController {
             mUseDefaultRoutev6 = true
             mBlockUnusedAddressFamilies = true
             mAllowLocalLAN = false
-            // DNS always resolved inside the tunnel by a privacy-respecting resolver.
+            // DNS always resolved inside the tunnel, by the resolver the user picked
+            // (default: Cloudflare's malware & phishing blocking).
             mOverrideDNS = true
-            mDNS1 = "1.1.1.1"
-            mDNS2 = "1.0.0.1"
+            mDNS1 = dns.primary
+            mDNS2 = dns.secondary
+            // Keep the tunnel interface up across reconnects, so traffic is never sent
+            // outside the VPN while it re-establishes (no leak window).
+            mPersistTun = true
             // VPN Gate servers still negotiate AES-128-CBC; prefer AEAD when offered.
             mDataCiphers = "AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305:AES-128-CBC"
             // Give up quickly on dead public servers so we can try the next one.
