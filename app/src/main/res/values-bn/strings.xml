@@ -66,4 +66,6 @@
     <string name="badge_nolog">লগহীন</string>
     <string name="riseup_title">Riseup সার্ভার</string>
     <string name="riseup_body">«লগহীন» দেশগুলো চালায় Riseup (riseup.net), অনুদাননির্ভর একটি অলাভজনক সংস্থা। আপনার ফোন নিজস্ব বেনামি সার্টিফিকেট পায়; কিছুই এটিকে আপনার সাথে যুক্ত করে না। নিয়মিত ব্যবহার করলে Riseup-কে অনুদান দেওয়ার কথা ভাবুন।</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · সংযুক্ত নয়</string>
 </resources>

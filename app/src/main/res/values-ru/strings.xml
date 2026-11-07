@@ -66,4 +66,6 @@
     <string name="badge_nolog">БЕЗ ЛОГОВ</string>
     <string name="riseup_title">Серверы Riseup</string>
     <string name="riseup_body">Страны БЕЗ ЛОГОВ обслуживает Riseup (riseup.net) — некоммерческая организация, живущая на пожертвования. Ваш телефон получает собственный анонимный сертификат; ничто не связывает его с вами. Если пользуетесь часто, поддержите Riseup пожертвованием.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Не подключено</string>
 </resources>

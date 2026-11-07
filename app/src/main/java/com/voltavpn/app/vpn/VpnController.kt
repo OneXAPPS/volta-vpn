@@ -72,7 +72,8 @@ object VpnController {
         parser.parseConfig(StringReader(server.config))
         val dns = ProtectionPrefs.dnsMode(context)
         val profile = parser.convertProfile().apply {
-            mName = "${server.countryName} · ${server.ip}"
+            // Shown in the VPN notification: the country only, never the server IP.
+            mName = server.displayName()
             // Leak protection: all IPv4 + IPv6 through the tunnel, unused families blocked.
             mUseDefaultRoute = true
             mUseDefaultRoutev6 = true

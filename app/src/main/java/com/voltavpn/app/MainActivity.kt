@@ -32,7 +32,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.voltavpn.app.ads.AdsManager
 import com.voltavpn.app.ads.MidnightReceiver
 import com.voltavpn.app.pass.DailyPass
+import com.voltavpn.app.ui.BrandIntro
 import com.voltavpn.app.ui.HomeScreen
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.tween
 import com.voltavpn.app.ui.ServersScreen
 import com.voltavpn.app.ui.SettingsScreen
 import com.voltavpn.app.ui.VoltaColors
@@ -109,6 +114,12 @@ class MainActivity : ComponentActivity() {
                         Screen.SETTINGS -> SettingsScreen(onBack = { screen = Screen.HOME })
                     }
                 }
+                }
+
+                // Animated logo once per launch, fading into the app.
+                var intro by rememberSaveable { mutableStateOf(true) }
+                AnimatedVisibility(visible = intro, enter = EnterTransition.None, exit = fadeOut(tween(350))) {
+                    BrandIntro(onFinished = { intro = false })
                 }
 
                 if (showAdPrompt) AlertDialog(

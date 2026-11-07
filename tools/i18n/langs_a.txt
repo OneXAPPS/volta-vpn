@@ -64,6 +64,8 @@ dns_note|Se aplica desde tu próxima conexión. Las consultas siempre van dentro
 badge_nolog|SIN REGISTROS
 riseup_title|Servidores Riseup
 riseup_body|Las ubicaciones SIN REGISTROS las opera Riseup (riseup.net), una organización sin fines de lucro financiada por donaciones. Tu teléfono obtiene su propio certificado anónimo; nada lo vincula contigo. Si los usas a menudo, considera donar a Riseup.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · No conectado
 
 @fr
 connect|Se connecter
@@ -131,6 +133,8 @@ dns_note|S’applique à la prochaine connexion. Les requêtes passent toujours 
 badge_nolog|SANS JOURNAUX
 riseup_title|Serveurs Riseup
 riseup_body|Les pays SANS JOURNAUX sont gérés par Riseup (riseup.net), une association financée par des dons. Votre téléphone reçoit son propre certificat anonyme ; rien ne le relie à vous. Si vous les utilisez souvent, pensez à faire un don à Riseup.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Non connecté
 
 @de
 connect|Verbinden
@@ -198,6 +202,8 @@ dns_note|Gilt ab der nächsten Verbindung. Abfragen laufen immer im verschlüsse
 badge_nolog|OHNE LOGS
 riseup_title|Riseup-Server
 riseup_body|OHNE-LOGS-Standorte betreibt Riseup (riseup.net), eine spendenfinanzierte gemeinnützige Organisation. Dein Handy erhält ein eigenes anonymes Zertifikat; nichts verbindet es mit dir. Wenn du sie oft nutzt, erwäge eine Spende an Riseup.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Nicht verbunden
 
 @pt
 connect|Conectar
@@ -265,6 +271,8 @@ dns_note|Vale a partir da próxima conexão. As consultas sempre passam dentro d
 badge_nolog|SEM REGISTROS
 riseup_title|Servidores Riseup
 riseup_body|Os locais SEM REGISTROS são operados pela Riseup (riseup.net), uma organização sem fins lucrativos mantida por doações. Seu celular recebe um certificado anônimo próprio; nada o liga a você. Se usar muito, considere doar à Riseup.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Não conectado
 
 @tr
 connect|Bağlan
@@ -332,6 +340,8 @@ dns_note|Bir sonraki bağlantıdan itibaren geçerlidir. Sorgular her zaman şif
 badge_nolog|KAYITSIZ
 riseup_title|Riseup sunucuları
 riseup_body|KAYITSIZ konumları bağışlarla yaşayan kâr amacı gütmeyen Riseup (riseup.net) işletir. Telefonun kendine ait anonim bir sertifika alır; hiçbir şey onu sana bağlamaz. Sık kullanıyorsan Riseup’a bağış yapmayı düşün.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Bağlı değil
 
 @ru
 connect|Подключить
@@ -399,6 +409,8 @@ dns_note|Действует со следующего подключения. З
 badge_nolog|БЕЗ ЛОГОВ
 riseup_title|Серверы Riseup
 riseup_body|Страны БЕЗ ЛОГОВ обслуживает Riseup (riseup.net) — некоммерческая организация, живущая на пожертвования. Ваш телефон получает собственный анонимный сертификат; ничто не связывает его с вами. Если пользуетесь часто, поддержите Riseup пожертвованием.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Не подключено
 
 @uk
 connect|Підключити
@@ -466,3 +478,6 @@ dns_note|Діє з наступного підключення. Запити з�
 badge_nolog|БЕЗ ЛОГІВ
 riseup_title|Сервери Riseup
 riseup_body|Країни БЕЗ ЛОГІВ обслуговує Riseup (riseup.net) — неприбуткова організація, що існує на пожертви. Ваш телефон отримує власний анонімний сертифікат; ніщо не пов’язує його з вами. Якщо користуєтеся часто, підтримайте Riseup пожертвою.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Не підключено
+

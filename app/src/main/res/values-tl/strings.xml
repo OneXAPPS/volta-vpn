@@ -66,4 +66,6 @@
     <string name="badge_nolog">WALANG LOG</string>
     <string name="riseup_title">Mga server ng Riseup</string>
     <string name="riseup_body">Ang mga bansang WALANG LOG ay pinapatakbo ng Riseup (riseup.net), isang nonprofit na pinopondohan ng donasyon. Kumukuha ang telepono mo ng sarili nitong anonymous na sertipiko; walang nag-uugnay nito sa iyo. Kung madalas mo itong gamitin, pag-isipang mag-donate sa Riseup.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Hindi nakakonekta</string>
 </resources>

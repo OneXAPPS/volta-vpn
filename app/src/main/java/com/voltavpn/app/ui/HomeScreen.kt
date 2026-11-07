@@ -10,6 +10,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.Canvas
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -199,12 +209,27 @@ private fun ConnectButton(state: VpnState, accent: Color?, onClick: () -> Unit, 
             ),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(
-            painterResource(R.drawable.ic_bolt),
+        // The logo itself is the button: dim and colourless when off, full colour when on.
+        val on = state == VpnState.CONNECTED || state == VpnState.CONNECTING
+        val saturation by animateFloatAsState(if (on) 1f else 0f, tween(600), label = "sat")
+        val emblemAlpha by animateFloatAsState(if (on) 1f else 0.55f, tween(600), label = "alpha")
+        Image(
+            painterResource(R.drawable.logo_emblem),
             contentDescription = stringResource(R.string.connect),
-            tint = if (state == VpnState.DISCONNECTED || state == VpnState.FAILED) VoltaColors.Muted else ring,
-            modifier = Modifier.size(84.dp),
+            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(saturation) }),
+            modifier = Modifier.size(150.dp).alpha(emblemAlpha),
         )
+        // While connecting: an electric arc orbits the logo, like the orbit in the artwork.
+        if (state == VpnState.CONNECTING) {
+            val spin by pulse.animateFloat(0f, 360f, infiniteRepeatable(tween(1100, easing = LinearEasing)), label = "spin")
+            Canvas(Modifier.fillMaxSize().padding(6.dp)) {
+                drawArc(
+                    brush = Brush.sweepGradient(listOf(Color.Transparent, VoltaColors.Bolt, Color.White)),
+                    startAngle = spin, sweepAngle = 110f, useCenter = false,
+                    style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round),
+                )
+            }
+        }
     }
 }
 

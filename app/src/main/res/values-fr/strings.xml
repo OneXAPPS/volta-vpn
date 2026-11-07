@@ -66,4 +66,6 @@
     <string name="badge_nolog">SANS JOURNAUX</string>
     <string name="riseup_title">Serveurs Riseup</string>
     <string name="riseup_body">Les pays SANS JOURNAUX sont gérés par Riseup (riseup.net), une association financée par des dons. Votre téléphone reçoit son propre certificat anonyme ; rien ne le relie à vous. Si vous les utilisez souvent, pensez à faire un don à Riseup.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Non connecté</string>
 </resources>

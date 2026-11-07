@@ -66,4 +66,6 @@
     <string name="badge_nolog">SEM REGISTROS</string>
     <string name="riseup_title">Servidores Riseup</string>
     <string name="riseup_body">Os locais SEM REGISTROS são operados pela Riseup (riseup.net), uma organização sem fins lucrativos mantida por doações. Seu celular recebe um certificado anônimo próprio; nada o liga a você. Se usar muito, considere doar à Riseup.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Não conectado</string>
 </resources>

@@ -72,4 +72,7 @@
     <string name="badge_nolog">بلا سجلات</string>
     <string name="riseup_title">سيرفرات Riseup</string>
     <string name="riseup_body">الدول الموسومة «بلا سجلات» تشغّلها Riseup ‏(riseup.net)، منظمة غير ربحية تعيش على التبرعات. يحصل هاتفك على شهادة مجهولة خاصة به من Riseup، ولا شيء يربطها بك. إذا استخدمتها كثيرًا ففكّر في التبرع لـ Riseup.</string>
+    <!-- Overrides the VPN engine's "OpenVPN - %s" notification title. -->
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · غير متصل</string>
 </resources>

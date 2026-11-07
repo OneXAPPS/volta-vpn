@@ -66,4 +66,6 @@
     <string name="badge_nolog">无日志</string>
     <string name="riseup_title">Riseup 服务器</string>
     <string name="riseup_body">标为“无日志”的国家由 Riseup（riseup.net）运营，这是一家依靠捐款运作的非营利组织。您的手机会获得专属的匿名证书，任何信息都无法将其与您关联。如果经常使用，请考虑向 Riseup 捐款。</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · 未连接</string>
 </resources>

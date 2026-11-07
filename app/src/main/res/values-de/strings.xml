@@ -66,4 +66,6 @@
     <string name="badge_nolog">OHNE LOGS</string>
     <string name="riseup_title">Riseup-Server</string>
     <string name="riseup_body">OHNE-LOGS-Standorte betreibt Riseup (riseup.net), eine spendenfinanzierte gemeinnützige Organisation. Dein Handy erhält ein eigenes anonymes Zertifikat; nichts verbindet es mit dir. Wenn du sie oft nutzt, erwäge eine Spende an Riseup.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Nicht verbunden</string>
 </resources>

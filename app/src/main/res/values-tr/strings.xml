@@ -66,4 +66,6 @@
     <string name="badge_nolog">KAYITSIZ</string>
     <string name="riseup_title">Riseup sunucuları</string>
     <string name="riseup_body">KAYITSIZ konumları bağışlarla yaşayan kâr amacı gütmeyen Riseup (riseup.net) işletir. Telefonun kendine ait anonim bir sertifika alır; hiçbir şey onu sana bağlamaz. Sık kullanıyorsan Riseup’a bağış yapmayı düşün.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Bağlı değil</string>
 </resources>

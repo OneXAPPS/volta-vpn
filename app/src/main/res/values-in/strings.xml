@@ -66,4 +66,6 @@
     <string name="badge_nolog">TANPA LOG</string>
     <string name="riseup_title">Server Riseup</string>
     <string name="riseup_body">Negara TANPA LOG dikelola Riseup (riseup.net), organisasi nirlaba yang didanai donasi. Ponsel Anda mendapat sertifikat anonimnya sendiri; tidak ada yang menghubungkannya dengan Anda. Jika sering memakai, pertimbangkan berdonasi ke Riseup.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Tidak terhubung</string>
 </resources>

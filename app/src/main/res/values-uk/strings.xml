@@ -66,4 +66,6 @@
     <string name="badge_nolog">БЕЗ ЛОГІВ</string>
     <string name="riseup_title">Сервери Riseup</string>
     <string name="riseup_body">Країни БЕЗ ЛОГІВ обслуговує Riseup (riseup.net) — неприбуткова організація, що існує на пожертви. Ваш телефон отримує власний анонімний сертифікат; ніщо не пов’язує його з вами. Якщо користуєтеся часто, підтримайте Riseup пожертвою.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Не підключено</string>
 </resources>

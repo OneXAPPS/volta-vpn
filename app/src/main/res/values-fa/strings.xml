@@ -66,4 +66,6 @@
     <string name="badge_nolog">بدون گزارش</string>
     <string name="riseup_title">سرورهای Riseup</string>
     <string name="riseup_body">کشورهای «بدون گزارش» را Riseup ‏(riseup.net)، سازمانی غیرانتفاعی که با کمک‌های مردمی اداره می‌شود، می‌گرداند. گوشی شما گواهی ناشناس خودش را می‌گیرد و چیزی آن را به شما پیوند نمی‌دهد. اگر زیاد استفاده می‌کنید، به Riseup کمک مالی کنید.</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · متصل نیست</string>
 </resources>

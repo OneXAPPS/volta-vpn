@@ -64,6 +64,8 @@ dns_note|از اتصال بعدی اعمال می‌شود. درخواست‌ه�
 badge_nolog|بدون گزارش
 riseup_title|سرورهای Riseup
 riseup_body|کشورهای «بدون گزارش» را Riseup ‏(riseup.net)، سازمانی غیرانتفاعی که با کمک‌های مردمی اداره می‌شود، می‌گرداند. گوشی شما گواهی ناشناس خودش را می‌گیرد و چیزی آن را به شما پیوند نمی‌دهد. اگر زیاد استفاده می‌کنید، به Riseup کمک مالی کنید.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · متصل نیست
 
 @ur
 connect|کنیکٹ
@@ -131,6 +133,8 @@ dns_note|اگلے کنکشن سے لاگو ہوگا۔ تلاش ہمیشہ خفی
 badge_nolog|بغیر لاگ
 riseup_title|Riseup سرور
 riseup_body|«بغیر لاگ» ممالک Riseup ‏(riseup.net) چلاتا ہے، ایک غیر منافع بخش ادارہ جو عطیات پر چلتا ہے۔ آپ کے فون کو اپنا گمنام سرٹیفکیٹ ملتا ہے؛ کوئی چیز اسے آپ سے نہیں جوڑتی۔ اگر آپ اکثر استعمال کرتے ہیں تو Riseup کو عطیہ دینے پر غور کریں۔
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · کنیکٹ نہیں
 
 @hi
 connect|कनेक्ट करें
@@ -198,6 +202,8 @@ dns_note|अगले कनेक्शन से लागू होगा। 
 badge_nolog|बिना लॉग
 riseup_title|Riseup सर्वर
 riseup_body|«बिना लॉग» देश Riseup (riseup.net) चलाता है, जो दान से चलने वाली गैर-लाभकारी संस्था है। आपके फ़ोन को अपना गुमनाम प्रमाणपत्र मिलता है; कुछ भी इसे आपसे नहीं जोड़ता। अगर आप अक्सर इस्तेमाल करते हैं, तो Riseup को दान देने पर विचार करें।
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · कनेक्ट नहीं है
 
 @bn
 connect|সংযোগ করুন
@@ -265,6 +271,8 @@ dns_note|পরের সংযোগ থেকে প্রযোজ্য। �
 badge_nolog|লগহীন
 riseup_title|Riseup সার্ভার
 riseup_body|«লগহীন» দেশগুলো চালায় Riseup (riseup.net), অনুদাননির্ভর একটি অলাভজনক সংস্থা। আপনার ফোন নিজস্ব বেনামি সার্টিফিকেট পায়; কিছুই এটিকে আপনার সাথে যুক্ত করে না। নিয়মিত ব্যবহার করলে Riseup-কে অনুদান দেওয়ার কথা ভাবুন।
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · সংযুক্ত নয়
 
 @zh-rCN
 connect|连接
@@ -332,6 +340,8 @@ dns_note|下次连接时生效。查询始终在加密隧道内进行。
 badge_nolog|无日志
 riseup_title|Riseup 服务器
 riseup_body|标为“无日志”的国家由 Riseup（riseup.net）运营，这是一家依靠捐款运作的非营利组织。您的手机会获得专属的匿名证书，任何信息都无法将其与您关联。如果经常使用，请考虑向 Riseup 捐款。
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · 未连接
 
 @tl
 connect|Kumonekta
@@ -399,6 +409,8 @@ dns_note|Ilalapat sa susunod mong koneksyon. Laging nasa loob ng naka-encrypt na
 badge_nolog|WALANG LOG
 riseup_title|Mga server ng Riseup
 riseup_body|Ang mga bansang WALANG LOG ay pinapatakbo ng Riseup (riseup.net), isang nonprofit na pinopondohan ng donasyon. Kumukuha ang telepono mo ng sarili nitong anonymous na sertipiko; walang nag-uugnay nito sa iyo. Kung madalas mo itong gamitin, pag-isipang mag-donate sa Riseup.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Hindi nakakonekta
 
 @in
 connect|Hubungkan
@@ -466,3 +478,6 @@ dns_note|Berlaku mulai koneksi berikutnya. Kueri selalu lewat di dalam terowonga
 badge_nolog|TANPA LOG
 riseup_title|Server Riseup
 riseup_body|Negara TANPA LOG dikelola Riseup (riseup.net), organisasi nirlaba yang didanai donasi. Ponsel Anda mendapat sertifikat anonimnya sendiri; tidak ada yang menghubungkannya dengan Anda. Jika sering memakai, pertimbangkan berdonasi ke Riseup.
+notification_title|Volta VPN · %s
+notification_title_notconnect|Volta VPN · Tidak terhubung
+

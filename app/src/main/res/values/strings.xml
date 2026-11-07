@@ -72,4 +72,7 @@
     <string name="badge_nolog">NO-LOG</string>
     <string name="riseup_title">Riseup servers</string>
     <string name="riseup_body">NO-LOG locations are run by Riseup (riseup.net), a nonprofit funded by donations. Your phone gets its own anonymous certificate from Riseup; nothing ties it to you. If you use them often, please consider donating to Riseup.</string>
+    <!-- Overrides the VPN engine's "OpenVPN - %s" notification title. -->
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · Not connected</string>
 </resources>

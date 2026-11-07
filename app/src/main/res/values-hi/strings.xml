@@ -66,4 +66,6 @@
     <string name="badge_nolog">बिना लॉग</string>
     <string name="riseup_title">Riseup सर्वर</string>
     <string name="riseup_body">«बिना लॉग» देश Riseup (riseup.net) चलाता है, जो दान से चलने वाली गैर-लाभकारी संस्था है। आपके फ़ोन को अपना गुमनाम प्रमाणपत्र मिलता है; कुछ भी इसे आपसे नहीं जोड़ता। अगर आप अक्सर इस्तेमाल करते हैं, तो Riseup को दान देने पर विचार करें।</string>
+    <string name="notification_title">Volta VPN · %s</string>
+    <string name="notification_title_notconnect">Volta VPN · कनेक्ट नहीं है</string>
 </resources>
