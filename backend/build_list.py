@@ -3,7 +3,9 @@
 servers that pass strict live checks.
 
 Sources:
-  * VPN Gate academic project CSV API (always)
+  * VPN Gate academic project CSV API, or its GitHub mirror (9xN/auto-ovpn) when
+    vpngate.net is unreachable. Servers whose operator says "Academic Use Only" are
+    skipped (Volta is ad-supported), as are servers that keep logs permanently.
   * PublicVPNList API (only when PUBLICVPNLIST_KEY is set: an individually approved key,
     as its license forbids automating the 24-hour reCAPTCHA keys)
   * Volta's own servers from OWN_SERVERS (listed first as tier PRIVATE)
@@ -17,7 +19,12 @@ Every public candidate is connected through a real OpenVPN tunnel and must pass 
   * HTTPS to a known site validates against the system CA store (no interception)
   * download >= MIN_MBPS and TLS connect time <= MAX_CONNECT_MS through the tunnel
 
-Caps: at most 5 servers for each of the TOP_COUNTRIES, 2 for every other country.
+Caps: at most 5 servers for each priority country (TOP_COUNTRIES + PRIORITY_COUNTRIES),
+2 for every other country.
+
+Local-site check: for countries in GEO_SITES, sites that only answer inside that
+country are fetched directly from the builder and through the tunnel; a server is
+marked as unlocking a site only when the direct fetch fails and the tunnel succeeds.
 
 Usage:
   python build_list.py --key keys/private.pem --out public/servers.json [--verify]
@@ -43,11 +50,33 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ec
 
 VPNGATE_API = "http://www.vpngate.net/api/iphone/"
+VPNGATE_MIRROR = "https://raw.githubusercontent.com/9xN/auto-ovpn/main/json/data.json"
 PUBLICVPNLIST_API = "https://publicvpnlist.com/api/v1"
 
 # Most requested VPN locations; everything else is capped lower.
 TOP_COUNTRIES = ["US", "GB", "DE", "NL", "FR", "CA", "JP", "SG", "KR", "TR"]
+# Gulf, Middle East and the largest expatriate home countries: always worth 5 slots.
+PRIORITY_COUNTRIES = [
+    "AE", "SA", "QA", "KW", "BH", "OM",                      # Gulf
+    "EG", "JO", "LB", "SY", "IQ", "YE", "PS", "MA", "TN", "DZ",  # Middle East / North Africa
+    "IN", "CN", "MX", "RU", "UA", "PH", "VE", "PK", "BD",    # largest diasporas
+]
 CAP_TOP, CAP_OTHER = 5, 2
+# Sites known to refuse foreign visitors (checked live; see module docstring).
+GEO_SITES = {
+    "RU": ["https://www.kremlin.ru", "https://government.ru"],
+    "MX": ["https://www.sat.gob.mx"],
+    "VE": ["https://www.cne.gob.ve"],
+    "IN": ["https://www.irctc.co.in"],
+    "PH": ["https://www.philsys.gov.ph"],
+    "SA": ["https://www.my.gov.sa", "https://www.absher.sa"],
+    "QA": ["https://www.hukoomi.gov.qa"],
+    "KW": ["https://www.e.gov.kw"],
+    "EG": ["https://www.egypt.gov.eg"],
+    "SY": ["https://www.egov.sy"],
+    "UA": ["https://www.diia.gov.ua"],
+}
+EXCLUDE_ACADEMIC_ONLY = True
 CANDIDATES_PER_SLOT = 3      # test 3 candidates for every slot we want to fill
 MIN_MBPS = 3.0
 MAX_CONNECT_MS = 1500
@@ -99,21 +128,36 @@ def http_get(url: str, headers: dict | None = None, timeout: int = 60) -> bytes:
 # ---------- sources ----------
 
 def fetch_vpngate() -> list[dict]:
-    text = http_get(VPNGATE_API).decode("utf-8", "replace")
-    rows = [l for l in text.splitlines() if l and not l.startswith("*") and not l.startswith("#")]
+    """Rows as dicts with VPN Gate's lower-cased field names, from the API or its mirror."""
+    try:
+        text = http_get(VPNGATE_API).decode("utf-8", "replace")
+        lines = [l for l in text.splitlines() if l and not l.startswith("*")]
+        header = lines[0].lstrip("#").lower().split(",")
+        rows = [dict(zip(header, f)) for f in csv.reader(io.StringIO("\n".join(lines[1:]))) if len(f) >= 15]
+        if not rows:
+            raise ValueError("empty")
+    except Exception as e:
+        print(f"VPN Gate API unavailable ({e}); using GitHub mirror", flush=True)
+        rows = [r for block in json.loads(http_get(VPNGATE_MIRROR)) if isinstance(block, dict)
+                for r in block.get("servers", [])]
     servers = []
-    for f in csv.reader(io.StringIO("\n".join(rows))):
-        if len(f) < 15:
+    for r in rows:
+        operator = (r.get("operator") or "") + " " + (r.get("message") or "")
+        if EXCLUDE_ACADEMIC_ONLY and "academic use only" in operator.lower():
+            continue
+        if "perman" in (r.get("logtype") or "").lower():
             continue
         try:
-            config = base64.b64decode(f[-1]).decode("utf-8", "replace")
+            config = base64.b64decode(r.get("openvpn_configdata_base64") or "").decode("utf-8", "replace")
         except Exception:
             continue
         if "remote " not in config:
             continue
         servers.append({
-            "id": "vg-" + f[0], "ip": f[1], "score": num(f[2], 0), "country": f[5],
-            "cc": f[6].upper(), "source": "VPN Gate", "config": sanitize(config),
+            "id": "vg-" + r.get("hostname", r.get("ip", "")), "ip": r.get("ip", ""),
+            "score": num(r.get("score"), 0), "country": r.get("countrylong", ""),
+            "cc": (r.get("countryshort") or "").upper(), "source": "VPN Gate",
+            "config": sanitize(config),
         })
     return servers
 
@@ -168,7 +212,7 @@ def own_servers() -> list[dict]:
 # ---------- selection ----------
 
 def cap(cc: str) -> int:
-    return CAP_TOP if cc in TOP_COUNTRIES else CAP_OTHER
+    return CAP_TOP if cc in TOP_COUNTRIES or cc in PRIORITY_COUNTRIES else CAP_OTHER
 
 
 def remote_of(config: str) -> tuple[str, int, str]:
@@ -303,8 +347,12 @@ def _check(server: dict, real_ip: str, table: int) -> tuple[dict | None, str]:
             mbps = round(size * 8 / 1e6 / max(time.time() - t0, 0.1), 1)
             if mbps < MIN_MBPS:
                 return None, f"too slow ({mbps} Mbps)"
+            unlocks = [site for site in GEO_SITES.get(server["cc"], [])
+                       if not reachable(site) and site_ok(curl("-L", "-o", "/dev/null", "-w", "%{http_code}", site))]
             return ({**server, "verified": True, "tier": "VERIFIED", "mbps": mbps,
-                     "connect_ms": connect_ms, "cipher": cipher}, f"{mbps} Mbps, {cipher}")
+                     "connect_ms": connect_ms, "cipher": cipher,
+                     "unlocks": [u.split("//")[1].removeprefix("www.") for u in unlocks]},
+                    f"{mbps} Mbps, {cipher}" + (f", unlocks {len(unlocks)} local site(s)" if unlocks else ""))
         finally:
             proc.terminate()
             try:
@@ -314,6 +362,23 @@ def _check(server: dict, real_ip: str, table: int) -> tuple[dict | None, str]:
             logfh.close()
             subprocess.run(["ip", "rule", "del", "table", str(table)], stderr=subprocess.DEVNULL)
             subprocess.run(["ip", "route", "flush", "table", str(table)], stderr=subprocess.DEVNULL)
+
+
+def site_ok(code: str) -> bool:
+    return code[:1] in ("2", "3")
+
+
+_direct: dict[str, bool] = {}
+
+
+def reachable(site: str) -> bool:
+    """Does the site answer the builder directly (i.e. NOT geo-fenced from here)? Cached."""
+    if site not in _direct:
+        code = subprocess.run(["curl", "-s", "-L", "--max-time", "15", "-o", "/dev/null",
+                               "-w", "%{http_code}", "-A", "Mozilla/5.0", site],
+                              capture_output=True, text=True).stdout
+        _direct[site] = site_ok(code)
+    return _direct[site]
 
 
 def exit_country(curl) -> str:
