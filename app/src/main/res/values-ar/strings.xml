@@ -1,66 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Volta VPN</string>
     <string name="connect">اتصال</string>
+    <string name="disconnect">قطع الاتصال</string>
+    <string name="cancel_connection">إلغاء الاتصال</string>
     <string name="settings">الإعدادات</string>
     <string name="back">رجوع</string>
     <string name="refresh">تحديث</string>
     <string name="cancel">إلغاء</string>
+    <string name="close">إغلاق</string>
 
     <string name="state_tap">اضغط للاتصال</string>
     <string name="state_connecting">جارٍ الاتصال…</string>
+    <string name="state_connecting_to">جارٍ الاتصال بـ%1$s…</string>
+    <string name="state_switching_to">جارٍ التبديل إلى %1$s…</string>
     <string name="state_connected">متصل</string>
     <string name="state_failed">فشل الاتصال</string>
-    <string name="all_failed">كل السيرفرات مشغولة الآن. حُدّثت القائمة، أعد المحاولة بعد دقيقة.</string>
+    <string name="hint_disconnect">اضغط على الزر لقطع الاتصال</string>
+    <string name="hint_cancel">اضغط على الزر للإلغاء</string>
+    <string name="trying_other">جارٍ تجربة سيرفر آخر (%1$s من %2$s)</string>
 
-    <string name="fastest_server">أسرع سيرفر</string>
-    <string name="auto_pick">يُختار تلقائيًا</string>
-    <string name="choose_location">اختر الدولة</string>
-    <string name="badge_verified">مفحوص</string>
-    <string name="badge_community">عام</string>
+    <string name="all_failed">تعذّر الاتصال بأي سيرفر. تحقّق من الإنترنت أو أعد المحاولة بعد دقيقة.</string>
+    <string name="tampered">نسخة Volta هذه معدّلة أو يجري العبث بها، لذا لن تتصل حمايةً لبياناتك. ثبّت Volta من Google Play.</string>
+    <string name="country_unavailable">تعذّر الاتصال بـ%1$s. سيرفراتها لا تستجيب الآن.</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت. تحقّق من شبكتك وأعد المحاولة.</string>
     <string name="no_servers">تعذّر تحميل قائمة السيرفرات. تحقّق من الإنترنت ثم اضغط هنا لإعادة المحاولة.</string>
+    <string name="no_servers_list">تعذّر تحميل قائمة السيرفرات. تحقّق من الإنترنت ثم اضغط على زر التحديث.</string>
+    <string name="no_servers_fail">تعذّر تحميل قائمة السيرفرات. تحقّق من الإنترنت وأعد المحاولة.</string>
+    <string name="switch_kept">تعذّر الاتصال بـ%1$s. ما زلت متصلًا عبر %2$s.</string>
+    <string name="action_retry">أعد المحاولة</string>
+    <string name="action_best">استخدم أفضل سيرفر</string>
 
-    <string name="pass_active">اليوم مفتوح مجانًا · يتجدد بعد %1$s</string>
-    <string name="pass_needed">شاهد إعلانًا قصيرًا واحدًا لتفتح Volta حتى منتصف الليل</string>
-    <string name="ad_prompt_title">افتح اليوم مجانًا</string>
-    <string name="ad_prompt_body">شاهد إعلانًا قصيرًا واحدًا واتصل كما تشاء حتى منتصف الليل. هذا هو الإعلان الوحيد اليوم.</string>
-    <string name="ad_prompt_watch">شاهد الإعلان</string>
-    <string name="ad_not_finished">أكمل مشاهدة الإعلان لفتح اليوم.</string>
-
-    <string name="channel_pass">التصريح اليومي</string>
-    <string name="pass_expired_title">انتهى يومك المجاني</string>
-    <string name="pass_expired_body">ستبقى متصلًا. في الاتصال القادم، إعلان قصير واحد يفتح يومًا جديدًا.</string>
-
-    <string name="about_title">عن Volta</string>
-    <string name="about_body">VPN سريع ومجاني. إعلان قصير واحد يوميًا، بلا إعلانات أثناء الاستخدام، وبلا حساب.</string>
-    <string name="privacy_title">الخصوصية</string>
-    <string name="privacy_body">Volta نفسه لا يحتفظ بأي سجلات ولا يجمع نشاطك ولا يبيعه. كل حركة الإنترنت، بما فيها DNS وIPv6، تمر عبر النفق المشفّر. الإعلانات تعرضها Google AdMob، وقد تستخدم معرّف الإعلانات إذا وافقت.</string>
-    <string name="community_title">السيرفرات المجتمعية</string>
-    <string name="community_body">الدول الموسومة «مفحوص» و«عام» سيرفرات متطوعين في مشروع VPN Gate الأكاديمي (جامعة تسوكوبا). يفحصها Volta كل ساعة ضد تسريب IP والموقع الخاطئ واعتراض HTTPS، لكنه لا يستطيع معرفة ما يسجّله مشغّلوها: قد يسجّل المتطوعون الحركة، ويحتفظ المشروع بسجلات الاتصال (ومنها IP الحقيقي) 3 أشهر أو أكثر. هي تخفيك عن المواقع، لا عن مشغّليها. الدول الموسومة «آمن» يشغّلها Volta بلا سجلات.</string>
-    <string name="opensource_title">مفتوح المصدر</string>
-    <string name="opensource_body">يستخدم Volta محرك OpenVPN for Android من Arne Schwabe (ترخيص GPLv2)، وكود Volta منشور بنفس الترخيص.</string>
-
-    <string name="now_in">أنت الآن في %1$s %2$s</string>
+    <string name="best_server">أفضل سيرفر</string>
+    <string name="auto_pick">يوازن بين الخصوصية والسرعة</string>
+    <string name="choose_location">اختر الدولة</string>
+    <string name="badge_private">Volta</string>
+    <string name="badge_nolog">بلا سجلات</string>
+    <string name="badge_verified">مُختبَر</string>
+    <string name="badge_community">غير مُختبَر</string>
+    <string name="free_badge">مجاني</string>
     <string name="no_servers_title">لم تُحمَّل السيرفرات</string>
     <string name="measuring">جارٍ القياس…</string>
     <string name="offline">غير متاح الآن</string>
-    <string name="badge_private">آمن</string>
-    <string name="tier_legend">آمن: يشغّله Volta · بلا سجلات: Riseup، منظمة غير ربحية بلا سجلات ومُدقّقة · مفحوص: سيرفر متطوع اجتاز فحصنا الساعي · عام: لم يُفحص بعد</string>
-    <string name="country_unavailable">سيرفرات هذه الدولة لا تستجيب الآن. جرّب دولة أخرى.</string>
-    <string name="protect_title">احمِ نفسك</string>
+    <string name="cooldown_hint">فشل الاتصال مؤخرًا · اضغط لإعادة المحاولة</string>
+    <string name="local_sites">🏛 مواقع محلية</string>
+
+    <string name="tier_info_title">أنواع السيرفرات</string>
+    <string name="tier_private_desc">يشغّلها Volta.</string>
+    <string name="tier_nolog_desc">تشغّلها Riseup، وهي منظمة غير ربحية سياستها عدم الاحتفاظ بالسجلات.</string>
+    <string name="tier_verified_desc">سيرفر متطوع اجتاز فحصنا الساعي للتسريب والموقع. قد يسجّل مشغّله حركة الإنترنت.</string>
+    <string name="tier_community_desc">سيرفر متطوع لم نختبره بعد. قد يسجّل مشغّله حركة الإنترنت.</string>
+
+    <string name="volunteer_title">سيرفرات المتطوعين</string>
+    <string name="volunteer_body">قد يمر هذا الاتصال عبر سيرفر متطوع. هو يخفي عنوان IP عن المواقع، لكن مشغّله قد يسجّل حركة الإنترنت، ويحتفظ المشروع بسجلات الاتصال (ومنها عنوان IP الحقيقي) 3 أشهر أو أكثر. تجنّبه في كل ما هو حساس.</string>
+    <string name="volunteer_continue">متابعة</string>
+
+    <string name="pass_active">مجاني حتى منتصف الليل</string>
+    <string name="pass_needed">إعلان قصير واحد يمنحك وصولًا مجانيًا حتى منتصف الليل</string>
+    <string name="ad_prompt_title">احصل على وصول مجاني لليوم</string>
+    <string name="ad_prompt_body">شاهد إعلانًا قصيرًا واحدًا واتصل كما تشاء حتى منتصف الليل. هذا هو الإعلان الوحيد اليوم.</string>
+    <string name="ad_prompt_watch">شاهد الإعلان</string>
+    <string name="ad_not_finished">أكمل مشاهدة الإعلان لتحصل على الوصول المجاني لليوم.</string>
+
+    <string name="channel_pass">الوصول المجاني</string>
+    <string name="pass_expired_title">انتهى وصولك المجاني</string>
+    <string name="pass_expired_body">ما زلت متصلًا. في الاتصال القادم، إعلان قصير واحد يمنحك وصولًا مجانيًا من جديد.</string>
+
+    <string name="about_section">حول التطبيق والخصوصية</string>
+    <string name="about_title">عن Volta</string>
+    <string name="about_body">VPN مجاني. إعلان قصير واحد يوميًا، بلا إعلانات أثناء الاستخدام، وبلا حساب.</string>
+    <string name="privacy_title">الخصوصية</string>
+    <string name="privacy_body">Volta نفسه لا يحتفظ بأي سجلات ولا يجمع نشاطك ولا يبيعه. كل حركة الإنترنت، بما فيها DNS وIPv6، تمر عبر النفق المشفّر. الإعلانات تعرضها Google AdMob، وقد تستخدم معرّف الإعلانات إذا وافقت.</string>
+    <string name="privacy_servers">هذا الالتزام خاص بـ Volta وليس بالسيرفرات. كل سيرفر يديره طرف آخر وقد يحتفظ بسجلاته الخاصة: سيرفرات المتطوعين قد تسجّل حركة المرور، ومشروع VPN Gate يحتفظ بسجلات الاتصال. الأقسام أعلاه تشرح كل نوع.</string>
+    <string name="community_title">سيرفرات المتطوعين</string>
+    <string name="community_body">الدول الموسومة «مُختبَر» و«غير مُختبَر» سيرفرات متطوعين في مشروع VPN Gate الأكاديمي (جامعة تسوكوبا). يفحصها Volta كل ساعة ضد تسريب IP والموقع الخاطئ واعتراض HTTPS، لكنه لا يستطيع معرفة ما يسجّله مشغّلوها: قد يسجّل المتطوعون الحركة، ويحتفظ المشروع بسجلات الاتصال (ومنها IP الحقيقي) 3 أشهر أو أكثر. هي تخفيك عن المواقع، لا عن مشغّليها.</string>
+    <string name="opensource_title">مفتوح المصدر</string>
+    <string name="opensource_body">يستخدم Volta محرك OpenVPN for Android من Arne Schwabe (ترخيص GPLv2)، وكود Volta منشور بنفس الترخيص.</string>
+    <string name="riseup_title">سيرفرات Riseup</string>
+    <string name="riseup_body">الدول الموسومة «بلا سجلات» تشغّلها Riseup ‏(riseup.net)، وهي منظمة غير ربحية تعيش على التبرعات وتنص سياستها على عدم الاحتفاظ بالسجلات. يحصل هاتفك على شهادة مجهولة خاصة به من Riseup، ولا شيء يربطها بك. إذا استخدمتها كثيرًا ففكّر في التبرع لـ Riseup.</string>
+
+    <string name="protect_title">الحماية</string>
     <string name="killswitch_title">مفتاح القطع (Kill switch)</string>
     <string name="killswitch_body">يقطع الإنترنت إذا انقطع الـVPN، فلا يتسرّب شيء. في إعدادات أندرويد اضغط ⚙ بجانب Volta VPN، ثم فعّل «VPN دائم التشغيل» و«حظر الاتصالات بدون VPN».</string>
-    <string name="privatedns_title">أخفِ المواقع التي تزورها</string>
-    <string name="privatedns_body">شفّر DNS حتى لا يرى سيرفر الـVPN أسماء المواقع التي تفتحها. في إعدادات أندرويد اضبط «DNS الخاص» على: 1dot1dot1dot1.cloudflare-dns.com</string>
-    <string name="privatedns_on">DNS الخاص مفعّل: أسماء المواقع التي تزورها مشفّرة بالكامل.</string>
+    <string name="lockdown_tip">لحماية كاملة، فعّل «VPN قيد التشغيل دائمًا» و«حظر الاتصالات بدون VPN» لتطبيق Volta من إعدادات Android (اضغط ⚙ بجانب Volta VPN). عندها لن يخرج شيء من هاتفك دون حماية، حتى أثناء انقطاع الاتصال أو تغيير السيرفر.</string>
+    <string name="privatedns_title">شفّر استعلامات DNS</string>
+    <string name="privatedns_body">يمنع سيرفر الـVPN من قراءة استعلامات DNS. في إعدادات أندرويد اضبط «DNS الخاص» على: 1dot1dot1dot1.cloudflare-dns.com</string>
+    <string name="privatedns_on">DNS الخاص مفعّل، فاستعلامات DNS مشفّرة. قد لا تعمل فلاتر التصفح الآمن أدناه أثناء تفعيله.</string>
     <string name="open_settings">افتح الإعدادات</string>
     <string name="https_title">استخدم HTTPS دائمًا</string>
     <string name="https_body">الـVPN يخفيك عن المواقع وعن شبكتك المحلية. وحده HTTPS (القفل 🔒 في المتصفح) يخفي ما تفعله عن سيرفر الـVPN أيضًا. لا تُدخل كلمات مرور في مواقع بدونه.</string>
-    <string name="exit_checking">جارٍ التحقق من حمايتك…</string>
-    <string name="exit_ok">🛡 محمي · المواقع تراك في %1$s ✓</string>
-    <string name="exit_mismatch">⚠ المواقع تراك في %1$s. جرّب سيرفرًا آخر.</string>
-    <string name="unlocks_line">🏛 يفتح المواقع المحلية: %1$s</string>
-    <string name="local_sites">🏛 مواقع محلية</string>
     <string name="dns_title">تصفّح آمن (DNS)</string>
     <string name="dns_standard">عادي</string>
     <string name="dns_standard_desc">الأسرع. Cloudflare 1.1.1.1</string>
@@ -69,9 +96,17 @@
     <string name="dns_trackers">حظر الإعلانات والمتتبعات</string>
     <string name="dns_trackers_desc">يحظر أيضًا المتتبعات وكثيرًا من الإعلانات (AdGuard DNS)</string>
     <string name="dns_note">يُطبَّق من الاتصال التالي. الاستعلامات تمر دائمًا داخل النفق المشفّر.</string>
-    <string name="badge_nolog">بلا سجلات</string>
-    <string name="riseup_title">سيرفرات Riseup</string>
-    <string name="riseup_body">الدول الموسومة «بلا سجلات» تشغّلها Riseup ‏(riseup.net)، منظمة غير ربحية تعيش على التبرعات. يحصل هاتفك على شهادة مجهولة خاصة به من Riseup، ولا شيء يربطها بك. إذا استخدمتها كثيرًا ففكّر في التبرع لـ Riseup.</string>
+    <string name="expanded">موسّع</string>
+    <string name="collapsed">مطوي</string>
+
+    <string name="exit_mismatch">⚠ المواقع تراك في %1$s. جرّب سيرفرًا آخر.</string>
+    <string name="exit_unknown">🔒 مشفّر · تعذّر التأكد من موقعك</string>
+    <string name="dns_encrypted">🔒 DNS مشفّر (DNS-over-TLS)</string>
+    <string name="unlocks_line">🏛 يفتح المواقع المحلية: %1$s</string>
+    <string name="now_in">أنت الآن في %1$s %2$s</string>
+    <string name="stat_down">سرعة التنزيل %1$s</string>
+    <string name="stat_up">سرعة الرفع %1$s</string>
+
     <!-- Overrides the VPN engine's "OpenVPN - %s" notification title. -->
     <string name="notification_title">Volta VPN · %s</string>
     <string name="notification_title_notconnect">Volta VPN · غير متصل</string>

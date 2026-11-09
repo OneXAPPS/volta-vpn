@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <base-config cleartextTrafficPermitted="false" />
-    <!-- VPN Gate's public list API is only served over HTTP. Entries fetched from
-         it are marked unverified; the signed list from backend/ is HTTPS. -->
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="false">www.vpngate.net</domain>
-    </domain-config>
+    <!-- No plain HTTP anywhere, and only the system's CAs: certificates the user (or an
+         MDM / "install this certificate" prompt) adds are never trusted by Volta. -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
 </network-security-config>

@@ -8,48 +8,46 @@ state_tap|Toca para conectar
 state_connecting|Conectando…
 state_connected|Conectado
 state_failed|Error de conexión
-all_failed|Todos los servidores están ocupados. La lista se actualizó; inténtalo de nuevo en un minuto.
-fastest_server|Servidor más rápido
-auto_pick|Elegido automáticamente
+all_failed|No se pudo conectar a ningún servidor. Revisa tu internet o inténtalo de nuevo en un minuto.
+tampered|Esta copia de Volta fue modificada o está siendo manipulada, así que no se conectará para proteger tus datos. Instala Volta desde Google Play.
+auto_pick|Equilibra privacidad y velocidad
 choose_location|Elige ubicación
 badge_verified|PROBADO
-badge_community|PÚBLICO
+badge_community|SIN PROBAR
 no_servers|No se pudo cargar la lista de servidores. Revisa tu internet y toca aquí para reintentar.
-pass_active|Pase gratis activo · se renueva en %1$s
-pass_needed|Mira 1 anuncio corto para desbloquear Volta hasta medianoche
-ad_prompt_title|Desbloquea hoy gratis
+pass_active|Gratis hasta medianoche
+pass_needed|Un anuncio corto te da acceso gratis hasta medianoche
+ad_prompt_title|Consigue acceso gratis para hoy
 ad_prompt_body|Mira un anuncio corto y conéctate todo lo que quieras hasta medianoche. Es el único anuncio que verás hoy.
 ad_prompt_watch|Ver anuncio
-ad_not_finished|Mira el anuncio completo para desbloquear hoy.
-channel_pass|Pase diario
-pass_expired_title|Tu día gratis terminó
-pass_expired_body|Sigues conectado. La próxima vez que te conectes, un anuncio corto desbloquea un nuevo día.
+ad_not_finished|Termina el anuncio para conseguir el acceso gratis de hoy.
+channel_pass|Acceso gratis
+pass_expired_title|Tu acceso gratis ha terminado
+pass_expired_body|Sigues conectado. Un anuncio corto te dará acceso gratis de nuevo la próxima vez que te conectes.
 about_title|Acerca de Volta
-about_body|VPN rápida y gratis. Un anuncio corto al día, sin anuncios durante el uso, sin cuenta.
+about_body|VPN gratis. Un anuncio corto al día, sin anuncios durante el uso y sin cuenta.
 privacy_title|Privacidad
 privacy_body|Volta no guarda registros ni recopila o vende tu actividad. Todo el tráfico, incluidos DNS e IPv6, pasa por el túnel cifrado. Los anuncios los muestra Google AdMob, que puede usar un ID de publicidad si das tu consentimiento.
-community_title|Servidores comunitarios
-community_body|Las ubicaciones PROBADO y PÚBLICO son servidores voluntarios del proyecto académico VPN Gate (Universidad de Tsukuba). Volta los revisa cada hora contra fugas de IP, ubicación falsa e interceptación HTTPS, pero no puede saber qué registran sus operadores: el proyecto guarda registros de conexión (incluida tu IP real) 3 meses o más. Te ocultan de los sitios web, no de esos operadores.
+privacy_servers|Esta promesa es de Volta, no de los servidores. Cada servidor lo opera otra persona y puede guardar sus propios registros: los servidores voluntarios pueden registrar el tráfico y el proyecto VPN Gate guarda registros de conexión. Las secciones anteriores explican cada tipo.
+community_title|Servidores voluntarios
+community_body|Las ubicaciones PROBADO y SIN PROBAR son servidores voluntarios del proyecto académico VPN Gate (Universidad de Tsukuba). Volta las revisa cada hora en busca de fugas de IP, ubicación incorrecta e interceptación de HTTPS, pero no puede saber qué registran sus operadores: los voluntarios pueden registrar el tráfico y el proyecto guarda registros de conexión (incluida tu IP real) durante 3 meses o más. Te ocultan de los sitios web, no de esos operadores.
 opensource_title|Código abierto
 opensource_body|Volta usa el motor OpenVPN for Android de Arne Schwabe (GPLv2). El código de Volta se publica con la misma licencia.
-now_in|Ahora estás en %1$s %2$s
 no_servers_title|No se cargaron servidores
 measuring|Midiendo…
 offline|No disponible ahora
-badge_private|SEGURO
-tier_legend|SEGURO: de Volta · SIN REGISTROS: Riseup, sin registros y auditado · PROBADO: servidor voluntario que pasó nuestras pruebas horarias · PÚBLICO: aún sin probar
-country_unavailable|Los servidores de este país no responden ahora. Prueba otro país.
-protect_title|Protégete
+badge_private|VOLTA
+country_unavailable|No se pudo conectar a %1$s. Sus servidores no responden ahora.
+protect_title|Protección
 killswitch_title|Interruptor de emergencia
 killswitch_body|Bloquea internet si la VPN se cae, para que nada se filtre. En los ajustes de Android toca ⚙ junto a Volta VPN y activa “VPN siempre activa” y “Bloquear conexiones sin VPN”.
-privatedns_title|Oculta los sitios que visitas
-privatedns_body|Cifra el DNS para que el servidor VPN no vea qué sitios abres. En los ajustes de Android pon “DNS privado” en: 1dot1dot1dot1.cloudflare-dns.com
-privatedns_on|El DNS privado está activo: los sitios que buscas van cifrados de extremo a extremo.
+lockdown_tip|Para una protección completa, activa «VPN siempre activada» y «Bloquear conexiones sin VPN» para Volta en los ajustes de Android (toca ⚙ junto a Volta VPN). Así nada sale de tu teléfono sin protección, ni siquiera si la conexión se cae o cambia de servidor.
+privatedns_title|Cifra tus consultas DNS
+privatedns_body|Impide que el servidor VPN lea tus consultas DNS. En los ajustes de Android, pon «DNS privado» en: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|El DNS privado está activado, así que tus consultas DNS van cifradas. Los filtros de navegación segura de abajo pueden no aplicarse mientras esté activado.
 open_settings|Abrir ajustes
 https_title|Usa siempre HTTPS
 https_body|La VPN te oculta de los sitios web y de tu red local. Solo HTTPS (el 🔒 del navegador) oculta lo que haces también al servidor VPN. No escribas contraseñas en sitios sin él.
-exit_checking|Comprobando tu protección…
-exit_ok|🛡 Protegido · los sitios te ven en %1$s ✓
 exit_mismatch|⚠ Los sitios te ven en %1$s. Prueba otro servidor.
 unlocks_line|🏛 Abre sitios locales: %1$s
 local_sites|🏛 sitios locales
@@ -63,10 +61,43 @@ dns_trackers_desc|También bloquea rastreadores y muchos anuncios (AdGuard DNS)
 dns_note|Se aplica desde tu próxima conexión. Las consultas siempre van dentro del túnel cifrado.
 badge_nolog|SIN REGISTROS
 riseup_title|Servidores Riseup
-riseup_body|Las ubicaciones SIN REGISTROS las opera Riseup (riseup.net), una organización sin fines de lucro financiada por donaciones. Tu teléfono obtiene su propio certificado anónimo; nada lo vincula contigo. Si los usas a menudo, considera donar a Riseup.
+riseup_body|Las ubicaciones SIN REGISTROS las gestiona Riseup (riseup.net), una organización sin ánimo de lucro financiada con donaciones cuya política declarada es no guardar registros. Tu teléfono recibe de Riseup su propio certificado anónimo; nada lo vincula contigo. Si las usas a menudo, considera donar a Riseup.
 notification_title|Volta VPN · %s
 notification_title_notconnect|Volta VPN · No conectado
 
+disconnect|Desconectar
+cancel_connection|Cancelar conexión
+close|Cerrar
+state_connecting_to|Conectando a %1$s…
+state_switching_to|Cambiando a %1$s…
+hint_disconnect|Toca el botón para desconectar
+hint_cancel|Toca el botón para cancelar
+trying_other|Probando otro servidor (%1$s de %2$s)
+no_internet|Sin conexión. Revisa tu red e inténtalo de nuevo.
+no_servers_list|No se pudo cargar la lista de servidores. Revisa tu internet y toca actualizar.
+no_servers_fail|No se pudo cargar la lista de servidores. Revisa tu internet e inténtalo de nuevo.
+switch_kept|No se pudo conectar a %1$s. Sigues conectado a través de %2$s.
+action_retry|Reintentar
+action_best|Usar el mejor servidor
+best_server|Mejor servidor
+free_badge|GRATIS
+cooldown_hint|Falló hace poco · toca para reintentar
+tier_info_title|Tipos de servidor
+tier_private_desc|Gestionados por Volta.
+tier_nolog_desc|Gestionados por Riseup, una organización sin ánimo de lucro cuya política es no guardar registros.
+tier_verified_desc|Servidor voluntario que pasó nuestras pruebas horarias de fugas y ubicación. Su operador aún puede registrar el tráfico.
+tier_community_desc|Servidor voluntario aún sin probar. Su operador puede registrar el tráfico.
+volunteer_title|Servidores voluntarios
+volunteer_body|Esta conexión puede usar un servidor voluntario. Oculta tu IP a los sitios web, pero su operador puede registrar tu tráfico y el proyecto guarda registros de conexión, incluida tu IP real, durante 3 meses o más. Evítalo para cualquier cosa delicada.
+volunteer_continue|Continuar
+about_section|Información y privacidad
+expanded|Desplegado
+collapsed|Contraído
+exit_unknown|🔒 Cifrado · no se pudo confirmar tu ubicación
+dns_encrypted|🔒 DNS cifrado (DNS-over-TLS)
+stat_down|Velocidad de descarga %1$s
+stat_up|Velocidad de subida %1$s
+now_in|Ahora estás en %1$s %2$s
 @fr
 connect|Se connecter
 settings|Paramètres
@@ -77,48 +108,46 @@ state_tap|Touchez pour vous connecter
 state_connecting|Connexion…
 state_connected|Connecté
 state_failed|Échec de la connexion
-all_failed|Tous les serveurs sont occupés. La liste a été actualisée ; réessayez dans une minute.
-fastest_server|Serveur le plus rapide
-auto_pick|Choisi automatiquement
+all_failed|Impossible de se connecter à un serveur. Vérifiez votre internet ou réessayez dans une minute.
+tampered|Cette copie de Volta a été modifiée ou est manipulée : elle ne se connectera pas, pour protéger vos données. Installez Volta depuis Google Play.
+auto_pick|Équilibre confidentialité et vitesse
 choose_location|Choisir un pays
 badge_verified|TESTÉ
-badge_community|PUBLIC
+badge_community|NON TESTÉ
 no_servers|Impossible de charger la liste des serveurs. Vérifiez votre connexion puis touchez ici pour réessayer.
-pass_active|Pass gratuit actif · renouvelé dans %1$s
-pass_needed|Regardez 1 courte pub pour débloquer Volta jusqu’à minuit
-ad_prompt_title|Débloquez la journée gratuitement
+pass_active|Gratuit jusqu'à minuit
+pass_needed|Une courte pub vous donne un accès gratuit jusqu'à minuit
+ad_prompt_title|Obtenez l'accès gratuit pour aujourd'hui
 ad_prompt_body|Regardez une courte pub et connectez-vous autant que vous voulez jusqu’à minuit. C’est la seule pub de la journée.
 ad_prompt_watch|Voir la pub
-ad_not_finished|Regardez la pub en entier pour débloquer la journée.
-channel_pass|Pass du jour
-pass_expired_title|Votre journée gratuite est terminée
-pass_expired_body|Vous restez connecté. À la prochaine connexion, une courte pub débloque une nouvelle journée.
+ad_not_finished|Terminez la pub pour obtenir l'accès gratuit du jour.
+channel_pass|Accès gratuit
+pass_expired_title|Votre accès gratuit est terminé
+pass_expired_body|Vous restez connecté. Une courte pub vous redonnera l'accès gratuit à votre prochaine connexion.
 about_title|À propos de Volta
-about_body|VPN rapide et gratuit. Une courte pub par jour, aucune pub pendant l’utilisation, aucun compte.
+about_body|VPN gratuit. Une courte pub par jour, aucune pub pendant l'utilisation, aucun compte.
 privacy_title|Confidentialité
 privacy_body|Volta ne conserve aucun journal et ne collecte ni ne vend votre activité. Tout le trafic, y compris DNS et IPv6, passe par le tunnel chiffré. Les pubs sont affichées par Google AdMob, qui peut utiliser un identifiant publicitaire si vous y consentez.
-community_title|Serveurs communautaires
-community_body|Les pays TESTÉ et PUBLIC sont des serveurs bénévoles du projet académique VPN Gate (Université de Tsukuba). Volta les vérifie chaque heure contre les fuites d’IP, la fausse localisation et l’interception HTTPS, mais ne peut pas savoir ce que leurs opérateurs enregistrent : le projet conserve les journaux de connexion (dont votre vraie IP) 3 mois ou plus. Ils vous cachent des sites web, pas de ces opérateurs.
+privacy_servers|Cette promesse est celle de Volta, pas des serveurs. Chaque serveur est géré par quelqu’un d’autre et peut tenir ses propres journaux : les serveurs bénévoles peuvent enregistrer le trafic, et le projet VPN Gate conserve des journaux de connexion. Les sections ci-dessus expliquent chaque type.
+community_title|Serveurs bénévoles
+community_body|Les emplacements TESTÉ et NON TESTÉ sont des serveurs bénévoles du projet universitaire VPN Gate (université de Tsukuba). Volta vérifie chaque heure les fuites d'IP, la mauvaise localisation et l'interception HTTPS, mais ne peut pas savoir ce que leurs opérateurs enregistrent : les bénévoles peuvent journaliser le trafic et le projet conserve des journaux de connexion (y compris votre véritable IP) pendant 3 mois ou plus. Ils vous cachent aux sites web, pas à ces opérateurs.
 opensource_title|Open source
 opensource_body|Volta utilise le moteur OpenVPN for Android d’Arne Schwabe (GPLv2). Le code de Volta est publié sous la même licence.
-now_in|Vous êtes maintenant en %1$s %2$s
 no_servers_title|Aucun serveur chargé
 measuring|Mesure…
 offline|Indisponible pour le moment
-badge_private|SÉCURISÉ
-tier_legend|SÉCURISÉ : géré par Volta · SANS JOURNAUX : Riseup, sans journaux et audité · TESTÉ : serveur bénévole ayant réussi nos tests horaires · PUBLIC : pas encore testé
-country_unavailable|Les serveurs de ce pays ne répondent pas. Essayez un autre pays.
-protect_title|Protégez-vous
+badge_private|VOLTA
+country_unavailable|Connexion impossible : %1$s. Ses serveurs ne répondent pas pour l'instant.
+protect_title|Protection
 killswitch_title|Kill switch
 killswitch_body|Coupe internet si le VPN tombe, pour éviter toute fuite. Dans les paramètres Android, touchez ⚙ à côté de Volta VPN puis activez « VPN permanent » et « Bloquer les connexions sans VPN ».
-privatedns_title|Cachez les sites que vous visitez
-privatedns_body|Chiffrez le DNS pour que le serveur VPN ne voie pas quels sites vous ouvrez. Dans les paramètres Android, réglez « DNS privé » sur : 1dot1dot1dot1.cloudflare-dns.com
-privatedns_on|Le DNS privé est actif : les sites que vous recherchez sont chiffrés de bout en bout.
+lockdown_tip|Pour une protection complète, activez « VPN permanent » et « Bloquer les connexions sans VPN » pour Volta dans les paramètres Android (touchez ⚙ à côté de Volta VPN). Rien ne quittera alors votre téléphone sans protection, même si la connexion tombe ou change de serveur.
+privatedns_title|Chiffrez vos requêtes DNS
+privatedns_body|Empêche le serveur VPN de lire vos requêtes DNS. Dans les réglages Android, réglez « DNS privé » sur : 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Le DNS privé est activé : vos requêtes DNS sont chiffrées. Les filtres de navigation sûre ci-dessous peuvent ne pas s'appliquer tant qu'il est activé.
 open_settings|Ouvrir les paramètres
 https_title|Utilisez toujours HTTPS
 https_body|Le VPN vous cache des sites web et de votre réseau local. Seul HTTPS (le 🔒 du navigateur) cache aussi ce que vous faites au serveur VPN. N’entrez pas de mot de passe sur un site sans lui.
-exit_checking|Vérification de votre protection…
-exit_ok|🛡 Protégé · les sites vous voient en %1$s ✓
 exit_mismatch|⚠ Les sites vous voient en %1$s. Essayez un autre serveur.
 unlocks_line|🏛 Ouvre les sites locaux : %1$s
 local_sites|🏛 sites locaux
@@ -132,10 +161,43 @@ dns_trackers_desc|Bloque aussi les traqueurs et beaucoup de pubs (AdGuard DNS)
 dns_note|S’applique à la prochaine connexion. Les requêtes passent toujours dans le tunnel chiffré.
 badge_nolog|SANS JOURNAUX
 riseup_title|Serveurs Riseup
-riseup_body|Les pays SANS JOURNAUX sont gérés par Riseup (riseup.net), une association financée par des dons. Votre téléphone reçoit son propre certificat anonyme ; rien ne le relie à vous. Si vous les utilisez souvent, pensez à faire un don à Riseup.
+riseup_body|Les emplacements SANS JOURNAUX sont gérés par Riseup (riseup.net), une association financée par des dons dont la politique déclarée est de ne conserver aucun journal. Votre téléphone reçoit de Riseup son propre certificat anonyme ; rien ne le relie à vous. Si vous les utilisez souvent, pensez à faire un don à Riseup.
 notification_title|Volta VPN · %s
 notification_title_notconnect|Volta VPN · Non connecté
 
+disconnect|Déconnecter
+cancel_connection|Annuler la connexion
+close|Fermer
+state_connecting_to|Connexion à %1$s…
+state_switching_to|Passage à %1$s…
+hint_disconnect|Touchez le bouton pour vous déconnecter
+hint_cancel|Touchez le bouton pour annuler
+trying_other|Essai d'un autre serveur (%1$s sur %2$s)
+no_internet|Vous êtes hors ligne. Vérifiez votre connexion et réessayez.
+no_servers_list|Impossible de charger la liste des serveurs. Vérifiez votre internet, puis touchez Actualiser.
+no_servers_fail|Impossible de charger la liste des serveurs. Vérifiez votre internet et réessayez.
+switch_kept|Connexion impossible : %1$s. Vous restez connecté via %2$s.
+action_retry|Réessayer
+action_best|Utiliser le meilleur serveur
+best_server|Meilleur serveur
+free_badge|GRATUIT
+cooldown_hint|Échec récent · touchez pour réessayer
+tier_info_title|Types de serveurs
+tier_private_desc|Gérés par Volta.
+tier_nolog_desc|Gérés par Riseup, une association dont la politique est de ne conserver aucun journal.
+tier_verified_desc|Serveur bénévole ayant réussi nos tests horaires de fuite et de localisation. Son opérateur peut tout de même journaliser le trafic.
+tier_community_desc|Serveur bénévole pas encore testé. Son opérateur peut journaliser le trafic.
+volunteer_title|Serveurs bénévoles
+volunteer_body|Cette connexion peut passer par un serveur bénévole. Il masque votre IP aux sites web, mais son opérateur peut journaliser votre trafic et le projet conserve des journaux de connexion, y compris votre véritable IP, pendant 3 mois ou plus. Évitez-le pour tout usage sensible.
+volunteer_continue|Continuer
+about_section|À propos et confidentialité
+expanded|Développé
+collapsed|Réduit
+exit_unknown|🔒 Chiffré · position non confirmée
+dns_encrypted|🔒 DNS chiffré (DNS-over-TLS)
+stat_down|Vitesse de téléchargement %1$s
+stat_up|Vitesse d'envoi %1$s
+now_in|Vous êtes maintenant en %1$s %2$s
 @de
 connect|Verbinden
 settings|Einstellungen
@@ -146,48 +208,46 @@ state_tap|Tippen zum Verbinden
 state_connecting|Verbinde…
 state_connected|Verbunden
 state_failed|Verbindung fehlgeschlagen
-all_failed|Alle Server sind gerade ausgelastet. Die Liste wurde aktualisiert; versuche es in einer Minute erneut.
-fastest_server|Schnellster Server
-auto_pick|Automatisch gewählt
+all_failed|Verbindung zu keinem Server möglich. Prüfe dein Internet oder versuche es in einer Minute erneut.
+tampered|Diese Kopie von Volta wurde verändert oder wird manipuliert. Zum Schutz deiner Daten verbindet sie sich nicht. Installiere Volta über Google Play.
+auto_pick|Balance aus Datenschutz und Tempo
 choose_location|Standort wählen
 badge_verified|GEPRÜFT
-badge_community|ÖFFENTLICH
+badge_community|UNGETESTET
 no_servers|Serverliste konnte nicht geladen werden. Prüfe dein Internet und tippe hier, um es erneut zu versuchen.
-pass_active|Gratis-Pass aktiv · erneuert in %1$s
-pass_needed|Sieh 1 kurze Werbung, um Volta bis Mitternacht freizuschalten
-ad_prompt_title|Heute gratis freischalten
+pass_active|Gratis bis Mitternacht
+pass_needed|Eine kurze Werbung gibt dir bis Mitternacht freien Zugang
+ad_prompt_title|Hol dir den freien Zugang für heute
 ad_prompt_body|Sieh eine kurze Werbung und verbinde dich bis Mitternacht so oft du willst. Das ist die einzige Werbung heute.
 ad_prompt_watch|Werbung ansehen
-ad_not_finished|Sieh die ganze Werbung, um heute freizuschalten.
-channel_pass|Tagespass
-pass_expired_title|Dein Gratis-Tag ist vorbei
-pass_expired_body|Du bleibst verbunden. Beim nächsten Verbinden schaltet eine kurze Werbung einen neuen Tag frei.
+ad_not_finished|Sieh die Werbung zu Ende, um den freien Zugang für heute zu erhalten.
+channel_pass|Freier Zugang
+pass_expired_title|Dein freier Zugang ist beendet
+pass_expired_body|Du bleibst verbunden. Beim nächsten Verbinden gibt dir eine kurze Werbung wieder freien Zugang.
 about_title|Über Volta
-about_body|Schnelles, kostenloses VPN. Eine kurze Werbung pro Tag, keine Werbung während der Nutzung, kein Konto.
+about_body|Kostenloses VPN. Eine kurze Werbung pro Tag, keine Werbung während der Nutzung, kein Konto.
 privacy_title|Datenschutz
 privacy_body|Volta speichert keine Protokolle und sammelt oder verkauft deine Aktivität nicht. Der gesamte Verkehr, auch DNS und IPv6, läuft durch den verschlüsselten Tunnel. Werbung zeigt Google AdMob, das mit deiner Zustimmung eine Werbe-ID nutzen kann.
-community_title|Community-Server
-community_body|GEPRÜFT- und ÖFFENTLICH-Standorte sind Freiwilligen-Server des akademischen Projekts VPN Gate (Universität Tsukuba). Volta prüft sie stündlich auf IP-Lecks, falschen Standort und HTTPS-Abfangen, kann aber nicht wissen, was ihre Betreiber speichern: Das Projekt bewahrt Verbindungsprotokolle (auch deine echte IP) 3 Monate oder länger auf. Sie verbergen dich vor Websites, nicht vor diesen Betreibern.
+privacy_servers|Dieses Versprechen gibt Volta, nicht die Server. Jeder Server wird von jemand anderem betrieben und kann eigene Aufzeichnungen führen: Freiwilligen-Server können den Datenverkehr protokollieren, und das VPN-Gate-Projekt speichert Verbindungsprotokolle. Die Abschnitte oben erklären jede Art.
+community_title|Freiwilligen-Server
+community_body|Standorte mit GEPRÜFT und UNGETESTET sind Freiwilligen-Server des akademischen Projekts VPN Gate (Universität Tsukuba). Volta prüft sie stündlich auf IP-Leaks, falschen Standort und HTTPS-Abfangen, kann aber nicht wissen, was ihre Betreiber aufzeichnen: Freiwillige können den Verkehr protokollieren, und das Projekt speichert Verbindungsprotokolle (samt deiner echten IP) für 3 Monate oder länger. Sie verbergen dich vor Websites, nicht vor diesen Betreibern.
 opensource_title|Open Source
 opensource_body|Volta nutzt die Engine OpenVPN for Android von Arne Schwabe (GPLv2). Der Code von Volta ist unter derselben Lizenz veröffentlicht.
-now_in|Du bist jetzt in %1$s %2$s
 no_servers_title|Keine Server geladen
 measuring|Messe…
 offline|Gerade nicht erreichbar
-badge_private|SICHER
-tier_legend|SICHER: von Volta · OHNE LOGS: Riseup, geprüft ohne Protokolle · GEPRÜFT: Freiwilligen-Server, der unsere stündlichen Tests bestand · ÖFFENTLICH: noch nicht getestet
-country_unavailable|Die Server in diesem Land antworten gerade nicht. Versuche ein anderes Land.
-protect_title|Schütze dich
+badge_private|VOLTA
+country_unavailable|Keine Verbindung zu %1$s. Die Server dort antworten gerade nicht.
+protect_title|Schutz
 killswitch_title|Kill Switch
 killswitch_body|Sperrt das Internet, wenn das VPN abbricht, damit nichts durchsickert. Tippe in den Android-Einstellungen auf ⚙ neben Volta VPN und aktiviere „Durchgehend aktives VPN“ und „Verbindungen ohne VPN blockieren“.
-privatedns_title|Verberge die besuchten Seiten
-privatedns_body|Verschlüssle DNS, damit der VPN-Server nicht sieht, welche Seiten du öffnest. Setze in den Android-Einstellungen „Privates DNS“ auf: 1dot1dot1dot1.cloudflare-dns.com
-privatedns_on|Privates DNS ist aktiv: Deine Seitenabfragen sind Ende-zu-Ende verschlüsselt.
+lockdown_tip|Für vollen Schutz aktiviere in den Android-Einstellungen für Volta „Durchgehend aktives VPN“ und „Verbindungen ohne VPN blockieren“ (tippe auf ⚙ neben Volta VPN). Dann verlässt nichts ungeschützt dein Telefon, auch nicht, wenn die Verbindung abbricht oder den Server wechselt.
+privatedns_title|DNS-Anfragen verschlüsseln
+privatedns_body|Verhindert, dass der VPN-Server deine DNS-Anfragen liest. Stelle in den Android-Einstellungen „Privates DNS“ ein auf: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Privates DNS ist aktiv, deine DNS-Anfragen sind also verschlüsselt. Die Filter für sicheres Surfen unten greifen dabei möglicherweise nicht.
 open_settings|Einstellungen öffnen
 https_title|Immer HTTPS nutzen
 https_body|Das VPN verbirgt dich vor Websites und deinem lokalen Netz. Nur HTTPS (das 🔒 im Browser) verbirgt dein Tun auch vor dem VPN-Server. Gib ohne es keine Passwörter ein.
-exit_checking|Prüfe deinen Schutz…
-exit_ok|🛡 Geschützt · Websites sehen dich in %1$s ✓
 exit_mismatch|⚠ Websites sehen dich in %1$s. Versuche einen anderen Server.
 unlocks_line|🏛 Öffnet lokale Seiten: %1$s
 local_sites|🏛 lokale Seiten
@@ -201,10 +261,43 @@ dns_trackers_desc|Blockiert auch Tracker und viel Werbung (AdGuard DNS)
 dns_note|Gilt ab der nächsten Verbindung. Abfragen laufen immer im verschlüsselten Tunnel.
 badge_nolog|OHNE LOGS
 riseup_title|Riseup-Server
-riseup_body|OHNE-LOGS-Standorte betreibt Riseup (riseup.net), eine spendenfinanzierte gemeinnützige Organisation. Dein Handy erhält ein eigenes anonymes Zertifikat; nichts verbindet es mit dir. Wenn du sie oft nutzt, erwäge eine Spende an Riseup.
+riseup_body|OHNE-LOGS-Standorte betreibt Riseup (riseup.net), eine spendenfinanzierte gemeinnützige Organisation, deren erklärte Richtlinie es ist, keine Protokolle zu führen. Dein Telefon erhält von Riseup ein eigenes anonymes Zertifikat; nichts verbindet es mit dir. Wenn du sie oft nutzt, denk bitte über eine Spende an Riseup nach.
 notification_title|Volta VPN · %s
 notification_title_notconnect|Volta VPN · Nicht verbunden
 
+disconnect|Trennen
+cancel_connection|Verbindung abbrechen
+close|Schließen
+state_connecting_to|Verbinde mit %1$s…
+state_switching_to|Wechsle zu %1$s…
+hint_disconnect|Tippe auf die Taste, um zu trennen
+hint_cancel|Tippe auf die Taste, um abzubrechen
+trying_other|Versuche anderen Server (%1$s von %2$s)
+no_internet|Du bist offline. Prüfe deine Verbindung und versuche es erneut.
+no_servers_list|Die Serverliste konnte nicht geladen werden. Prüfe dein Internet und tippe dann auf Aktualisieren.
+no_servers_fail|Die Serverliste konnte nicht geladen werden. Prüfe dein Internet und versuche es erneut.
+switch_kept|Keine Verbindung zu %1$s. Du bist weiterhin über %2$s verbunden.
+action_retry|Erneut versuchen
+action_best|Besten Server nutzen
+best_server|Bester Server
+free_badge|GRATIS
+cooldown_hint|Zuletzt fehlgeschlagen · zum Wiederholen tippen
+tier_info_title|Servertypen
+tier_private_desc|Von Volta betrieben.
+tier_nolog_desc|Von Riseup betrieben, einer gemeinnützigen Organisation, deren Richtlinie es ist, keine Protokolle zu führen.
+tier_verified_desc|Freiwilligen-Server, der unsere stündlichen Leak- und Standorttests bestanden hat. Sein Betreiber kann den Verkehr trotzdem protokollieren.
+tier_community_desc|Noch nicht getesteter Freiwilligen-Server. Sein Betreiber kann den Verkehr protokollieren.
+volunteer_title|Freiwilligen-Server
+volunteer_body|Diese Verbindung kann über einen Freiwilligen-Server laufen. Er verbirgt deine IP vor Websites, aber sein Betreiber kann deinen Verkehr protokollieren, und das Projekt speichert Verbindungsprotokolle samt deiner echten IP für 3 Monate oder länger. Nutze ihn nicht für Sensibles.
+volunteer_continue|Weiter
+about_section|Info und Datenschutz
+expanded|Ausgeklappt
+collapsed|Eingeklappt
+exit_unknown|🔒 Verschlüsselt · Standort nicht bestätigt
+dns_encrypted|🔒 DNS verschlüsselt (DNS-over-TLS)
+stat_down|Download-Geschwindigkeit %1$s
+stat_up|Upload-Geschwindigkeit %1$s
+now_in|Du bist jetzt in %1$s %2$s
 @pt
 connect|Conectar
 settings|Configurações
@@ -215,48 +308,46 @@ state_tap|Toque para conectar
 state_connecting|Conectando…
 state_connected|Conectado
 state_failed|Falha na conexão
-all_failed|Todos os servidores estão ocupados. A lista foi atualizada; tente de novo em um minuto.
-fastest_server|Servidor mais rápido
-auto_pick|Escolhido automaticamente
+all_failed|Não foi possível conectar a nenhum servidor. Verifique sua internet ou tente de novo em um minuto.
+tampered|Esta cópia do Volta foi modificada ou está sendo adulterada, então não vai conectar para proteger seus dados. Instale o Volta pelo Google Play.
+auto_pick|Equilibra privacidade e velocidade
 choose_location|Escolha o local
 badge_verified|TESTADO
-badge_community|PÚBLICO
+badge_community|NÃO TESTADO
 no_servers|Não foi possível carregar a lista de servidores. Verifique sua internet e toque aqui para tentar de novo.
-pass_active|Passe grátis ativo · renova em %1$s
-pass_needed|Assista 1 anúncio curto para liberar o Volta até a meia-noite
-ad_prompt_title|Libere o dia de graça
+pass_active|Grátis até a meia-noite
+pass_needed|Um anúncio curto dá acesso grátis até a meia-noite
+ad_prompt_title|Obtenha acesso grátis por hoje
 ad_prompt_body|Assista um anúncio curto e conecte quanto quiser até a meia-noite. É o único anúncio do dia.
 ad_prompt_watch|Ver anúncio
-ad_not_finished|Assista o anúncio inteiro para liberar o dia.
-channel_pass|Passe diário
-pass_expired_title|Seu dia grátis acabou
-pass_expired_body|Você continua conectado. Na próxima conexão, um anúncio curto libera um novo dia.
+ad_not_finished|Termine o anúncio para obter o acesso grátis de hoje.
+channel_pass|Acesso grátis
+pass_expired_title|Seu acesso grátis terminou
+pass_expired_body|Você continua conectado. Um anúncio curto dará acesso grátis de novo na próxima conexão.
 about_title|Sobre o Volta
-about_body|VPN rápida e grátis. Um anúncio curto por dia, sem anúncios durante o uso, sem conta.
+about_body|VPN grátis. Um anúncio curto por dia, sem anúncios durante o uso e sem conta.
 privacy_title|Privacidade
 privacy_body|O Volta não guarda registros nem coleta ou vende sua atividade. Todo o tráfego, incluindo DNS e IPv6, passa pelo túnel criptografado. Os anúncios são do Google AdMob, que pode usar um ID de publicidade se você consentir.
-community_title|Servidores comunitários
-community_body|Os locais TESTADO e PÚBLICO são servidores voluntários do projeto acadêmico VPN Gate (Universidade de Tsukuba). O Volta os verifica a cada hora contra vazamento de IP, local falso e interceptação HTTPS, mas não sabe o que seus operadores registram: o projeto guarda registros de conexão (incluindo seu IP real) por 3 meses ou mais. Eles escondem você dos sites, não desses operadores.
+privacy_servers|Esta promessa é do Volta, não dos servidores. Cada servidor é operado por outra pessoa e pode manter seus próprios registros: servidores voluntários podem registrar o tráfego, e o projeto VPN Gate mantém registros de conexão. As seções acima explicam cada tipo.
+community_title|Servidores voluntários
+community_body|Os locais TESTADO e NÃO TESTADO são servidores voluntários do projeto acadêmico VPN Gate (Universidade de Tsukuba). A Volta os verifica a cada hora quanto a vazamento de IP, localização errada e interceptação de HTTPS, mas não pode saber o que os operadores registram: voluntários podem registrar o tráfego, e o projeto mantém registros de conexão (incluindo seu IP real) por 3 meses ou mais. Eles escondem você dos sites, não desses operadores.
 opensource_title|Código aberto
 opensource_body|O Volta usa o motor OpenVPN for Android de Arne Schwabe (GPLv2). O código do Volta é publicado sob a mesma licença.
-now_in|Agora você está em %1$s %2$s
 no_servers_title|Nenhum servidor carregado
 measuring|Medindo…
 offline|Indisponível agora
-badge_private|SEGURO
-tier_legend|SEGURO: do Volta · SEM REGISTROS: Riseup, sem registros e auditado · TESTADO: servidor voluntário aprovado em nossos testes por hora · PÚBLICO: ainda não testado
-country_unavailable|Os servidores deste país não estão respondendo. Tente outro país.
-protect_title|Proteja-se
+badge_private|VOLTA
+country_unavailable|Não foi possível conectar a %1$s. Os servidores não estão respondendo agora.
+protect_title|Proteção
 killswitch_title|Kill switch
 killswitch_body|Bloqueia a internet se a VPN cair, para nada vazar. Nas configurações do Android toque em ⚙ ao lado do Volta VPN e ative “VPN sempre ativa” e “Bloquear conexões sem VPN”.
-privatedns_title|Esconda os sites que você visita
-privatedns_body|Criptografe o DNS para o servidor VPN não ver quais sites você abre. Nas configurações do Android defina “DNS privado” como: 1dot1dot1dot1.cloudflare-dns.com
-privatedns_on|O DNS privado está ativo: suas consultas de sites são criptografadas de ponta a ponta.
+lockdown_tip|Para proteção total, ative “VPN sempre ativa” e “Bloquear conexões sem VPN” para o Volta nas configurações do Android (toque em ⚙ ao lado de Volta VPN). Assim nada sai do seu telefone sem proteção, mesmo se a conexão cair ou trocar de servidor.
+privatedns_title|Criptografe suas consultas DNS
+privatedns_body|Impede o servidor VPN de ler suas consultas DNS. Nas configurações do Android, defina “DNS privado” como: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|O DNS privado está ativado, então suas consultas DNS são criptografadas. Os filtros de navegação segura abaixo podem não funcionar enquanto ele estiver ativado.
 open_settings|Abrir configurações
 https_title|Use sempre HTTPS
 https_body|A VPN esconde você dos sites e da sua rede local. Só o HTTPS (o 🔒 no navegador) esconde o que você faz também do servidor VPN. Não digite senhas em sites sem ele.
-exit_checking|Verificando sua proteção…
-exit_ok|🛡 Protegido · os sites veem você em %1$s ✓
 exit_mismatch|⚠ Os sites veem você em %1$s. Tente outro servidor.
 unlocks_line|🏛 Abre sites locais: %1$s
 local_sites|🏛 sites locais
@@ -270,10 +361,43 @@ dns_trackers_desc|Também bloqueia rastreadores e muitos anúncios (AdGuard DNS)
 dns_note|Vale a partir da próxima conexão. As consultas sempre passam dentro do túnel criptografado.
 badge_nolog|SEM REGISTROS
 riseup_title|Servidores Riseup
-riseup_body|Os locais SEM REGISTROS são operados pela Riseup (riseup.net), uma organização sem fins lucrativos mantida por doações. Seu celular recebe um certificado anônimo próprio; nada o liga a você. Se usar muito, considere doar à Riseup.
+riseup_body|Os locais SEM REGISTROS são operados pela Riseup (riseup.net), uma organização sem fins lucrativos mantida por doações cuja política declarada é não manter registros. Seu telefone recebe da Riseup um certificado anônimo próprio; nada o liga a você. Se você os usa com frequência, considere doar à Riseup.
 notification_title|Volta VPN · %s
 notification_title_notconnect|Volta VPN · Não conectado
 
+disconnect|Desconectar
+cancel_connection|Cancelar conexão
+close|Fechar
+state_connecting_to|Conectando a %1$s…
+state_switching_to|Mudando para %1$s…
+hint_disconnect|Toque no botão para desconectar
+hint_cancel|Toque no botão para cancelar
+trying_other|Tentando outro servidor (%1$s de %2$s)
+no_internet|Você está offline. Verifique sua conexão e tente de novo.
+no_servers_list|Não foi possível carregar a lista de servidores. Verifique sua internet e toque em atualizar.
+no_servers_fail|Não foi possível carregar a lista de servidores. Verifique sua internet e tente de novo.
+switch_kept|Não foi possível conectar a %1$s. Você continua conectado por %2$s.
+action_retry|Tentar de novo
+action_best|Usar o melhor servidor
+best_server|Melhor servidor
+free_badge|GRÁTIS
+cooldown_hint|Falhou há pouco · toque para tentar de novo
+tier_info_title|Tipos de servidor
+tier_private_desc|Operados pela Volta.
+tier_nolog_desc|Operados pela Riseup, uma organização sem fins lucrativos cuja política é não manter registros.
+tier_verified_desc|Servidor voluntário aprovado nos nossos testes de vazamento e localização a cada hora. O operador ainda pode registrar o tráfego.
+tier_community_desc|Servidor voluntário ainda não testado. O operador pode registrar o tráfego.
+volunteer_title|Servidores voluntários
+volunteer_body|Esta conexão pode usar um servidor voluntário. Ele oculta seu IP dos sites, mas o operador pode registrar seu tráfego, e o projeto mantém registros de conexão, incluindo seu IP real, por 3 meses ou mais. Evite-o para qualquer coisa sensível.
+volunteer_continue|Continuar
+about_section|Sobre e privacidade
+expanded|Expandido
+collapsed|Recolhido
+exit_unknown|🔒 Criptografado · não foi possível confirmar sua localização
+dns_encrypted|🔒 DNS criptografado (DNS-over-TLS)
+stat_down|Velocidade de download %1$s
+stat_up|Velocidade de upload %1$s
+now_in|Agora você está em %1$s %2$s
 @tr
 connect|Bağlan
 settings|Ayarlar
@@ -284,48 +408,46 @@ state_tap|Bağlanmak için dokun
 state_connecting|Bağlanıyor…
 state_connected|Bağlandı
 state_failed|Bağlantı başarısız
-all_failed|Tüm sunucular şu an meşgul. Liste yenilendi; bir dakika sonra tekrar dene.
-fastest_server|En hızlı sunucu
-auto_pick|Otomatik seçildi
+all_failed|Hiçbir sunucuya bağlanılamadı. İnternetini kontrol et veya bir dakika sonra yeniden dene.
+tampered|Bu Volta kopyası değiştirilmiş ya da kurcalanıyor; verilerini korumak için bağlanmayacak. Volta uygulamasını Google Play üzerinden yükle.
+auto_pick|Gizlilik ve hızı dengeler
 choose_location|Konum seç
 badge_verified|TEST EDİLDİ
-badge_community|HERKESE AÇIK
+badge_community|TEST EDİLMEDİ
 no_servers|Sunucu listesi yüklenemedi. İnternetini kontrol et ve tekrar denemek için buraya dokun.
-pass_active|Ücretsiz geçiş aktif · %1$s sonra yenilenir
-pass_needed|Volta’yı gece yarısına kadar açmak için 1 kısa reklam izle
-ad_prompt_title|Bugünü ücretsiz aç
+pass_active|Gece yarısına kadar ücretsiz
+pass_needed|Kısa bir reklam gece yarısına kadar ücretsiz erişim sağlar
+ad_prompt_title|Bugünlük ücretsiz erişim al
 ad_prompt_body|Kısa bir reklam izle ve gece yarısına kadar istediğin kadar bağlan. Bugün göreceğin tek reklam bu.
 ad_prompt_watch|Reklamı izle
-ad_not_finished|Bugünü açmak için reklamın tamamını izle.
-channel_pass|Günlük geçiş
-pass_expired_title|Ücretsiz günün bitti
-pass_expired_body|Bağlı kalmaya devam ediyorsun. Bir sonraki bağlantıda kısa bir reklam yeni bir gün açar.
+ad_not_finished|Bugünkü ücretsiz erişim için reklamı bitir.
+channel_pass|Ücretsiz erişim
+pass_expired_title|Ücretsiz erişimin sona erdi
+pass_expired_body|Hâlâ bağlısın. Bir sonraki bağlantında kısa bir reklam yeniden ücretsiz erişim sağlar.
 about_title|Volta hakkında
-about_body|Hızlı ve ücretsiz VPN. Günde bir kısa reklam, kullanım sırasında reklam yok, hesap yok.
+about_body|Ücretsiz VPN. Günde bir kısa reklam, kullanım sırasında reklam yok, hesap yok.
 privacy_title|Gizlilik
 privacy_body|Volta kayıt tutmaz, etkinliğini toplamaz veya satmaz. DNS ve IPv6 dahil tüm trafik şifreli tünelden geçer. Reklamları Google AdMob gösterir; onay verirsen reklam kimliği kullanabilir.
-community_title|Topluluk sunucuları
-community_body|TEST EDİLDİ ve HERKESE AÇIK konumlar, VPN Gate akademik projesinin (Tsukuba Üniversitesi) gönüllü sunucularıdır. Volta onları her saat IP sızıntısı, yanlış konum ve HTTPS müdahalesine karşı denetler ama operatörlerinin ne kaydettiğini bilemez: proje bağlantı kayıtlarını (gerçek IP’n dahil) 3 ay veya daha uzun tutar. Seni web sitelerinden gizler, bu operatörlerden değil.
+privacy_servers|Bu söz sunucuların değil, Volta’nındır. Her sunucuyu başka biri işletir ve kendi kayıtlarını tutabilir: gönüllü sunucular trafiği kaydedebilir, VPN Gate projesi de bağlantı kayıtlarını saklar. Yukarıdaki bölümler her türü açıklar.
+community_title|Gönüllü sunucular
+community_body|TEST EDİLDİ ve TEST EDİLMEDİ konumları, akademik VPN Gate projesinin (Tsukuba Üniversitesi) gönüllü sunucularıdır. Volta bunları her saat IP sızıntısı, yanlış konum ve HTTPS müdahalesi için kontrol eder ama işletmecilerin ne kaydettiğini bilemez: gönüllüler trafiği kaydedebilir, proje de bağlantı kayıtlarını (gerçek IP'n dahil) 3 ay veya daha uzun süre saklar. Seni web sitelerinden gizlerler, bu işletmecilerden değil.
 opensource_title|Açık kaynak
 opensource_body|Volta, Arne Schwabe’nin OpenVPN for Android motorunu (GPLv2) kullanır. Volta’nın kodu aynı lisansla yayımlanır.
-now_in|Şu an buradasın: %1$s %2$s
 no_servers_title|Sunucu yüklenmedi
 measuring|Ölçülüyor…
 offline|Şu an ulaşılamıyor
-badge_private|GÜVENLİ
-tier_legend|GÜVENLİ: Volta’nın · KAYITSIZ: Riseup, denetlenmiş ve kayıtsız · TEST EDİLDİ: saatlik testlerimizi geçen gönüllü sunucu · HERKESE AÇIK: henüz test edilmedi
-country_unavailable|Bu ülkedeki sunucular şu an yanıt vermiyor. Başka bir ülke dene.
-protect_title|Kendini koru
+badge_private|VOLTA
+country_unavailable|Bağlanılamadı: %1$s. Sunucuları şu anda yanıt vermiyor.
+protect_title|Koruma
 killswitch_title|Kill switch
 killswitch_body|VPN koparsa interneti keser, böylece hiçbir şey sızmaz. Android ayarlarında Volta VPN’in yanındaki ⚙’e dokun, “Her zaman açık VPN” ve “VPN olmadan bağlantıları engelle”yi aç.
-privatedns_title|Ziyaret ettiğin siteleri gizle
-privatedns_body|VPN sunucusu hangi siteleri açtığını görmesin diye DNS’i şifrele. Android ayarlarında “Özel DNS”i şuna ayarla: 1dot1dot1dot1.cloudflare-dns.com
-privatedns_on|Özel DNS açık: aradığın siteler uçtan uca şifreli.
+lockdown_tip|Tam koruma için Android ayarlarında Volta için “Her zaman açık VPN” ve “VPN olmadan bağlantıları engelle” seçeneklerini aç (Volta VPN’in yanındaki ⚙ simgesine dokun). Böylece bağlantı kopsa veya sunucu değişse bile telefonundan korumasız hiçbir şey çıkmaz.
+privatedns_title|DNS sorgularını şifrele
+privatedns_body|VPN sunucusunun DNS sorgularını okumasını engeller. Android ayarlarında “Özel DNS”yi şuna ayarla: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Özel DNS açık, bu yüzden DNS sorguların şifreli. Aşağıdaki güvenli gezinme filtreleri bu sırada çalışmayabilir.
 open_settings|Ayarları aç
 https_title|Her zaman HTTPS kullan
 https_body|VPN seni web sitelerinden ve yerel ağından gizler. Yaptıklarını VPN sunucusundan da yalnızca HTTPS (tarayıcıdaki 🔒) gizler. Onsuz sitelere şifre girme.
-exit_checking|Korumanız kontrol ediliyor…
-exit_ok|🛡 Korunuyorsun · siteler seni %1$s konumunda görüyor ✓
 exit_mismatch|⚠ Siteler seni %1$s konumunda görüyor. Başka bir sunucu dene.
 unlocks_line|🏛 Yerel siteleri açar: %1$s
 local_sites|🏛 yerel siteler
@@ -339,10 +461,43 @@ dns_trackers_desc|İzleyicileri ve birçok reklamı da engeller (AdGuard DNS)
 dns_note|Bir sonraki bağlantıdan itibaren geçerlidir. Sorgular her zaman şifreli tünelden geçer.
 badge_nolog|KAYITSIZ
 riseup_title|Riseup sunucuları
-riseup_body|KAYITSIZ konumları bağışlarla yaşayan kâr amacı gütmeyen Riseup (riseup.net) işletir. Telefonun kendine ait anonim bir sertifika alır; hiçbir şey onu sana bağlamaz. Sık kullanıyorsan Riseup’a bağış yapmayı düşün.
+riseup_body|KAYITSIZ konumlar, belirtilen politikası kayıt tutmamak olan, bağışlarla işleyen kâr amacı gütmeyen Riseup (riseup.net) tarafından işletilir. Telefonun Riseup'tan kendine ait anonim bir sertifika alır; hiçbir şey onu sana bağlamaz. Sık kullanıyorsan Riseup'a bağış yapmayı düşün.
 notification_title|Volta VPN · %s
 notification_title_notconnect|Volta VPN · Bağlı değil
 
+disconnect|Bağlantıyı kes
+cancel_connection|Bağlantıyı iptal et
+close|Kapat
+state_connecting_to|Bağlanılıyor: %1$s…
+state_switching_to|Geçiş yapılıyor: %1$s…
+hint_disconnect|Bağlantıyı kesmek için düğmeye dokun
+hint_cancel|İptal etmek için düğmeye dokun
+trying_other|Başka sunucu deneniyor (%1$s / %2$s)
+no_internet|Çevrimdışısın. Bağlantını kontrol edip yeniden dene.
+no_servers_list|Sunucu listesi yüklenemedi. İnternetini kontrol et, sonra yenile düğmesine dokun.
+no_servers_fail|Sunucu listesi yüklenemedi. İnternetini kontrol edip yeniden dene.
+switch_kept|Bağlanılamadı: %1$s. Hâlâ %2$s üzerinden bağlısın.
+action_retry|Yeniden dene
+action_best|En iyi sunucuyu kullan
+best_server|En iyi sunucu
+free_badge|ÜCRETSİZ
+cooldown_hint|Az önce başarısız oldu · yeniden denemek için dokun
+tier_info_title|Sunucu türleri
+tier_private_desc|Volta tarafından işletilir.
+tier_nolog_desc|Politikası kayıt tutmamak olan kâr amacı gütmeyen Riseup tarafından işletilir.
+tier_verified_desc|Saatlik sızıntı ve konum testlerimizi geçen gönüllü sunucu. İşletmecisi yine de trafiği kaydedebilir.
+tier_community_desc|Henüz test etmediğimiz gönüllü sunucu. İşletmecisi trafiği kaydedebilir.
+volunteer_title|Gönüllü sunucular
+volunteer_body|Bu bağlantı gönüllü bir sunucu kullanabilir. IP'ni web sitelerinden gizler ama işletmecisi trafiğini kaydedebilir ve proje, gerçek IP'n dahil bağlantı kayıtlarını 3 ay veya daha uzun süre saklar. Hassas işlerde kullanma.
+volunteer_continue|Devam et
+about_section|Hakkında ve gizlilik
+expanded|Genişletildi
+collapsed|Daraltıldı
+exit_unknown|🔒 Şifreli · konumun doğrulanamadı
+dns_encrypted|🔒 DNS şifreli (DNS-over-TLS)
+stat_down|İndirme hızı %1$s
+stat_up|Yükleme hızı %1$s
+now_in|Şu an buradasın: %1$s %2$s
 @ru
 connect|Подключить
 settings|Настройки
@@ -353,48 +508,46 @@ state_tap|Нажмите, чтобы подключиться
 state_connecting|Подключение…
 state_connected|Подключено
 state_failed|Ошибка подключения
-all_failed|Все серверы сейчас заняты. Список обновлён; попробуйте через минуту.
-fastest_server|Самый быстрый сервер
-auto_pick|Выбран автоматически
+all_failed|Не удалось подключиться ни к одному серверу. Проверьте интернет или повторите через минуту.
+tampered|Эта копия Volta изменена или подвергается вмешательству, поэтому она не подключится — ради защиты ваших данных. Установите Volta из Google Play.
+auto_pick|Баланс приватности и скорости
 choose_location|Выберите страну
 badge_verified|ПРОВЕРЕН
-badge_community|ПУБЛИЧНЫЙ
+badge_community|НЕ ПРОВЕРЕН
 no_servers|Не удалось загрузить список серверов. Проверьте интернет и нажмите здесь, чтобы повторить.
-pass_active|Бесплатный доступ активен · обновится через %1$s
-pass_needed|Посмотрите 1 короткую рекламу, чтобы открыть Volta до полуночи
-ad_prompt_title|Откройте день бесплатно
+pass_active|Бесплатно до полуночи
+pass_needed|Одна короткая реклама даёт бесплатный доступ до полуночи
+ad_prompt_title|Получите бесплатный доступ на сегодня
 ad_prompt_body|Посмотрите одну короткую рекламу и подключайтесь сколько угодно до полуночи. Это единственная реклама за день.
 ad_prompt_watch|Смотреть рекламу
-ad_not_finished|Досмотрите рекламу до конца, чтобы открыть день.
-channel_pass|Дневной доступ
-pass_expired_title|Ваш бесплатный день закончился
-pass_expired_body|Вы остаётесь подключены. При следующем подключении короткая реклама откроет новый день.
+ad_not_finished|Досмотрите рекламу, чтобы получить бесплатный доступ на сегодня.
+channel_pass|Бесплатный доступ
+pass_expired_title|Бесплатный доступ закончился
+pass_expired_body|Вы остаётесь подключены. При следующем подключении короткая реклама снова даст бесплатный доступ.
 about_title|О Volta
-about_body|Быстрый бесплатный VPN. Одна короткая реклама в день, без рекламы во время работы, без аккаунта.
+about_body|Бесплатный VPN. Одна короткая реклама в день, без рекламы во время работы, без аккаунта.
 privacy_title|Конфиденциальность
 privacy_body|Volta не ведёт журналов и не собирает и не продаёт ваши данные. Весь трафик, включая DNS и IPv6, идёт через зашифрованный туннель. Рекламу показывает Google AdMob, который с вашего согласия может использовать рекламный ID.
-community_title|Серверы сообщества
-community_body|Страны ПРОВЕРЕН и ПУБЛИЧНЫЙ — это серверы добровольцев академического проекта VPN Gate (Университет Цукубы). Volta ежечасно проверяет их на утечку IP, неверное местоположение и перехват HTTPS, но не может знать, что записывают их операторы: проект хранит журналы подключений (включая ваш реальный IP) 3 месяца и дольше. Они скрывают вас от сайтов, но не от этих операторов.
+privacy_servers|Это обещание Volta, а не серверов. Каждым сервером управляет кто-то другой, и он может вести свои записи: серверы добровольцев могут журналировать трафик, а проект VPN Gate хранит журналы подключений. Разделы выше объясняют каждый тип.
+community_title|Серверы волонтёров
+community_body|Локации «ПРОВЕРЕН» и «НЕ ПРОВЕРЕН» — серверы волонтёров академического проекта VPN Gate (Университет Цукубы). Volta каждый час проверяет их на утечки IP, неверное местоположение и перехват HTTPS, но не может знать, что записывают их владельцы: волонтёры могут вести журнал трафика, а проект хранит журналы подключений (с вашим настоящим IP) 3 месяца и дольше. Они скрывают вас от сайтов, но не от этих владельцев.
 opensource_title|Открытый код
 opensource_body|Volta использует движок OpenVPN for Android от Arne Schwabe (GPLv2). Код Volta опубликован под той же лицензией.
-now_in|Вы сейчас в стране: %1$s %2$s
 no_servers_title|Серверы не загружены
 measuring|Измерение…
 offline|Сейчас недоступен
-badge_private|БЕЗОПАСНЫЙ
-tier_legend|БЕЗОПАСНЫЙ: от Volta · БЕЗ ЛОГОВ: Riseup, проверенный и без журналов · ПРОВЕРЕН: сервер добровольца, прошедший наши ежечасные проверки · ПУБЛИЧНЫЙ: ещё не проверен
-country_unavailable|Серверы этой страны сейчас не отвечают. Попробуйте другую страну.
-protect_title|Защитите себя
+badge_private|VOLTA
+country_unavailable|Не удалось подключиться: %1$s. Серверы сейчас не отвечают.
+protect_title|Защита
 killswitch_title|Kill switch
 killswitch_body|Отключает интернет, если VPN оборвётся, чтобы ничего не утекло. В настройках Android нажмите ⚙ рядом с Volta VPN и включите «Постоянный VPN» и «Блокировать соединения без VPN».
-privatedns_title|Скройте посещаемые сайты
-privatedns_body|Зашифруйте DNS, чтобы сервер VPN не видел, какие сайты вы открываете. В настройках Android установите «Персональный DNS-сервер»: 1dot1dot1dot1.cloudflare-dns.com
-privatedns_on|Персональный DNS включён: ваши запросы сайтов зашифрованы от начала до конца.
+lockdown_tip|Для полной защиты включите для Volta «Постоянная VPN» и «Блокировать соединения без VPN» в настройках Android (нажмите ⚙ рядом с Volta VPN). Тогда ничего не покинет телефон без защиты, даже если соединение оборвётся или сменится сервер.
+privatedns_title|Шифруйте DNS-запросы
+privatedns_body|Не даёт VPN-серверу читать ваши DNS-запросы. В настройках Android укажите «Частный DNS»: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Частный DNS включён, поэтому ваши DNS-запросы зашифрованы. Фильтры безопасного просмотра ниже могут при этом не работать.
 open_settings|Открыть настройки
 https_title|Всегда используйте HTTPS
 https_body|VPN скрывает вас от сайтов и вашей локальной сети. Только HTTPS (замок 🔒 в браузере) скрывает ваши действия и от сервера VPN. Не вводите пароли на сайтах без него.
-exit_checking|Проверяем вашу защиту…
-exit_ok|🛡 Защищено · сайты видят вас в стране: %1$s ✓
 exit_mismatch|⚠ Сайты видят вас в стране: %1$s. Попробуйте другой сервер.
 unlocks_line|🏛 Открывает местные сайты: %1$s
 local_sites|🏛 местные сайты
@@ -408,10 +561,43 @@ dns_trackers_desc|Также блокирует трекеры и много р�
 dns_note|Действует со следующего подключения. Запросы всегда идут внутри зашифрованного туннеля.
 badge_nolog|БЕЗ ЛОГОВ
 riseup_title|Серверы Riseup
-riseup_body|Страны БЕЗ ЛОГОВ обслуживает Riseup (riseup.net) — некоммерческая организация, живущая на пожертвования. Ваш телефон получает собственный анонимный сертификат; ничто не связывает его с вами. Если пользуетесь часто, поддержите Riseup пожертвованием.
+riseup_body|Локациями «БЕЗ ЛОГОВ» управляет Riseup (riseup.net), некоммерческая организация на пожертвования, чья заявленная политика — не вести журналы. Телефон получает от Riseup собственный анонимный сертификат; ничто не связывает его с вами. Если пользуетесь ими часто, подумайте о пожертвовании Riseup.
 notification_title|Volta VPN · %s
 notification_title_notconnect|Volta VPN · Не подключено
 
+disconnect|Отключиться
+cancel_connection|Отменить подключение
+close|Закрыть
+state_connecting_to|Подключение: %1$s…
+state_switching_to|Переключение: %1$s…
+hint_disconnect|Нажмите кнопку, чтобы отключиться
+hint_cancel|Нажмите кнопку, чтобы отменить
+trying_other|Пробуем другой сервер (%1$s из %2$s)
+no_internet|Нет подключения к сети. Проверьте соединение и повторите попытку.
+no_servers_list|Не удалось загрузить список серверов. Проверьте интернет и нажмите «Обновить».
+no_servers_fail|Не удалось загрузить список серверов. Проверьте интернет и повторите попытку.
+switch_kept|Не удалось подключиться: %1$s. Вы по-прежнему подключены через %2$s.
+action_retry|Повторить
+action_best|Лучший сервер
+best_server|Лучший сервер
+free_badge|БЕСПЛАТНО
+cooldown_hint|Недавний сбой · нажмите, чтобы повторить
+tier_info_title|Типы серверов
+tier_private_desc|Управляются Volta.
+tier_nolog_desc|Управляются Riseup, некоммерческой организацией, чья политика — не вести журналы.
+tier_verified_desc|Сервер волонтёра, прошедший наши ежечасные проверки на утечки и местоположение. Его владелец всё равно может записывать трафик.
+tier_community_desc|Сервер волонтёра, ещё не проверенный нами. Его владелец может записывать трафик.
+volunteer_title|Серверы волонтёров
+volunteer_body|Это подключение может идти через сервер волонтёра. Он скрывает ваш IP от сайтов, но его владелец может записывать трафик, а проект хранит журналы подключений с вашим настоящим IP 3 месяца и дольше. Не используйте его для важных дел.
+volunteer_continue|Продолжить
+about_section|О приложении и конфиденциальность
+expanded|Развёрнуто
+collapsed|Свёрнуто
+exit_unknown|🔒 Зашифровано · местоположение не подтверждено
+dns_encrypted|🔒 DNS зашифрован (DNS-over-TLS)
+stat_down|Скорость загрузки %1$s
+stat_up|Скорость отправки %1$s
+now_in|Вы сейчас в стране: %1$s %2$s
 @uk
 connect|Підключити
 settings|Налаштування
@@ -422,48 +608,46 @@ state_tap|Натисніть, щоб підключитися
 state_connecting|Підключення…
 state_connected|Підключено
 state_failed|Помилка підключення
-all_failed|Усі сервери зараз зайняті. Список оновлено; спробуйте за хвилину.
-fastest_server|Найшвидший сервер
-auto_pick|Обрано автоматично
+all_failed|Не вдалося підключитися до жодного сервера. Перевірте інтернет або повторіть за хвилину.
+tampered|Ця копія Volta змінена або зазнає втручання, тому вона не підключиться — щоб захистити ваші дані. Встановіть Volta з Google Play.
+auto_pick|Баланс приватності та швидкості
 choose_location|Оберіть країну
 badge_verified|ПЕРЕВІРЕНО
-badge_community|ПУБЛІЧНИЙ
+badge_community|НЕ ПЕРЕВІРЕНО
 no_servers|Не вдалося завантажити список серверів. Перевірте інтернет і натисніть тут, щоб повторити.
-pass_active|Безкоштовний доступ активний · оновиться через %1$s
-pass_needed|Перегляньте 1 коротку рекламу, щоб відкрити Volta до опівночі
-ad_prompt_title|Відкрийте день безкоштовно
+pass_active|Безкоштовно до півночі
+pass_needed|Одна коротка реклама дає безкоштовний доступ до півночі
+ad_prompt_title|Отримайте безкоштовний доступ на сьогодні
 ad_prompt_body|Перегляньте одну коротку рекламу та підключайтеся скільки завгодно до опівночі. Це єдина реклама за день.
 ad_prompt_watch|Дивитися рекламу
-ad_not_finished|Додивіться рекламу до кінця, щоб відкрити день.
-channel_pass|Денний доступ
-pass_expired_title|Ваш безкоштовний день завершився
-pass_expired_body|Ви залишаєтеся підключені. Під час наступного підключення коротка реклама відкриє новий день.
+ad_not_finished|Додивіться рекламу, щоб отримати безкоштовний доступ на сьогодні.
+channel_pass|Безкоштовний доступ
+pass_expired_title|Безкоштовний доступ закінчився
+pass_expired_body|Ви залишаєтеся підключені. Під час наступного підключення коротка реклама знову дасть безкоштовний доступ.
 about_title|Про Volta
-about_body|Швидкий безкоштовний VPN. Одна коротка реклама на день, без реклами під час роботи, без облікового запису.
+about_body|Безкоштовний VPN. Одна коротка реклама на день, без реклами під час роботи, без облікового запису.
 privacy_title|Конфіденційність
 privacy_body|Volta не веде журналів і не збирає та не продає вашу активність. Увесь трафік, включно з DNS та IPv6, іде через зашифрований тунель. Рекламу показує Google AdMob, який за вашою згодою може використовувати рекламний ID.
-community_title|Сервери спільноти
-community_body|Країни ПЕРЕВІРЕНО та ПУБЛІЧНИЙ — це сервери волонтерів академічного проєкту VPN Gate (Університет Цукуби). Volta щогодини перевіряє їх на витік IP, хибне розташування та перехоплення HTTPS, але не може знати, що записують їхні оператори: проєкт зберігає журнали підключень (включно з вашим справжнім IP) 3 місяці й довше. Вони приховують вас від сайтів, а не від цих операторів.
+privacy_servers|Це обіцянка Volta, а не серверів. Кожним сервером керує хтось інший, і він може вести власні записи: сервери волонтерів можуть журналювати трафік, а проєкт VPN Gate зберігає журнали підключень. Розділи вище пояснюють кожен тип.
+community_title|Сервери волонтерів
+community_body|Локації «ПЕРЕВІРЕНО» і «НЕ ПЕРЕВІРЕНО» — сервери волонтерів академічного проєкту VPN Gate (Університет Цукуби). Volta щогодини перевіряє їх на витоки IP, хибне місцезнаходження й перехоплення HTTPS, але не може знати, що записують їхні власники: волонтери можуть вести журнал трафіку, а проєкт зберігає журнали підключень (із вашим справжнім IP) 3 місяці й довше. Вони приховують вас від сайтів, але не від цих власників.
 opensource_title|Відкритий код
 opensource_body|Volta використовує рушій OpenVPN for Android від Arne Schwabe (GPLv2). Код Volta опубліковано під тією ж ліцензією.
-now_in|Ви зараз у країні: %1$s %2$s
 no_servers_title|Сервери не завантажено
 measuring|Вимірювання…
 offline|Зараз недоступний
-badge_private|БЕЗПЕЧНИЙ
-tier_legend|БЕЗПЕЧНИЙ: від Volta · БЕЗ ЛОГІВ: Riseup, перевірений і без журналів · ПЕРЕВІРЕНО: сервер волонтера, що пройшов наші щогодинні перевірки · ПУБЛІЧНИЙ: ще не перевірено
-country_unavailable|Сервери цієї країни зараз не відповідають. Спробуйте іншу країну.
-protect_title|Захистіть себе
+badge_private|VOLTA
+country_unavailable|Не вдалося підключитися: %1$s. Сервери зараз не відповідають.
+protect_title|Захист
 killswitch_title|Kill switch
 killswitch_body|Вимикає інтернет, якщо VPN обірветься, щоб нічого не витекло. У налаштуваннях Android натисніть ⚙ біля Volta VPN і увімкніть «Постійна VPN» та «Блокувати з’єднання без VPN».
-privatedns_title|Приховайте сайти, які відвідуєте
-privatedns_body|Зашифруйте DNS, щоб сервер VPN не бачив, які сайти ви відкриваєте. У налаштуваннях Android встановіть «Приватний DNS»: 1dot1dot1dot1.cloudflare-dns.com
-privatedns_on|Приватний DNS увімкнено: ваші запити сайтів зашифровано наскрізно.
+lockdown_tip|Для повного захисту увімкніть для Volta «Постійна VPN» і «Блокувати з’єднання без VPN» у налаштуваннях Android (натисніть ⚙ біля Volta VPN). Тоді нічого не залишить телефон без захисту, навіть якщо з’єднання обірветься чи зміниться сервер.
+privatedns_title|Шифруйте DNS-запити
+privatedns_body|Не дає VPN-серверу читати ваші DNS-запити. У налаштуваннях Android вкажіть «Приватний DNS»: 1dot1dot1dot1.cloudflare-dns.com
+privatedns_on|Приватний DNS увімкнено, тож ваші DNS-запити зашифровано. Фільтри безпечного перегляду нижче можуть при цьому не діяти.
 open_settings|Відкрити налаштування
 https_title|Завжди використовуйте HTTPS
 https_body|VPN приховує вас від сайтів і локальної мережі. Лише HTTPS (замок 🔒 у браузері) приховує ваші дії й від сервера VPN. Не вводьте паролі на сайтах без нього.
-exit_checking|Перевіряємо ваш захист…
-exit_ok|🛡 Захищено · сайти бачать вас у країні: %1$s ✓
 exit_mismatch|⚠ Сайти бачать вас у країні: %1$s. Спробуйте інший сервер.
 unlocks_line|🏛 Відкриває місцеві сайти: %1$s
 local_sites|🏛 місцеві сайти
@@ -477,7 +661,40 @@ dns_trackers_desc|Також блокує трекери та багато ре�
 dns_note|Діє з наступного підключення. Запити завжди йдуть усередині зашифрованого тунелю.
 badge_nolog|БЕЗ ЛОГІВ
 riseup_title|Сервери Riseup
-riseup_body|Країни БЕЗ ЛОГІВ обслуговує Riseup (riseup.net) — неприбуткова організація, що існує на пожертви. Ваш телефон отримує власний анонімний сертифікат; ніщо не пов’язує його з вами. Якщо користуєтеся часто, підтримайте Riseup пожертвою.
+riseup_body|Локаціями «БЕЗ ЛОГІВ» керує Riseup (riseup.net), неприбуткова організація на пожертви, чия заявлена політика — не вести журнали. Телефон отримує від Riseup власний анонімний сертифікат; ніщо не пов'язує його з вами. Якщо користуєтеся ними часто, подумайте про пожертву Riseup.
 notification_title|Volta VPN · %s
 notification_title_notconnect|Volta VPN · Не підключено
 
+disconnect|Від'єднатися
+cancel_connection|Скасувати підключення
+close|Закрити
+state_connecting_to|Підключення: %1$s…
+state_switching_to|Перемикання: %1$s…
+hint_disconnect|Натисніть кнопку, щоб від'єднатися
+hint_cancel|Натисніть кнопку, щоб скасувати
+trying_other|Пробуємо інший сервер (%1$s з %2$s)
+no_internet|Немає з'єднання з мережею. Перевірте підключення і повторіть спробу.
+no_servers_list|Не вдалося завантажити список серверів. Перевірте інтернет і натисніть «Оновити».
+no_servers_fail|Не вдалося завантажити список серверів. Перевірте інтернет і повторіть спробу.
+switch_kept|Не вдалося підключитися: %1$s. Ви й далі підключені через %2$s.
+action_retry|Повторити
+action_best|Найкращий сервер
+best_server|Найкращий сервер
+free_badge|БЕЗКОШТОВНО
+cooldown_hint|Нещодавній збій · натисніть, щоб повторити
+tier_info_title|Типи серверів
+tier_private_desc|Керує Volta.
+tier_nolog_desc|Керує Riseup, неприбуткова організація, чия політика — не вести журнали.
+tier_verified_desc|Сервер волонтера, що пройшов наші щогодинні перевірки на витоки й місцезнаходження. Його власник усе одно може записувати трафік.
+tier_community_desc|Сервер волонтера, ще не перевірений нами. Його власник може записувати трафік.
+volunteer_title|Сервери волонтерів
+volunteer_body|Це підключення може йти через сервер волонтера. Він приховує ваш IP від сайтів, але його власник може записувати трафік, а проєкт зберігає журнали підключень із вашим справжнім IP 3 місяці й довше. Не використовуйте його для важливих справ.
+volunteer_continue|Продовжити
+about_section|Про застосунок і приватність
+expanded|Розгорнуто
+collapsed|Згорнуто
+exit_unknown|🔒 Зашифровано · місцезнаходження не підтверджено
+dns_encrypted|🔒 DNS зашифровано (DNS-over-TLS)
+stat_down|Швидкість завантаження %1$s
+stat_up|Швидкість надсилання %1$s
+now_in|Ви зараз у країні: %1$s %2$s

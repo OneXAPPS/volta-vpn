@@ -20,11 +20,29 @@ android {
         // (empty = fetch VPN Gate directly).
         buildConfigField(
             "String", "SERVER_LIST_URLS",
-            "\"https://raw.githubusercontent.com/OneXAPPS/volta-vpn/data/servers.json," +
-                "https://cdn.jsdelivr.net/gh/OneXAPPS/volta-vpn@data/servers.json\"",
+            // jsDelivr first: a CDN built for heavy traffic (raw.githubusercontent is not). Its
+            // Fastly and Gcore edges are separate networks, so one blocked CDN isn't the end;
+            // GitHub Pages last. The list is signed, so no host has to be trusted.
+            "\"https://cdn.jsdelivr.net/gh/OneXAPPS/volta-vpn@data/servers.json," +
+                "https://fastly.jsdelivr.net/gh/OneXAPPS/volta-vpn@data/servers.json," +
+                "https://gcore.jsdelivr.net/gh/OneXAPPS/volta-vpn@data/servers.json," +
+                "https://raw.githubusercontent.com/OneXAPPS/volta-vpn/data/servers.json," +
+                "https://onexapps.github.io/volta-vpn/servers.json\"",
         )
-        // Base64 X.509 (SPKI) P-256 public key matching backend/keys/private.pem.
-        buildConfigField("String", "SERVER_LIST_PUBKEY", "\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEP2zrDaZHc9ushraLm4Z9G+2yVCOirF7Iw32fTaLXxCxkl3VlPnh8nVeABycmMUGIVfJ44eVfu5nLQvT6fzHfig==\"")
+        // Base64 X.509 (SPKI) P-256 public keys, comma-separated: backend/keys/private.pem (in use),
+        // then backend/keys/spare_private.pem (kept OFFLINE; switch the backend to it if the
+        // first key is ever exposed, then ship an update that drops the old key).
+        buildConfigField(
+            "String", "SERVER_LIST_PUBKEY",
+            "\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEP2zrDaZHc9ushraLm4Z9G+2yVCOirF7Iw32fTaLXxCxkl3VlPnh8nVeABycmMUGIVfJ44eVfu5nLQvT6fzHfig==," +
+                "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESRNhhitE7ZNXLWy3iXMSpknRIwZPNB5R+/MFqhFfHjeP/KpPk2fbEZQ5zFMEN9sGU5nfzjeHY8yRMFNcZfB6tA==\"",
+        )
+
+        // SHA-256 of the certificate(s) allowed to sign this app, comma-separated; a copy signed
+        // with any other key refuses to connect (security/Integrity.kt). Empty = check off.
+        // Put the "App signing key certificate" SHA-256 from Play Console → Test and release →
+        // App integrity, plus your upload key's if you also hand out APKs signed with it.
+        buildConfigField("String", "SIGNER_SHA256", "\"\"")
 
         ndk {
             // Real phones only; x86_64 (emulators) is added for debug builds below.
@@ -63,6 +81,8 @@ android {
             initWith(getByName("release"))
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
+            // Debug-signed, so the release signer check would (rightly) refuse it.
+            buildConfigField("String", "SIGNER_SHA256", "\"\"")
             manifestPlaceholders["admobAppId"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "REWARDED_AD_UNIT", "\"ca-app-pub-3940256099942544/5224354917\"")
         }

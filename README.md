@@ -8,7 +8,7 @@ Free Android VPN supported by one rewarded ad a day (AdMob). The pass resets at 
 | `app/` | The app (Kotlin + Jetpack Compose): screens, daily pass, ads, server list |
 | `vpnlib/` | OpenVPN engine: upstream [ics-openvpn](https://github.com/schwabe/ics-openvpn) in `vpnlib/ics`, built as a library (OpenVPN 2 only, no upstream UI) |
 | `backend/` | Builds the signed server list from VPN Gate, with live leak/geo/MITM checks |
-| `.github/workflows/servers.yml` | Runs the backend every 4 h and publishes to the `data` branch |
+| `.github/workflows/servers.yml` | Runs the backend hourly and publishes to the `data` branch |
 
 ## Build
 Requirements: Android Studio, plus **NDK (Side by side) 30.0.16248370** and **CMake** installed from SDK Manager → SDK Tools.
@@ -34,9 +34,10 @@ Without a URL the app reads VPN Gate's public API directly (unverified, and bloc
 ## Server tiers
 | Tier | Source | Trust |
 |---|---|---|
-| SECURE | Your own no-log servers (`server/install.sh`), listed via the `OWN_SERVERS` secret | High: you run them |
+| VOLTA | Your own no-log servers (`server/install.sh`), listed via the `OWN_SERVERS` secret | High: you run them |
+| NO-LOG | Riseup gateways | Run by a nonprofit whose stated policy is no logs |
 | TESTED | VPN Gate servers that passed the hourly leak / geo / TLS checks | Hides you from websites; operators may log |
-| PUBLIC | VPN Gate servers not tested this hour | Same as above, untested |
+| UNTESTED | VPN Gate servers not tested this hour | Same as above, untested |
 
 ### Add a free private server (Oracle Cloud Always Free)
 1. Create an Always Free Ubuntu VM, open UDP 1194 in its VCN Security List.

@@ -5,7 +5,7 @@
 #   (options: sudo PROTO=tcp PORT=443 bash install.sh   -> harder to block, a bit slower)
 #
 # At the end it prints one JSON entry; add it to the GitHub secret OWN_SERVERS
-# (a JSON list) and the next hourly run publishes it in the app as a SECURE location.
+# (a JSON list) and the next hourly run publishes it in the app as a VOLTA location.
 set -euo pipefail
 
 PROTO="${PROTO:-udp}"

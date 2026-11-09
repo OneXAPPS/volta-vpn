@@ -24,10 +24,13 @@ fun CountryBackdrop(countryCode: String?, active: Boolean, center: Offset?, modi
     val colors = remember(countryCode) { flagColors(countryCode) }
     val wave = remember { Animatable(0f) }
     val tint = remember { Animatable(0f) }
+    val reducedMotion = rememberReducedMotion()
 
     // Replays whenever we land in a new country.
     LaunchedEffect(active, countryCode) {
-        if (active) {
+        if (active && reducedMotion) {
+            tint.snapTo(1f)
+        } else if (active) {
             wave.snapTo(0f)
             tint.snapTo(0f)
             wave.animateTo(1f, tween(1100, easing = FastOutSlowInEasing))
@@ -78,10 +81,16 @@ fun CountryBackdrop(countryCode: String?, active: Boolean, center: Offset?, modi
     }
 }
 
-/** Main colours of each flag (2-3 per country). Unknown countries get the brand colours. */
+/** WCAG's minimum for graphics; country colours are decoration, so this is enough. */
+private const val MIN_DECOR_CONTRAST = 3f
+
+/** Lifts a dark country colour (Germany's black, Australia's navy) so it shows on the dark UI. */
+fun Color.forDarkBackdrop(): Color = withContrastOn(VoltaColors.Background, MIN_DECOR_CONTRAST)
+
+/** Main colours of each flag (2-3 per country), legible as decoration. Unknown countries get the brand colours. */
 fun flagColors(cc: String?): List<Color> {
     val hex = FLAGS[cc?.uppercase()] ?: return listOf(VoltaColors.Connected, VoltaColors.Bolt)
-    return hex.split(',').map { Color(0xFF000000 or it.toLong(16)) }
+    return hex.split(',').map { Color(0xFF000000 or it.toLong(16)).forDarkBackdrop() }
 }
 
 private val FLAGS = mapOf(
@@ -89,7 +98,7 @@ private val FLAGS = mapOf(
     "GB" to "C8102E,FFFFFF,012169", "DE" to "000000,DD0000,FFCE00", "FR" to "0055A4,FFFFFF,EF4135",
     "NL" to "AE1C28,FFFFFF,21468B", "CA" to "FF0000,FFFFFF", "AU" to "012169,FFFFFF,E4002B",
     "RU" to "FFFFFF,0039A6,D52B1E", "UA" to "0057B7,FFD700", "TH" to "A51931,F4F5F8,2D2A4A",
-    "VN" to "DA251D,FFFF00", "TW" to "FE0000,000095", "HK" to "DE2910,FFFFFF", "SG" to "EF3340,FFFFFF",
+    "VN" to "DA251D,8E1B14", "TW" to "FE0000,000095", "HK" to "DE2910,FFFFFF", "SG" to "EF3340,FFFFFF",
     "IN" to "FF9933,FFFFFF,138808", "ID" to "FF0000,FFFFFF", "MY" to "CC0001,010066,FFCC00",
     "PH" to "0038A8,CE1126,FCD116", "CN" to "DE2910,FFDE00", "BR" to "009C3B,FFDF00,002776",
     "AR" to "74ACDF,FFFFFF,F6B40E", "PE" to "D91023,FFFFFF", "VE" to "FFCC00,00247D,CF142B",

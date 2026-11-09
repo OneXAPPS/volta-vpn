@@ -8,7 +8,7 @@ Sources:
     skipped (Volta is ad-supported), as are servers that keep logs permanently.
   * PublicVPNList API (only when PUBLICVPNLIST_KEY is set: an individually approved key,
     as its license forbids automating the 24-hour reCAPTCHA keys)
-  * RiseupVPN (riseup.net, audited no-log nonprofit) via its official LEAP API. Its
+  * RiseupVPN (riseup.net, nonprofit with a published no-log policy) via its official LEAP API. Its
     configs carry no client key: each phone fetches its own anonymous certificate from
     Riseup when connecting, exactly like Riseup's own app (tier NOLOG).
   * Volta's own servers from OWN_SERVERS (listed first as tier PRIVATE)
@@ -56,6 +56,7 @@ VPNGATE_API = "http://www.vpngate.net/api/iphone/"
 VPNGATE_MIRROR = "https://raw.githubusercontent.com/9xN/auto-ovpn/main/json/data.json"
 PUBLICVPNLIST_API = "https://publicvpnlist.com/api/v1"
 RISEUP_PROVIDER = "https://riseup.net/provider.json"
+VPNHUB_MCP = "https://vpnhub.me/api/mcp"
 
 # Most requested VPN locations; everything else is capped lower.
 TOP_COUNTRIES = ["US", "GB", "DE", "NL", "FR", "CA", "JP", "SG", "KR", "TR"]
@@ -87,33 +88,60 @@ MAX_CONNECT_MS = 1500
 PARALLEL = 6
 WEAK_CIPHERS = ("BF-", "DES", "RC2", "CAST", "NONE")
 
-BLOCKED = {
-    "script-security", "up", "down", "route-up", "route-pre-down", "ipchange",
-    "tls-verify", "client-connect", "client-disconnect", "learn-address",
-    "auth-user-pass-verify", "plugin", "setenv", "setenv-safe", "management",
-    "management-hold", "log", "log-append", "status", "writepid", "daemon",
-    "chroot", "user", "group", "cd", "redirect-private", "dhcp-option",
-    "block-outside-dns", "pull-filter", "route-nopull", "allow-pull-fqdn", "verb",
+# Only plain connection settings survive (same list as the app's ConfigSanitizer): no scripts,
+# plugins, files, proxies, routes, DNS changes, compression, static keys or TLS downgrades.
+ALLOWED = {
+    "client", "tls-client", "pull", "dev", "dev-type", "proto", "remote", "remote-random",
+    "resolv-retry", "nobind", "float", "connect-retry", "connect-retry-max",
+    "connect-timeout", "server-poll-timeout", "explicit-exit-notify",
+    "persist-key", "persist-tun", "keepalive", "ping", "ping-restart", "reneg-sec",
+    "tun-mtu", "mssfix", "sndbuf", "rcvbuf", "topology", "mute-replay-warnings",
+    "cipher", "data-ciphers", "data-ciphers-fallback", "ncp-ciphers", "auth",
+    "tls-cipher", "tls-ciphersuites", "tls-groups", "tls-version-min", "key-direction",
+    "remote-cert-tls", "verify-x509-name", "mute",
 }
+DATA_BLOCKS = {"ca", "cert", "key", "extra-certs", "tls-auth", "tls-crypt", "tls-crypt-v2",
+               "crl-verify", "peer-fingerprint"}
+# ISRG Root X1 (Let's Encrypt). VPN Gate configs trust it with no name check, which would
+# accept a certificate for any domain; every real VPN Gate server presents CN=opengw.net.
+ISRG_ROOT_X1 = "MIIFazCCA1OgAwIBAgIRAIIQz7DSQONZRGPgu2OCiwAw"
 
 
 def sanitize(config: str) -> str:
-    out, in_block = [], False
+    """Same rules as the app's ConfigSanitizer (which runs again on the phone)."""
+    out, closing, keep = [], None, False
     for raw in config.splitlines():
         line = raw.strip()
-        if line.startswith("<") and not line.startswith("</"):
-            in_block = True
-        if in_block:
-            out.append(line)
-            if line.startswith("</"):
-                in_block = False
+        if closing:
+            if keep:
+                out.append(line)
+            if line.lower() == closing:
+                closing = None
             continue
         if not line or line[0] in "#;":
             continue
-        if line.split()[0].lower() in BLOCKED:
+        if line.startswith("<"):
+            tag = line.lstrip("</").split(">")[0].strip().lower()
+            if tag == "connection":
+                out.append(line)
+            elif line.startswith("</"):
+                if tag in DATA_BLOCKS:
+                    out.append(line)
+            else:
+                keep = tag in DATA_BLOCKS
+                if keep:
+                    out.append(line)
+                if not line.lower().endswith(f"</{tag}>"):
+                    closing = f"</{tag}>"
             continue
-        out.append(line)
-    return "\n".join(out) + "\n"
+        if line.split()[0].lower() in ALLOWED:
+            out.append(line)
+    text = "\n".join(out) + "\n"
+    if ISRG_ROOT_X1 in text and "verify-x509-name" not in text and "peer-fingerprint" not in text:
+        text += "verify-x509-name opengw.net name\n"
+    if "remote-cert-tls" not in text:
+        text += "remote-cert-tls server\n"
+    return text
 
 
 def num(v, default):
@@ -161,8 +189,105 @@ def fetch_vpngate() -> list[dict]:
             "id": "vg-" + r.get("hostname", r.get("ip", "")), "ip": r.get("ip", ""),
             "score": num(r.get("score"), 0), "country": r.get("countrylong", ""),
             "cc": (r.get("countryshort") or "").upper(), "source": "VPN Gate",
+            # Users connected right now: the app steers people away from crowded servers.
+            "sessions": num(r.get("numvpnsessions"), None),
             "config": sanitize(config),
         })
+    return servers
+
+
+def with_remotes(config: str, remotes: list[tuple[str, int, str]]) -> str:
+    """The config with its remote/proto lines replaced: one "remote host port proto" per entry,
+    tried in order, so a network that blocks one protocol can still use the other."""
+    body = "\n".join(l for l in config.splitlines() if l.split()[:1] not in (["remote"], ["proto"]))
+    return body.rstrip("\n") + "\n" + "".join(f"remote {h} {p} {pr}\n" for h, p, pr in remotes)
+
+
+def vpnhub_list(cc: str) -> list[dict]:
+    """One country's OpenVPN entries from VPNHub's public, read-only MCP endpoint (no key)."""
+    body = {"jsonrpc": "2.0", "id": 1, "method": "tools/call",
+            "params": {"name": "list_vpns", "arguments": {"country": cc.lower(), "type": "open", "limit": "100"}}}
+    req = urllib.request.Request(VPNHUB_MCP, data=json.dumps(body).encode(), headers={
+        "User-Agent": "VoltaVPN-builder", "Content-Type": "application/json",
+        "Accept": "application/json, text/event-stream", "MCP-Protocol-Version": "2025-11-25"})
+    reply = json.loads(urllib.request.urlopen(req, timeout=40).read())
+    return json.loads(reply["result"]["content"][0]["text"]).get("vpns", [])
+
+
+def fetch_vpnhub(vpngate: list[dict]) -> list[dict]:
+    """More VPN Gate servers than VPN Gate's own API returns (it lists only its top ~100).
+
+    VPNHub keeps a history of VPN Gate servers, much of it stale (home IPs change), so it
+    is used only for HOSTNAMES: each vpnNNN.opengw.net is VPN Gate's dynamic DNS and
+    resolves to the server's current address. Nothing from VPNHub is trusted: the config
+    is VPN Gate's own (identical for every server, only remote/proto differ), it pins the
+    server certificate to CN=opengw.net, and every server still has to pass the live check.
+    VPNHub doesn't say whether a server keeps logs permanently (VPN Gate's API does, and
+    those are skipped), so these only fill countries after VPN Gate's own servers.
+    """
+    template = next((s["config"] for s in vpngate if "remote " in s["config"]), None)
+    if template is None:
+        return []
+    template = "\n".join(l for l in template.splitlines()
+                         if l.split()[:1] not in (["remote"], ["proto"])) + "\n"
+    known = {s["id"]: s for s in vpngate}
+    entries: dict[str, tuple[str, dict]] = {}
+    ports: dict[str, tuple[int, int]] = {}  # server id -> (OpenVPN TCP port, UDP port), 0 = none
+    for cc in dict.fromkeys(TOP_COUNTRIES + PRIORITY_COUNTRIES):
+        try:
+            rows = vpnhub_list(cc)
+        except Exception as e:
+            print(f"VPNHub {cc}: {e}", flush=True)
+            continue
+        for r in rows:
+            host = (r.get("hostname") or "").lower()
+            ovpn = (r.get("info") or {}).get("open", {})
+            port, udp = num(ovpn.get("tcp"), 0), num(ovpn.get("udp"), 0)
+            # Only VPN Gate DDNS names (a bare IP is just a stale address), and only servers with
+            # TCP, which can be probed cheaply before the expensive live check.
+            if not host.endswith(".opengw.net") or not 0 < port < 65536:
+                continue
+            sid = "vg-" + host.split(".")[0]
+            ports.setdefault(sid, (port, udp if 0 < udp < 65536 else 0))
+            if sid in known or sid in entries:
+                continue
+            entries[sid] = (cc, {**r, "_port": port})
+        time.sleep(0.5)  # be polite: ~35 small requests per hourly run
+
+    # VPN Gate's own entries list one protocol; where VPNHub knows the other port, add it as a
+    # second remote. Same server, same pinned certificate: only the transport differs.
+    added = 0
+    for sid, s in known.items():
+        tcp, udp = ports.get(sid, (0, 0))
+        host, port, proto = remote_of(s["config"])
+        alt = (host, udp, "udp") if proto.startswith("tcp") and udp else \
+              (host, tcp, "tcp") if proto.startswith("udp") and tcp else None
+        if host and alt:
+            s["config"] = with_remotes(s["config"], [(host, port, "tcp" if proto.startswith("tcp") else "udp"), alt])
+            added += 1
+    print(f"VPNHub: second protocol added to {added} VPN Gate servers", flush=True)
+
+    def resolve(item):
+        sid, (cc, r) = item
+        try:
+            return sid, cc, r, socket.gethostbyname(r["hostname"])
+        except OSError:
+            return sid, cc, r, None
+
+    servers = []
+    with concurrent.futures.ThreadPoolExecutor(32) as ex:
+        for sid, cc, r, ip in ex.map(resolve, entries.items()):
+            if not ip:
+                continue
+            remotes = [(ip, r["_port"], "tcp")]
+            if ports[sid][1]:
+                remotes.append((ip, ports[sid][1], "udp"))
+            servers.append({
+                "id": sid, "ip": ip, "score": num(r.get("score"), 0),
+                "country": cc, "cc": cc, "source": "VPNHub",
+                "config": with_remotes(template, remotes),
+            })
+    print(f"VPNHub: {len(servers)} extra VPN Gate servers resolved", flush=True)
     return servers
 
 
@@ -263,18 +388,22 @@ def cap(cc: str) -> int:
 
 
 def remote_of(config: str) -> tuple[str, int, str]:
-    host, port, proto = "", 1194, "udp"
+    """The FIRST remote (the one OpenVPN tries first): host, port and protocol, where a
+    protocol on the remote line itself wins over a global "proto" line."""
+    host, port, line_proto, proto = "", 1194, "", "udp"
     for line in config.splitlines():
         p = line.split()
         if not p:
             continue
-        if p[0] == "remote" and len(p) >= 2:
+        if p[0] == "remote" and len(p) >= 2 and not host:
             host = p[1]
             if len(p) >= 3:
                 port = num(p[2], 1194)
+            if len(p) >= 4:
+                line_proto = p[3]
         elif p[0] == "proto" and len(p) >= 2:
             proto = p[1]
-    return host, port, proto
+    return host, port, line_proto or proto
 
 
 def tcp_alive(config: str) -> bool:
@@ -290,14 +419,18 @@ def tcp_alive(config: str) -> bool:
 
 def candidates(servers: list[dict]) -> list[dict]:
     """Per country, the best-scored few (3x the slots we may fill), de-duplicated by IP."""
+    # Probed in parallel: hundreds of servers at up to 4 s each would take half an hour in a row.
+    with concurrent.futures.ThreadPoolExecutor(64) as ex:
+        alive = dict(zip((id(s) for s in servers), ex.map(lambda s: tcp_alive(s["config"]), servers)))
     by_cc: dict[str, list[dict]] = {}
     for s in servers:
         by_cc.setdefault(s["cc"], []).append(s)
     out = []
     for cc, lst in by_cc.items():
         seen, picked = set(), []
-        for s in sorted(lst, key=lambda s: -s["score"]):
-            if s["ip"] in seen or not tcp_alive(s["config"]):
+        # VPN Gate's own fresh entries first; VPNHub's only fill what's left.
+        for s in sorted(lst, key=lambda s: (s.get("source") == "VPNHub", -s["score"])):
+            if s["ip"] in seen or not alive[id(s)]:
                 continue
             seen.add(s["ip"])
             picked.append(s)
@@ -484,6 +617,10 @@ def main() -> None:
 
     pool = fetch_vpngate()
     try:
+        pool += fetch_vpnhub(pool)
+    except Exception as e:
+        print(f"VPNHub unavailable: {e}", flush=True)
+    try:
         pool += fetch_riseup()
     except Exception as e:
         print(f"Riseup unavailable: {e}", flush=True)
@@ -495,6 +632,12 @@ def main() -> None:
             print(f"PublicVPNList unavailable: {e}", flush=True)
     cands = candidates(pool)
     print(f"{len(pool)} public servers, {len(cands)} candidates", flush=True)
+    by_source: dict[str, dict[str, int]] = {}
+    for s in cands:
+        src = by_source.setdefault(s.get("source", "?"), {})
+        src[s["cc"]] = src.get(s["cc"], 0) + 1
+    for src, ccs in by_source.items():
+        print(f"  candidates from {src}: {dict(sorted(ccs.items()))}", flush=True)
 
     if args.verify:
         public = apply_caps(verify_all(cands))

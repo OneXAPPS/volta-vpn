@@ -27,10 +27,6 @@ object DailyPass {
         return now < p.getLong(KEY_VALID_UNTIL, 0)
     }
 
-    /** Millis until the pass expires, or 0 when inactive. */
-    fun remainingMs(context: Context, now: Long = System.currentTimeMillis()): Long =
-        if (isActive(context, now)) prefs(context).getLong(KEY_VALID_UNTIL, 0) - now else 0
-
     fun validUntil(context: Context): Long = prefs(context).getLong(KEY_VALID_UNTIL, 0)
 
     fun grant(context: Context, now: Long = System.currentTimeMillis()) {

@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.os.SystemClock
+import com.voltavpn.app.data.ConfigSanitizer
 import com.voltavpn.app.data.Server
 import de.blinkt.openvpn.core.ConfigParser
 import de.blinkt.openvpn.core.ConnectionStatus
@@ -20,10 +22,13 @@ import java.io.StringReader
 
 enum class VpnState { DISCONNECTED, CONNECTING, CONNECTED, FAILED }
 
-data class Traffic(val downBytes: Long = 0, val upBytes: Long = 0)
+/** Current transfer speed through the tunnel, in bytes per second. */
+data class Traffic(val downPerSec: Long = 0, val upPerSec: Long = 0)
 
 /** Thin wrapper over the ics-openvpn engine, exposing its status as flows. */
 object VpnController {
+    private const val ENGINE_REPORT_MS = 2000L
+
     private val _state = MutableStateFlow(VpnState.DISCONNECTED)
     val state: StateFlow<VpnState> = _state.asStateFlow()
 
@@ -34,6 +39,7 @@ object VpnController {
     val connectedSince: StateFlow<Long> = _connectedSince.asStateFlow()
 
     private var initialized = false
+    private var lastTrafficAt = 0L
 
     fun init() {
         if (initialized) return
@@ -55,21 +61,31 @@ object VpnController {
                 if (mapped == VpnState.CONNECTED && _state.value != VpnState.CONNECTED) {
                     _connectedSince.value = System.currentTimeMillis()
                 }
-                if (mapped != VpnState.CONNECTED) _connectedSince.value = 0
+                if (mapped != VpnState.CONNECTED) {
+                    _connectedSince.value = 0
+                    _traffic.value = Traffic()
+                    lastTrafficAt = 0
+                }
                 _state.value = mapped
             }
 
             override fun setConnectedVPN(uuid: String?) = Unit
         })
-        VpnStatus.addByteCountListener { inBytes, outBytes, _, _ ->
-            _traffic.value = Traffic(inBytes, outBytes)
+        VpnStatus.addByteCountListener { _, _, diffIn, diffOut ->
+            val now = SystemClock.elapsedRealtime()
+            // The engine reports about every 2 seconds; the first report has no earlier one to measure from.
+            val elapsedMs = if (lastTrafficAt == 0L) ENGINE_REPORT_MS else (now - lastTrafficAt).coerceAtLeast(1)
+            lastTrafficAt = now
+            _traffic.value = Traffic(diffIn.coerceAtLeast(0) * 1000 / elapsedMs, diffOut.coerceAtLeast(0) * 1000 / elapsedMs)
         }
     }
 
     /** Caller must already hold VPN permission (VpnService.prepare returned null). */
     fun connect(context: Context, server: Server) {
+        // Sanitized again here, whatever list (or cache file) the config came from.
+        val config = ConfigSanitizer.sanitize(server.config)
         val parser = ConfigParser()
-        parser.parseConfig(StringReader(server.config))
+        parser.parseConfig(StringReader(config))
         val dns = ProtectionPrefs.dnsMode(context)
         val profile = parser.convertProfile().apply {
             // Shown in the VPN notification: the country only, never the server IP.
@@ -93,6 +109,8 @@ object VpnController {
             mConnectRetryMax = "1"
             mConnectRetry = "2"
         }
+        // Refuses broken crypto, pins the server's name, and keeps all traffic in the tunnel.
+        ConnectionGuard.enforce(profile, config)
         _state.value = VpnState.CONNECTING
         ProfileManager.setTemporaryProfile(context, profile)
         VPNLaunchHelper.startOpenVpn(profile, context.applicationContext, "user", true)

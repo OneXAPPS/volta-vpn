@@ -1,66 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Volta VPN</string>
+    <string name="app_name" translatable="false">Volta VPN</string>
     <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="cancel_connection">Cancel connection</string>
     <string name="settings">Settings</string>
     <string name="back">Back</string>
     <string name="refresh">Refresh</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
 
     <string name="state_tap">Tap to connect</string>
     <string name="state_connecting">Connecting…</string>
+    <string name="state_connecting_to">Connecting to %1$s…</string>
+    <string name="state_switching_to">Switching to %1$s…</string>
     <string name="state_connected">Connected</string>
     <string name="state_failed">Connection failed</string>
-    <string name="all_failed">All servers are busy right now. The list was refreshed; please try again in a minute.</string>
+    <string name="hint_disconnect">Tap the button to disconnect</string>
+    <string name="hint_cancel">Tap the button to cancel</string>
+    <string name="trying_other">Trying another server (%1$s of %2$s)</string>
 
-    <string name="fastest_server">Fastest server</string>
-    <string name="auto_pick">Picked automatically</string>
-    <string name="choose_location">Choose location</string>
-    <string name="badge_verified">TESTED</string>
-    <string name="badge_community">PUBLIC</string>
+    <string name="all_failed">Couldn\'t connect to any server. Check your internet or try again in a minute.</string>
+    <string name="tampered">This copy of Volta was modified or is being tampered with, so it won’t connect, to protect your data. Install Volta from Google Play.</string>
+    <string name="country_unavailable">Couldn\'t connect to %1$s. Its servers aren\'t answering right now.</string>
+    <string name="no_internet">You\'re offline. Check your connection and try again.</string>
     <string name="no_servers">Couldn\'t load the server list. Check your internet, then tap here to retry.</string>
+    <string name="no_servers_list">Couldn\'t load the server list. Check your internet, then tap refresh.</string>
+    <string name="no_servers_fail">Couldn\'t load the server list. Check your internet and try again.</string>
+    <string name="switch_kept">Couldn\'t connect to %1$s. You\'re still connected through %2$s.</string>
+    <string name="action_retry">Try again</string>
+    <string name="action_best">Use best server</string>
 
-    <string name="pass_active">Free pass active · resets in %1$s</string>
-    <string name="pass_needed">Watch 1 short ad to unlock Volta until midnight</string>
-    <string name="ad_prompt_title">Unlock today for free</string>
-    <string name="ad_prompt_body">Watch one short ad and connect as much as you like until midnight. That\'s the only ad you\'ll see today.</string>
-    <string name="ad_prompt_watch">Watch ad</string>
-    <string name="ad_not_finished">Watch the whole ad to unlock today.</string>
-
-    <string name="channel_pass">Daily pass</string>
-    <string name="pass_expired_title">Your free day has ended</string>
-    <string name="pass_expired_body">You stay connected. Next time you connect, one short ad unlocks a new day.</string>
-
-    <string name="about_title">About Volta</string>
-    <string name="about_body">Fast, free VPN. One short ad a day, no ads during use, no account.</string>
-    <string name="privacy_title">Privacy</string>
-    <string name="privacy_body">Volta itself keeps no logs and never collects or sells your activity. All traffic, including DNS and IPv6, goes through the encrypted tunnel. Ads are shown by Google AdMob, which may use an advertising ID if you consent.</string>
-    <string name="community_title">Community servers</string>
-    <string name="community_body">TESTED and PUBLIC locations are volunteer servers of the VPN Gate academic project (University of Tsukuba). Volta checks them every hour for IP leaks, wrong location and HTTPS interception, but cannot check what their operators record: volunteers may log traffic, and the project keeps connection logs (including your real IP) for 3 months or more. They hide you from websites, not from those operators. SECURE locations are run by Volta with no logs.</string>
-    <string name="opensource_title">Open source</string>
-    <string name="opensource_body">Volta uses the OpenVPN for Android engine by Arne Schwabe (GPLv2). Volta\'s source code is published under the same license.</string>
-
-    <string name="now_in">You\'re now in %1$s %2$s</string>
+    <string name="best_server">Best server</string>
+    <string name="auto_pick">Balances privacy and speed</string>
+    <string name="choose_location">Choose location</string>
+    <string name="badge_private">VOLTA</string>
+    <string name="badge_nolog">NO-LOG</string>
+    <string name="badge_verified">TESTED</string>
+    <string name="badge_community">UNTESTED</string>
+    <string name="free_badge">FREE</string>
     <string name="no_servers_title">No servers loaded</string>
     <string name="measuring">Measuring…</string>
     <string name="offline">Not reachable now</string>
-    <string name="badge_private">SECURE</string>
-    <string name="tier_legend">SECURE: run by Volta · NO-LOG: Riseup, an audited no-log nonprofit · TESTED: volunteer server that passed our hourly leak and location checks · PUBLIC: not tested yet</string>
-    <string name="country_unavailable">Servers in this country aren\'t answering right now. Try another country.</string>
-    <string name="protect_title">Protect yourself</string>
+    <string name="cooldown_hint">Didn\'t connect recently · tap to retry</string>
+    <string name="local_sites">🏛 local sites</string>
+
+    <string name="tier_info_title">Server types</string>
+    <string name="tier_private_desc">Run by Volta.</string>
+    <string name="tier_nolog_desc">Run by Riseup, a nonprofit whose policy is to keep no logs.</string>
+    <string name="tier_verified_desc">Volunteer server that passed our hourly leak and location checks. Its operator may still log traffic.</string>
+    <string name="tier_community_desc">Volunteer server we haven\'t tested yet. Its operator may log traffic.</string>
+
+    <string name="volunteer_title">Volunteer servers</string>
+    <string name="volunteer_body">This connection may use a volunteer server. It hides your IP from websites, but its operator may log your traffic, and the project keeps connection logs, including your real IP, for 3 months or more. Avoid it for anything sensitive.</string>
+    <string name="volunteer_continue">Continue</string>
+
+    <string name="pass_active">Free until midnight</string>
+    <string name="pass_needed">One short ad gives you free access until midnight</string>
+    <string name="ad_prompt_title">Get free access for today</string>
+    <string name="ad_prompt_body">Watch one short ad and connect as much as you like until midnight. That\'s the only ad you\'ll see today.</string>
+    <string name="ad_prompt_watch">Watch ad</string>
+    <string name="ad_not_finished">Finish the ad to get free access for today.</string>
+
+    <string name="channel_pass">Free access</string>
+    <string name="pass_expired_title">Your free access has ended</string>
+    <string name="pass_expired_body">You\'re still connected. One short ad gets you free access again next time you connect.</string>
+
+    <string name="about_section">About and privacy</string>
+    <string name="about_title">About Volta</string>
+    <string name="about_body">Free VPN. One short ad a day, no ads while you use it, no account.</string>
+    <string name="privacy_title">Privacy</string>
+    <string name="privacy_body">Volta itself keeps no logs and never collects or sells your activity. All traffic, including DNS and IPv6, goes through the encrypted tunnel. Ads are shown by Google AdMob, which may use an advertising ID if you consent.</string>
+    <string name="privacy_servers">This promise is Volta’s, not the servers’. Each server is run by someone else and may keep its own records: volunteer servers can log traffic, and the VPN Gate project keeps connection logs. The sections above explain each kind.</string>
+    <string name="community_title">Volunteer servers</string>
+    <string name="community_body">TESTED and UNTESTED locations are volunteer servers of the VPN Gate academic project (University of Tsukuba). Volta checks them every hour for IP leaks, wrong location and HTTPS interception, but cannot check what their operators record: volunteers may log traffic, and the project keeps connection logs (including your real IP) for 3 months or more. They hide you from websites, not from those operators.</string>
+    <string name="opensource_title">Open source</string>
+    <string name="opensource_body">Volta uses the OpenVPN for Android engine by Arne Schwabe (GPLv2). Volta\'s source code is published under the same license.</string>
+    <string name="riseup_title">Riseup servers</string>
+    <string name="riseup_body">NO-LOG locations are run by Riseup (riseup.net), a donation-funded nonprofit whose stated policy is to keep no logs. Your phone gets its own anonymous certificate from Riseup; nothing ties it to you. If you use them often, please consider donating to Riseup.</string>
+
+    <string name="protect_title">Protection</string>
     <string name="killswitch_title">Kill switch</string>
     <string name="killswitch_body">Blocks the internet if the VPN drops, so nothing leaks. In Android settings tap ⚙ next to Volta VPN, then turn on “Always-on VPN” and “Block connections without VPN”.</string>
-    <string name="privatedns_title">Hide the sites you visit</string>
-    <string name="privatedns_body">Encrypt DNS so the VPN server can\'t see which websites you open. In Android settings set “Private DNS” to: 1dot1dot1dot1.cloudflare-dns.com</string>
-    <string name="privatedns_on">Private DNS is on: the websites you look up are encrypted end to end.</string>
+    <string name="lockdown_tip">For full protection, turn on “Always-on VPN” and “Block connections without VPN” for Volta in Android settings (tap ⚙ next to Volta VPN). Then nothing leaves your phone unprotected, even while the connection drops or changes server.</string>
+    <string name="privatedns_title">Encrypt your DNS lookups</string>
+    <string name="privatedns_body">Stops the VPN server from reading your DNS lookups. In Android settings set “Private DNS” to: 1dot1dot1dot1.cloudflare-dns.com</string>
+    <string name="privatedns_on">Private DNS is on, so your DNS lookups are encrypted. The safe browsing filters below may not apply while it\'s on.</string>
     <string name="open_settings">Open settings</string>
     <string name="https_title">Always use HTTPS</string>
     <string name="https_body">The VPN hides you from websites and your local network. Only HTTPS (the 🔒 in the browser) hides what you do from the VPN server too. Avoid entering passwords on sites without it.</string>
-    <string name="exit_checking">Checking your protection…</string>
-    <string name="exit_ok">🛡 Protected · websites see you in %1$s ✓</string>
-    <string name="exit_mismatch">⚠ Websites see you in %1$s. Try another server.</string>
-    <string name="unlocks_line">🏛 Opens local sites: %1$s</string>
-    <string name="local_sites">🏛 local sites</string>
     <string name="dns_title">Safe browsing (DNS)</string>
     <string name="dns_standard">Standard</string>
     <string name="dns_standard_desc">Fastest. Cloudflare 1.1.1.1</string>
@@ -69,9 +97,17 @@
     <string name="dns_trackers">Block ads and trackers</string>
     <string name="dns_trackers_desc">Also blocks trackers and many ads (AdGuard DNS)</string>
     <string name="dns_note">Applies from your next connection. Lookups always go inside the encrypted tunnel.</string>
-    <string name="badge_nolog">NO-LOG</string>
-    <string name="riseup_title">Riseup servers</string>
-    <string name="riseup_body">NO-LOG locations are run by Riseup (riseup.net), a nonprofit funded by donations. Your phone gets its own anonymous certificate from Riseup; nothing ties it to you. If you use them often, please consider donating to Riseup.</string>
+    <string name="expanded">Expanded</string>
+    <string name="collapsed">Collapsed</string>
+
+    <string name="exit_mismatch">⚠ Websites see you in %1$s. Try another server.</string>
+    <string name="exit_unknown">🔒 Encrypted · couldn\'t confirm your location</string>
+    <string name="dns_encrypted">🔒 DNS encrypted (DNS-over-TLS)</string>
+    <string name="unlocks_line">🏛 Opens local sites: %1$s</string>
+    <string name="now_in">You\'re now in %1$s %2$s</string>
+    <string name="stat_down">Download speed %1$s</string>
+    <string name="stat_up">Upload speed %1$s</string>
+
     <!-- Overrides the VPN engine's "OpenVPN - %s" notification title. -->
     <string name="notification_title">Volta VPN · %s</string>
     <string name="notification_title_notconnect">Volta VPN · Not connected</string>

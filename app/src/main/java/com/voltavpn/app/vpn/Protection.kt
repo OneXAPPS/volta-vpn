@@ -35,6 +35,14 @@ object ProtectionPrefs {
 /** What the outside world sees right now: the exit IP and its country. */
 data class ExitInfo(val ip: String, val country: String)
 
+/** Progress of the "what do websites see" check that runs after each connect. */
+sealed interface ExitCheckState {
+    data object Checking : ExitCheckState
+    data class Result(val info: ExitInfo) : ExitCheckState
+    /** The check services didn't answer; the tunnel is up but the location isn't confirmed. */
+    data object Unverified : ExitCheckState
+}
+
 object ExitCheck {
     /** Asked through the tunnel, so it reports the VPN's exit, not the phone's real IP. */
     suspend fun fetch(): ExitInfo? = withContext(Dispatchers.IO) {

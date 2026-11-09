@@ -21,6 +21,8 @@ import java.security.spec.X509EncodedKeySpec
  * deployed, falls back to VPN Gate's public API, marking entries unverified.
  */
 class ServerRepository(private val context: Context) {
+    /** HTTP Date of the last response (0 = none); read on the same IO thread that set it. */
+    private var lastResponseDate = 0L
     private val cache = File(context.filesDir, "servers.json")
 
     suspend fun load(forceRefresh: Boolean = false): List<Server> = withContext(Dispatchers.IO) {
@@ -47,15 +49,26 @@ class ServerRepository(private val context: Context) {
         val body = JSONObject(httpGet(url))
         val payload = Base64.decode(body.getString("payload"), Base64.DEFAULT)
         val sig = Base64.decode(body.getString("sig"), Base64.DEFAULT)
-        val key = KeyFactory.getInstance("EC").generatePublic(
-            X509EncodedKeySpec(Base64.decode(BuildConfig.SERVER_LIST_PUBKEY, Base64.DEFAULT))
-        )
-        val ok = Signature.getInstance("SHA256withECDSA").run {
-            initVerify(key); update(payload); verify(sig)
+        // Any of the pinned keys: the current one, plus a spare kept offline for rotation.
+        val ok = BuildConfig.SERVER_LIST_PUBKEY.split(',').map { it.trim() }.filter { it.isNotEmpty() }.any { pub ->
+            runCatching {
+                val key = KeyFactory.getInstance("EC").generatePublic(X509EncodedKeySpec(Base64.decode(pub, Base64.DEFAULT)))
+                Signature.getInstance("SHA256withECDSA").run { initVerify(key); update(payload); verify(sig) }
+            }.getOrDefault(false)
         }
         check(ok) { "server list signature invalid" }
         val list = JSONObject(payload.decodeToString())
-        DailyPass.observeTrustedTime(context, list.getLong("generated") * 1000)
+        val generatedMs = list.getLong("generated") * 1000
+        // A genuine but old list (replayed by someone on the path) would send people to servers
+        // that may have gone bad since: refuse anything older than the newest list already
+        // accepted, or much older than the backend's hourly schedule.
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        check(generatedMs >= prefs.getLong(KEY_NEWEST, 0)) { "server list older than one already accepted" }
+        // The HTTPS server's own clock, not the phone's (which may be set wrong either way).
+        val now = lastResponseDate.takeIf { it > 0 } ?: System.currentTimeMillis()
+        check(now - generatedMs <= MAX_LIST_AGE_MS) { "server list expired" }
+        prefs.edit().putLong(KEY_NEWEST, generatedMs).apply()
+        DailyPass.observeTrustedTime(context, generatedMs)
         val arr = list.getJSONArray("servers")
         return List(arr.length()) { Server.fromJson(arr.getJSONObject(it)) }
     }
@@ -97,6 +110,7 @@ class ServerRepository(private val context: Context) {
         return try {
             check(conn.responseCode == 200) { "HTTP ${conn.responseCode}" }
             // HTTP Date header gives a clock the user can't change (anti clock-tamper).
+            lastResponseDate = conn.date
             if (conn.date > 0) DailyPass.observeTrustedTime(context, conn.date)
             conn.inputStream.bufferedReader().readText()
         } finally {
@@ -117,9 +131,15 @@ class ServerRepository(private val context: Context) {
     }
 
     companion object {
-        private const val VPNGATE_API = "http://www.vpngate.net/api/iphone/"
+        // HTTPS only: over plain HTTP anyone on the path (ISP, public Wi-Fi) could swap in
+        // configs for their own server, and the phone would connect to it.
+        private const val VPNGATE_API = "https://www.vpngate.net/api/iphone/"
         // Backend refreshes hourly; public servers come and go, so don't keep a list longer.
         private const val CACHE_MAX_AGE_MS = 60 * 60 * 1000L
         private const val PER_COUNTRY = 6
+        // The backend publishes hourly; a day and a half covers several missed runs.
+        private const val MAX_LIST_AGE_MS = 36 * 60 * 60 * 1000L
+        private const val PREFS = "server_list"
+        private const val KEY_NEWEST = "newest_generated"
     }
 }

@@ -18,6 +18,68 @@ file("$ics/main/cpp/CMakeLists.txt").takeIf { it.exists() }?.let { cmake ->
     )
 }
 
+// Fail-closed server switching. Upstream closes the tunnel when the old OpenVPN process
+// exits and only opens a new one once the next server answers, so for those seconds traffic
+// goes out over the normal network. The service now keeps its own copy of the tunnel until
+// the next one is up: in between, packets go into a tunnel nobody reads, so they're dropped,
+// never leaked. An explicit stop releases it at once; an unexpected exit after 15 s, so a
+// crashed engine can't leave the phone offline for good.
+file("$ics/main/java/de/blinkt/openvpn/core/OpenVPNService.java").takeIf { it.exists() }?.let { svc ->
+    val original = svc.readText()
+    val crlf = "\r\n" in original
+    var text = original.replace("\r\n", "\n")
+    if ("mHeldTun" !in text) {
+        fun patch(anchor: String, replacement: String) {
+            check(anchor in text) { "OpenVPNService patch: anchor not found: $anchor" }
+            text = text.replaceFirst(anchor, replacement)
+        }
+        patch(
+            "    private TunConfig mLastTunCfg;\n",
+            """    private TunConfig mLastTunCfg;
+    private ParcelFileDescriptor mHeldTun;
+    private final Runnable mReleaseHeldTun = this::releaseHeldTun;
+
+    private synchronized void holdTun(ParcelFileDescriptor tun) {
+        ParcelFileDescriptor old = mHeldTun;
+        try { mHeldTun = tun.dup(); } catch (java.io.IOException e) { mHeldTun = null; }
+        if (old != null) try { old.close(); } catch (java.io.IOException ignored) { }
+    }
+
+    public synchronized void releaseHeldTun() {
+        if (mCommandHandler != null) mCommandHandler.removeCallbacks(mReleaseHeldTun);
+        if (mHeldTun != null) try { mHeldTun.close(); } catch (java.io.IOException ignored) { }
+        mHeldTun = null;
+    }
+""",
+        )
+        patch(
+            "            if (tun == null)\n                throw new NullPointerException(\"Android establish() method returned null (Really broken network configuration?)\");\n            return tun;",
+            "            if (tun == null)\n                throw new NullPointerException(\"Android establish() method returned null (Really broken network configuration?)\");\n            holdTun(tun);\n            return tun;",
+        )
+        patch(
+            "        mStarting = true;\n",
+            "        mStarting = true;\n        if (mCommandHandler != null) mCommandHandler.removeCallbacks(mReleaseHeldTun);\n",
+        )
+        patch(
+            "        mOpenVPNThread = null;\n        if (!mStarting) {\n",
+            "        mOpenVPNThread = null;\n        if (!mStarting) {\n            if (mCommandHandler != null) mCommandHandler.postDelayed(mReleaseHeldTun, 15000);\n",
+        )
+        patch(
+            "    public boolean stopVPN(boolean replaceConnection) throws RemoteException {\n        if (getManagement() != null)",
+            "    public boolean stopVPN(boolean replaceConnection) throws RemoteException {\n        if (!replaceConnection) releaseHeldTun();\n        if (getManagement() != null)",
+        )
+        patch(
+            "    public void onRevoke() {\n",
+            "    public void onRevoke() {\n        releaseHeldTun();\n",
+        )
+        patch(
+            "    public void onDestroy() {\n",
+            "    public void onDestroy() {\n        releaseHeldTun();\n",
+        )
+        svc.writeText(if (crlf) text.replace("\n", "\r\n") else text)
+    }
+}
+
 android {
     namespace = "de.blinkt.openvpn"
     compileSdk = 37
